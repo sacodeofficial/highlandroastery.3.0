@@ -32,11 +32,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.text-coklat{
-  color: #C7A17A;
-}
-
-
 .body_wrap {
   overflow: hidden;
   position: relative;
@@ -86,26 +81,6 @@ textarea:focus,
 textarea:active {
   outline: none;
 }
-
-.bg {
-  color: #ffffff;
-  text-align: center;
-  height: 313px;
-  width: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;}
-
-  .gambar-ig img{
-      margin-bottom: 10px;
-     
-  }
-
-  .gambar-ig img:hover{
-    opacity: 0.9;
-    -moz-opacity :0.9;
-    -webkit-opacity : 0.9;
-  }
 
 img:not([draggable]),
 embed,
@@ -1966,10 +1941,10 @@ button {
 
 .about_image2 {
   position: relative;
-  padding-left: 0px;
+  padding-left: 40px;
 }
 .about_image2 .year_content_wrap {
-  top: 75px;
+  top: 300px;
   left: 0px;
   z-index: 1;
   position: absolute;
