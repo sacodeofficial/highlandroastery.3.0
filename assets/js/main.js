@@ -32,6 +32,17 @@
   $(window).on('load', function(){
     $('#preloader').fadeOut('slow',function(){$(this).remove();});
   });
+
+
+  $('#preloader').append('<div id="loader" class="loader orange-color">\
+      <div class="loader-container">\
+          <div class="loader-icon">\
+              <img src="assets/images/logo-highland-roastery - transparent.png" alt="">\
+          </div>\
+      </div>\
+  </div>');
+
+
   // preloader - end
   // --------------------------------------------------
 
