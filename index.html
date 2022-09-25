@@ -20,6 +20,7 @@
 
   <link rel="shortcut icon" href="assets/images/logo/favourite_icon.png">
 
+
   <!-- fraimwork - css include -->
   <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
@@ -41,6 +42,12 @@
 
   <!-- custom - css include -->
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+  <link rel="stylesheet" type="text/css" href="assets/css/hide.google.element.css">
+
+  <!-- Bendera icon - css include -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 
@@ -119,8 +126,32 @@
                         TIM BARISTA
                       </a>
                     </li>
+                    
+                                       
                   </ul>
                 </div>
+
+                <ul class="header_btns_group ul_li_right">
+                  <li>
+                    <button type="button" class="cart_btn" id="id" value="id">
+                      <i class="flag-icon flag-icon-id"></i>
+                      <span class="cart_counters" id="sgoogle_translate_element">  </span>
+                    </button>
+                  </li>
+
+                  <li>
+                    <button type="button" class="cart_btn" id="en">
+                      <i class="flag-icon flag-icon-us"></i>
+                      <span class="cart_counters" id="sgoogle_translate_element">  </span>
+                    </button>
+                  </li>
+
+                  
+
+                            
+                  
+                  
+                </ul>
 
                 <ul class="header_btns_group ul_li_right">
                   <li>
@@ -156,6 +187,7 @@
       ================================================== -->
     <main>
 
+      
 
 
 
@@ -1359,8 +1391,10 @@
   </div>
   <!-- body_wrap - end -->
 
+   
+
   <!-- Ambil data feed dari instragam -->
-  <script src="https://cdn.jsdelivr.net/gh/stevenschobert/instafeed.js@2.0.0rc1/src/instafeed.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/stevenschobert/instafeed.js@2.0.0rc1/src/instafeed.min.js"></script>
   <script type="text/javascript">
     var userFeed = new Instafeed({
       get: 'sacode.official',
@@ -1370,10 +1404,9 @@
       limit: 9,
       sort: false,
       template: '<div class="col-lg-4 col-ms-4 col-md-4 gambar-ig gallery"><a href="{{ image }}" title="{{ caption }}" target="_blank"><img src="{{ image }}" alt="{{ caption }}" class="img-fluid"></a></div>'
-
     });
     userFeed.run();
-  </script>
+  </script> -->
   <!-- end -->
 
 
@@ -1406,6 +1439,13 @@
 
   <!-- custom - jquery include -->
   <script src="assets/js/main.js"></script>
+
+  <!-- custom - google include -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js" type="text/javascript"></script>
+  <script src="assets/js/google.min.js"></script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInt"></script>
+
+
 
 </body>
 
