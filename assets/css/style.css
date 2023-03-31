@@ -2160,6 +2160,19 @@ button {
   background-position: center bottom;
 }
 
+.feature_primary_section4{
+  min-height: 300px;
+  padding-top: 40px;
+  padding-bottom: 120px;
+  padding-top: 0px;
+  margin-top: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  background-position: center bottom;
+}
+
 .feature_primary_section3 {
   z-index: 1;
   margin-top: -80px;
