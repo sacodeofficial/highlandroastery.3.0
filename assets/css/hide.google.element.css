@@ -15,18 +15,45 @@
     border: none !important;
     box-shadow: none !important;
 } */
+.goog-te-combo{
+    /* padding: 20px; */
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:#c7a17a;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    /* width:150px; */
+  
+  }
+  
+  .goog-te-combo select{
+    padding: 10px;
+  }
 
-
- .goog-te-banner-frame.skiptranslate {
+.skiptranslate inframe  { 
     display: none !important;
 } 
 body {
     top: 0px !important; 
 }
-.goog-logo-link {
+.google_translate_element{
+    display: none !important;
+}
+/* .skiptranslate  {
     display:none !important;
 }
-.trans-section {
-    margin: 100px;
-}
 
+
+
+/* .trans-section {
+    margin: 100px;
+} */
+
+/* body{
+    top: 0px !important; 
+    position: static !important; 
+    }
+    
+    .goog-te-banner-frame{
+    display:none !important
+    } */

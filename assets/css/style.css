@@ -38,9 +38,14 @@ body {
   position: relative;
 }
 
+
+
+
+
 ::selection {
   color: #ffffff;
-  background-color: #c7a17a;
+  background-color: #ffffff;
+  padding: 10;
 }
 
 ::-moz-selection {
@@ -50,6 +55,7 @@ body {
 
 .container {
   max-width: 1200px;
+  
 }
 
 .container_boxed {

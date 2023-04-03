@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .translation-links {
+         text-align:right;
+         position:absolute;
+         right:0px;
+     top:3px;
+     }
+     .translation-links img {
+        filter:alpha(opacity=100);
+        -moz-opacity: 1.0;
+        opacity: 1.0;
+        border:0;
+        cursor: pointer;
+        margin-right:8px;
+        height:24px;
+        width:24px;
+        }
+    .translation-links img:hover {
+        filter:alpha(opacity=30);
+        -moz-opacity: 0.30;
+        opacity: 0.30;
+        }
+      </style>
+</head>
+<body>
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Similique cum, fugit facilis assumenda veniam iste officia aspernatur quae unde, aliquam repudiandae quisquam consequuntur sed, nulla tenetur odio ex. Quos pariatur distinctio nemo quam iusto, voluptates porro similique aut! Officiis non neque autem tempore assumenda a maiores minima voluptatem voluptatibus reiciendis.
+
+     <div class="translation-links">
+      <a class="english" data-lang="English"><img alt="English" title="English" src="En_flag.png"></a>
+      <a class="spanish" data-lang="Spanish"><img alt="Spanish" title="Spanish" src="Es_flag.png"></a>
+      <a class="french" data-lang="French"><img alt="French" title="French" src="Fr_flag.png"></a>
+      <a class="german" data-lang="German"><img alt="German" title="German" src="De_flag.png"></a>
+    </div>
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false},     'google_translate_element'); //remove the layout
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"     type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+    function triggerHtmlEvent(element, eventName)
+    {
+        var event;
+        if(document.createEvent) {
+            event = document.createEvent('HTMLEvents');
+            event.initEvent(eventName, true, true);
+            element.dispatchEvent(event);
+        }
+        else {
+        event = document.createEventObject();
+            event.eventType = eventName;
+            element.fireEvent('on' + event.eventType, event);
+        }
+    }
+           <!-- Flag click handler -->
+           var jq = $.noConflict();
+     jq('.translation-links a').click(function(e)
+    {
+        e.preventDefault();
+        var lang = jq(this).data('lang');
+        jq('#google_translate_element select option').each(function(){
+        if(jq(this).text().indexOf(lang) > -1) {
+            jq(this).parent().val(jq(this).val());
+            var container = document.getElementById('google_translate_element');
+            var select = container.getElementsByTagName('select')[0];
+            triggerHtmlEvent(select, 'change');
+        }
+        });
+    });
+    </script>
+</body>
+</html>
