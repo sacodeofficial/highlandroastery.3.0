@@ -1,0 +1,1514 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Highland Roastery</title>
+
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Highland Roastery" />
+  <meta property="og:description" content="Rumah Roastery dan Coffee Shop di Papua, Indonesia." />
+  <meta property="og:url" content="https://highlandroastery.com" />
+  <meta property="og:site_name" content="Highland Roastery" />
+  <meta property="og:image" content="https://highlandroastery.com/assets/images/logo-hr.png" />
+
+  <link rel="shortcut icon" href="assets/images/logo/favourite_icon.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Font Awesome 6.7 (stable, widely supported) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Animate CSS -->
+  <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+
+  <!-- Slick Carousel -->
+  <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+
+  <!-- Magnific Popup -->
+  <link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/hide.google.element.css">
+
+  <!-- Flag Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" type="text/css" />
+
+
+  
+  <style>
+    /* ===================================
+       GLOBAL: Plus Jakarta Sans
+    =================================== */
+    *, *::before, *::after {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .fa-solid, .fas {
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+    }
+
+    /* ===================================
+       MARQUEE ANIMATION
+    =================================== */
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee-infinite {
+      display: flex;
+      width: max-content;
+      animation: marquee 70s linear infinite;
+    }
+    .animate-marquee-infinite:hover {
+      animation-play-state: paused;
+    }
+
+    /* ===================================
+       ALPINE CLOAK
+    =================================== */
+    [x-cloak] { display: none !important; }
+
+    /* ===================================
+       GALLERY SECTION
+    =================================== */
+    .gallery-section {
+      background: linear-gradient(160deg, #0d0b09 0%, #1a1208 40%, #231a0e 70%, #0d0b09 100%);
+      position: relative;
+      overflow: hidden;
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+    .gallery-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 50%, rgba(199,161,122,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 80% 30%, rgba(180,120,60,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* Transisi atas galeri (dari hero dark ke galeri dark — seamless) */
+    .gallery-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: #ffffff;
+      clip-path: ellipse(55% 100% at 50% 100%);
+      z-index: 1;
+    }
+
+    /* Gallery card */
+    .gallery-card {
+      position: relative;
+      flex-shrink: 0;
+      width: 320px;
+      height: 260px;
+      overflow: hidden;
+      border-radius: 14px;
+      cursor: zoom-in;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+    }
+    .gallery-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 44px rgba(199,161,122,0.22);
+    }
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) brightness(0.85);
+      transition: filter 0.6s ease, transform 0.6s ease;
+    }
+    .gallery-card:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.08);
+    }
+
+    /* Caption hover overlay */
+    .gallery-caption-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.40) 45%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .gallery-card:hover .gallery-caption-overlay {
+      opacity: 1;
+    }
+    .gallery-caption-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c7a17a;
+      margin-bottom: 5px;
+    }
+    .gallery-caption-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.45;
+    }
+
+    /* ===================================
+       SECTION TRANSITIONS
+       dark -> light & light -> dark
+    =================================== */
+    /* Publikasi (light) muncul setelah galeri dark */
+    .publikasi {
+      background: #ffffff;
+      position: relative;
+      z-index: 2;
+      padding-top: 60px;
+    }
+
+    /* About dark section */
+    .about_section.bg-dark {
+      background: linear-gradient(135deg, #161412 0%, #1f1a14 100%) !important;
+      position: relative;
+    }
+    .about_section.bg-dark > .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Feature dark-bg section */
+    .feature_primary_section2 {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Shop / Tim Barista light */
+    .shop_section {
+      background: #fdfaf7;
+      position: relative;
+    }
+
+    /* Recipe / Produk Kopi dark */
+    .recipe_menu_section {
+      position: relative;
+    }
+    /* === TRANSISI BARU — pengganti ::before lama === */
+
+    /* 1. Tim Barista (light) → Produk Kopi (dark)
+          Efek: gigi/zigzag bergerigi dari bawah section barista */
+    .shop_section::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60' preserveAspectRatio='none'%3E%3Cpolygon fill='%231a1208' points='0,60 0,30 50,0 100,30 150,0 200,30 250,0 300,30 350,0 400,30 450,0 500,30 550,0 600,30 650,0 700,30 750,0 800,30 850,0 900,30 950,0 1000,30 1050,0 1100,30 1150,0 1200,30 1200,60'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 2. Tentang Usaha (dark) → Feature (light)
+          Efek: kurva besar melengkung ke atas seperti bukit */
+    .about_section.bg-dark::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,80 C360,0 1080,0 1440,80 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 3. Galeri (dark) → Publikasi (light)
+          Sudah handled oleh .gallery-section::after (ellipse) — biarkan */
+
+    /* 4. Produk Kopi (dark) → Pelatihan (light)
+          Efek: gelombang laut (wave) bertumpuk */
+    .recipe_menu_section::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 72' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' fill-opacity='0.3' d='M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,72 L0,72 Z'/%3E%3Cpath fill='%23ffffff' d='M0,48 C240,20 480,72 720,48 C960,20 1200,72 1440,48 L1440,72 L0,72 Z'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 5. Pelatihan (light) → Footer (dark)
+          Efek: diagonal slice / miring tajam */
+    .blog_section::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'%3E%3Cpolygon fill='%231a1208' points='0,64 0,64 1440,0 1440,64'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Pastikan semua section yang punya ::after bisa overflow */
+    .shop_section,
+    .about_section.bg-dark,
+    .recipe_menu_section,
+    .blog_section {
+      overflow: visible;
+    }
+
+    /* Blog / Pelatihan light -> add wave bottom to footer */
+    .blog_section {
+      position: relative;
+      background: #fff;
+    }
+
+    /* ===================================
+       FLOATING ACTION BUTTONS
+    =================================== */
+    .floating-actions {
+      position: fixed;
+      bottom: 24px;
+      right: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+    }
+    .fab-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      text-decoration: none;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .fab-btn:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.32);
+      color: #fff;
+    }
+    .fab-instagram {
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    .fab-whatsapp {
+      background: #25D366;
+    }
+    .fab-backtotop {
+      background: #c7a17a;
+    }
+
+    /* Sembunyikan tombol backtotop lama */
+    .backtotop { display: none !important; }
+
+    /* ===================================
+       NAVBAR UTAMA
+    =================================== */
+    .main_menu_list .nav-link {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      transition: color 0.2s ease;
+    }
+    .main_menu_list .nav-link:hover {
+      color: #c7a17a !important;
+    }
+    /* Pastikan nav tampil di desktop */
+    @media (min-width: 992px) {
+      #main_menu_dropdown {
+        display: flex !important;
+      }
+    }
+
+    /* ===================================
+       UTILITY
+    =================================== */
+    .text-coklat { color: #c7a17a !important; }
+
+    @media (max-width: 768px) {
+      .gallery-card {
+        width: 260px;
+        height: 210px;
+      }
+    }
+
+    /* ===================================
+       TOPBAR
+    =================================== */
+    .topbar {
+      background: #1a1208;
+      border-bottom: 1px solid rgba(199,161,122,0.18);
+      padding: 7px 0;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.75);
+      z-index: 1050;
+      position: relative;
+    }
+    .topbar a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topbar a:hover { color: #c7a17a; }
+    .topbar .topbar-left,
+    .topbar .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .topbar .topbar-right {
+      justify-content: flex-end;
+    }
+    .topbar .topbar-divider {
+      width: 1px;
+      height: 13px;
+      background: rgba(199,161,122,0.3);
+      display: inline-block;
+    }
+    .topbar i {
+      color: #c7a17a;
+      font-size: 11px;
+      margin-right: 5px;
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid rgba(199,161,122,0.35);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.75);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 2px 9px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    .lang-btn:hover,
+    .lang-btn.active {
+      background: #c7a17a;
+      border-color: #c7a17a;
+      color: #fff;
+    }
+    .lang-sep {
+      color: rgba(199,161,122,0.4);
+      font-size: 11px;
+    }
+
+    /* Hide native Google Translate widget entirely */
+    #google_translate_element,
+    .goog-te-banner-frame,
+    .goog-te-gadget,
+    body > .skiptranslate {
+      display: none !important;
+    }
+    body { top: 0 !important; }
+
+    @media (max-width: 768px) {
+      .topbar-left span.topbar-date { display: none; }
+      .topbar .topbar-left { gap: 10px; font-size: 11px; }
+      .topbar .topbar-right { gap: 8px; }
+    }
+    @media (max-width: 480px) {
+      .topbar-left .topbar-email { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="body_wrap">
+
+    <!-- ===== TOPBAR ===== -->
+    <div class="topbar">
+      <div class="container maxw_1560">
+        <div class="row align-items-center">
+
+          <!-- Kiri: Telp | Email | Tanggal -->
+          <div class="col-lg-7 col-md-7">
+            <div class="topbar-left">
+              <a href="tel:+6282199253560">
+                <i class="fa-solid fa-phone me-1"></i>+62 821-9925-3560
+              </a>
+              <span class="topbar-divider"></span>
+              <a href="/cdn-cgi/l/email-protection#3e575058517e56575956525f505a4c515f4d4a5b4c47105d5153" class="topbar-email">
+                <i class="fa-solid fa-envelope me-1"></i><span class="__cf_email__" data-cfemail="c1a8afa7ae81a9a8a6a9ada0afa5b3aea0b2b5a4b3b8efa2aeac">[email&#160;protected]</span>
+              </a>
+              <span class="topbar-divider topbar-date"></span>
+              <span class="topbar-date">
+                <i class="fa-solid fa-calendar-days me-1"></i><span id="topbar-date-text"></span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Kanan: Language Switcher -->
+          <div class="col-lg-5 col-md-5">
+            <div class="topbar-right">
+              <div class="lang-switcher">
+                <i class="fa-solid fa-globe me-1"></i>
+                <button class="lang-btn active" id="lang-en" onclick="switchLang('en')">English</button>
+                <span class="lang-sep">|</span>
+                <button class="lang-btn" id="lang-id" onclick="switchLang('id')">Bahasa Indonesia</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- TOPBAR end -->
+
+    <!-- ===== Floating Action Buttons ===== -->
+    <div class="floating-actions">
+      <a href="https://www.instagram.com/highlandroastery/" target="_blank"
+         class="fab-btn fab-instagram" title="Instagram Highland Roastery" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://wa.me/6282199253560?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Highland%20Roastery." target="_blank"
+         class="fab-btn fab-whatsapp" title="Chat via WhatsApp" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      <a href="#" class="fab-btn fab-backtotop" id="fab-backtotop"
+         title="Kembali ke atas" aria-label="Kembali ke atas" style="display:none;">
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+
+    <!-- ===== HEADER ===== -->
+    <header class="header_section style_2">
+      <div class="content_wrap">
+        <div class="container maxw_1560">
+          <div class="row align-items-center">
+
+            <div class="col-lg-2 col-md-6 col-6">
+              <div class="brand_logo d-flex align-items-center gap-2">
+                <a class="brand_link" href="index.html">
+                  <img src="./assets/images/logo-hr.png"
+                       srcset="./assets/images/logo-hr.png 2x"
+                       alt="Highland Roastery" style="max-height:54px;width:auto;">
+                </a>
+                <div class="brand_text d-none d-lg-block" style="line-height:1.2;">
+                  <span style="display:block;font-size:13px;font-weight:800;letter-spacing:0.04em;color:#1a1208;text-transform:uppercase;">Highland Roastery</span>
+                  <span style="display:block;font-size:9px;font-weight:500;letter-spacing:0.12em;color:#c7a17a;text-transform:uppercase;">Best Coffee &bull; Good Farmer &bull; Better Quality</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-10 col-md-6 col-6">
+              <nav class="main_menu navbar navbar-expand-lg">
+                <button class="mobile_menu_btn navbar-toggler" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#main_menu_dropdown"
+                  aria-controls="main_menu_dropdown" aria-expanded="false"
+                  aria-label="Buka menu navigasi">
+                  <span class="navbar-toggler-icon"><i class="fa-solid fa-bars"></i></span>
+                </button>
+
+                <div class="main_menu_inner collapse navbar-collapse" id="main_menu_dropdown">
+                  <ul class="main_menu_list ul_li">
+                    <li><a class="nav-link" href="#beranda">BERANDA</a></li>
+                    <li><a class="nav-link" href="#produk-kopi-papua">KOPI PAPUA</a></li>
+                    <li><a class="nav-link" href="#pelatihan">PELATIHAN BARISTA</a></li>
+                    <li><a class="nav-link" href="#tentang-usaha">TENTANG USAHA</a></li>
+                    <li><a class="nav-link" href="#tim-barista">TIM BARISTA</a></li>
+                    <li><a class="nav-link" href="#hubungi-kami">HUBUNGI KAMI</a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- HEADER end -->
+
+
+    <main>
+
+      <!-- ===== BANNER / HERO ===== -->
+      <section class="banner_section deco_wrap overflow-hidden" id="beranda"
+        style="background-image: url(assets/images/backgrounds/bg_06.png);">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-7">
+              <div class="banner_content text-white">
+                <h1 class="banner_title text-white text-uppercase wow fadeInUp" data-wow-delay=".2s"
+                  style="font-size: clamp(60px, 10vw, 130px); line-height: 1.05;">
+                  Highland Roastery
+                </h1>
+                <p class="wow fadeInUp" data-wow-delay=".3s"
+                  style="font-size: clamp(16px, 2.5vw, 26px); font-weight: 300; letter-spacing: 0.05em;">
+                  Good Farmer &mdash; Best Coffee &mdash; Better Quality
+                </p>
+                <ul class="btns_group ul_li wow fadeInUp" data-wow-delay=".4s">
+                  <li>
+                    <a class="btn btn_border border_white bg-white text-dark text-uppercase mb-lg-0 mb-3"
+                      href="#tentang-usaha">
+                      <i class="fa-solid fa-file-lines me-2"></i>Tentang Usaha
+                    </a>
+                  </li>
+                  <li>
+                    <a class="btn btn_primary text-uppercase" href="#produk-kopi-papua">
+                      <i class="fa-solid fa-mug-hot me-2"></i>Produk Kopi Papua
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deco_item coffee_image wow fadeInRight" data-wow-delay=".3s">
+          <img src="assets/images/banner/img_01.png" alt="Cangkir Kopi Highland Roastery">
+        </div>
+        <div class="deco_item leaf_image wow fadeInLeft" data-wow-delay=".4s">
+          <img src="assets/images/decorations/leaf_01.png" alt="">
+        </div>
+        <div class="deco_big_text text-uppercase">
+          <div class="container wow fadeInUp" data-wow-delay=".1s">Highland</div>
+        </div>
+       
+      </section>
+      <!-- BANNER end -->
+
+
+      <!-- ===== GALERI KEGIATAN ===== -->
+      <section class="gallery-section" x-data="galleryHandler()" id="galeri">
+        <div class="container" style="position: relative; z-index: 2;">
+          <div class="text-center mb-5">
+            <h2 style="font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: #fff;
+                       text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;">
+              Galeri Kegiatan
+            </h2>
+            <p style="color: #c7a17a; font-weight: 500; font-style: italic; letter-spacing: 0.06em;">
+              Membangun Ekosistem Kopi Papua
+            </p>
+            <div style="width: 56px; height: 3px; background: #c7a17a; margin: 20px auto 0; border-radius: 2px;"></div>
+            <p style="max-width: 620px; margin: 24px auto 0; color: #a0896e;
+                      font-weight: 300; line-height: 1.85; font-size: 15px;">
+              Dokumentasi perjalanan Highland Roastery dalam memberdayakan petani lokal dan memproduksi kopi berkualitas dari pegunungan Papua.
+            </p>
+          </div>
+        </div>
+
+        <!-- Marquee strip -->
+        <div style="overflow: hidden; position: relative; z-index: 2;">
+          <div class="animate-marquee-infinite" style="gap: 22px; padding: 10px 0 14px;">
+
+            <template x-for="(img, index) in allImages" :key="'a-'+index">
+              <div class="gallery-card" @click="openModal(img)">
+                <img :src="img.url" :alt="img.caption">
+                <div class="gallery-caption-overlay">
+                  <span class="gallery-caption-label">
+                    <i class="fa-solid fa-magnifying-glass-plus" style="margin-right:4px;"></i>Lihat Detail
+                  </span>
+                  <span class="gallery-caption-text" x-text="img.caption"></span>
+                </div>
+              </div>
+            </template>
+
+            <!-- Duplikasi untuk seamless loop -->
+            <template x-for="(img, index) in allImages" :key="'b-'+index">
+              <div class="gallery-card" @click="openModal(img)">
+                <img :src="img.url" :alt="img.caption">
+                <div class="gallery-caption-overlay">
+                  <span class="gallery-caption-label">
+                    <i class="fa-solid fa-magnifying-glass-plus" style="margin-right:4px;"></i>Lihat Detail
+                  </span>
+                  <span class="gallery-caption-text" x-text="img.caption"></span>
+                </div>
+              </div>
+            </template>
+
+          </div>
+        </div>
+
+        <!-- Modal Zoom -->
+        <template x-teleport="body">
+          <div
+            x-show="isOpen"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @keydown.escape.window="isOpen = false"
+            style="position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;
+                   align-items:center;justify-content:center;
+                   background:rgba(8,6,4,0.97);backdrop-filter:blur(10px);padding:20px;"
+            x-cloak
+          >
+            <!-- Tombol tutup -->
+            <button
+              @click="isOpen = false"
+              style="position:absolute;top:18px;right:26px;background:none;border:none;
+                     color:#fff;font-size:50px;font-weight:200;cursor:pointer;line-height:1;
+                     transition:color 0.2s,transform 0.3s;z-index:1;"
+              onmouseover="this.style.color='#c7a17a';this.style.transform='rotate(90deg)'"
+              onmouseout="this.style.color='#fff';this.style.transform='rotate(0deg)'"
+              aria-label="Tutup galeri"
+            >&times;</button>
+
+            <div style="display:flex;flex-direction:column;align-items:center;
+                        width:100%;height:100%;justify-content:center;"
+                 @click.self="isOpen = false">
+              <img
+                :src="selectedImg.url"
+                :alt="selectedImg.caption"
+                x-show="isOpen"
+                x-transition:enter="transition ease-out duration-400"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                style="max-height:72vh;max-width:100%;object-fit:contain;
+                       border-radius:8px;box-shadow:0 0 70px rgba(0,0,0,0.6);"
+              >
+              <div style="margin-top:28px;text-align:center;max-width:680px;padding:0 20px;">
+                <div style="width:44px;height:2px;background:#c7a17a;margin:0 auto 18px;border-radius:2px;"></div>
+                <p style="color:#fff;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:300;
+                           font-style:italic;letter-spacing:0.03em;line-height:1.7;"
+                   x-text="selectedImg.caption"></p>
+                <p style="color:rgba(199,161,122,0.45);font-size:11px;margin-top:14px;
+                           text-transform:uppercase;letter-spacing:0.3em;">
+                  Highland Roastery &mdash; Dokumentasi
+                </p>
+              </div>
+            </div>
+          </div>
+        </template>
+      </section>
+      <!-- GALERI end -->
+
+
+      <!-- ===== PUBLIKASI / ARTIKEL ===== -->
+      <section class="publikasi">
+        <div class="container">
+          <div class="row py-5 my-3">
+
+            <!-- Artikel 1: Petani Muda -->
+            <div class="col-lg-12 ps-lg-5 mb-5">
+              <img src="assets/images/jurnal-kopi/galeri/jurnal-kopi-cover.jpg"
+                   alt="Cover Jurnal Kopi Highland Roastery"
+                   class="w-100 shadow rounded wow fadeInUp" data-wow-delay=".1s"
+                   style="border: 2px solid #c7a17a;">
+              <div class="row mb-5">
+                <div class="col-lg-12 text-center">
+                  <h2 class="text-uppercase fw-bold mt-4"
+                      style="font-size: clamp(1.5rem, 4vw, 2.4rem);">
+                    Membangun Ekonomi Lokal Melalui Kisah Petani Muda
+                  </h2>
+                </div>
+                <div class="col-lg-10 text-center mx-auto">
+                  <p class="pt-4" style="font-size: 16px; line-height: 1.85; color: #555;">
+                    Eliezer mulai menyadari bahwa banyak pemuda di kampungnya meninggalkan kebun kopi untuk merantau ke kota. Melihat kenyataan tersebut, ia merasa terpanggil untuk berbuat sesuatu demi keberlangsungan perkebunan kopi — baik miliknya maupun keluarganya. Bersama Highland Roastery, Eliezer mempelajari cara-cara baru dalam mengolah kopi, mengikuti pelatihan, dan mendalami teknik pascapanen.
+                  </p>
+                  <a class="btn btn_primary text-uppercase mt-2"
+                     href="./membangun-ekonomi-lokal-melalui-kisah-petani-muda.html">
+                    <i class="fa-solid fa-arrow-right me-2"></i>Selengkapnya
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Artikel 2: Global Sisters -->
+            <div class="col-lg-12 ps-lg-5">
+              <img src="assets/images/global-women/global-sisters-program-cover.jpg"
+                   alt="Cover Global Sisters Program"
+                   class="w-100 shadow rounded wow fadeInUp" data-wow-delay=".2s"
+                   style="border: 2px solid #c7a17a;">
+              <div class="row">
+                <div class="col-lg-4">
+                  <h2 class="text-uppercase fw-bold mt-4"
+                      style="font-size: clamp(1.4rem, 3vw, 2rem);">
+                    Global Sisters Program
+                  </h2>
+                </div>
+                <div class="col-lg-8">
+                  <p class="pt-4" style="font-size: 16px; line-height: 1.85; color: #555;">
+                    Program ini bertujuan membangun kemampuan dan ketahanan ekonomi bagi pengusaha perempuan ASEAN, khususnya di Filipina dan Indonesia, sekaligus menghubungkan mereka ke jaringan Australia. Program berlangsung dari Juni 2022 hingga Mei 2023, seluruhnya secara virtual.
+                  </p>
+                  <p style="font-size: 16px; line-height: 1.85; color: #555;">
+                    Para perempuan Papua yang dipimpin Lucia Runggeari, bersama para Global Sisters, menjalankan sesi pendidikan antar sesama yang bertujuan mendorong pertumbuhan bisnis dan menciptakan keamanan ekonomi jangka panjang bagi perempuan di kedua negara.
+                  </p>
+                  <a class="btn btn_primary text-uppercase mt-2" href="./global-sisters.html">
+                    <i class="fa-solid fa-arrow-right me-2"></i>Selengkapnya
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- PUBLIKASI end -->
+
+
+      <!-- ===== TENTANG USAHA (dark) ===== -->
+      <section class="about_section sec_ptb_120 pb-0 bg-dark" id="tentang-usaha">
+        <div class="container">
+          <div class="row align-items-center justify-content-lg-between">
+
+            <div class="col-lg-6 col-md-6 order-last">
+              <div class="about_image2">
+                <img class="wow fadeInUp rounded shadow" data-wow-delay=".1s"
+                     src="assets/images/about/img_02.png"
+                     alt="Highland Roastery"
+                     style="border: 2px solid #c7a17a;">
+                <div class="year_content_wrap text-uppercase">
+                  <span class="wow fadeInUp text-light" data-wow-delay=".2s">Sejak</span>
+                  <strong class="wow fadeInUp" data-wow-delay=".3s">2014</strong>
+                </div>
+                <div class="leaf_image wow fadeInUp" data-wow-delay=".4s">
+                  <img src="assets/images/decorations/leaf_02.png" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6 pb-5">
+              <div class="about_content">
+                <div class="section_title text-uppercase">
+                  <h2 class="small_title wow fadeInUp text-light" data-wow-delay=".1s">
+                    <i class="fa-solid fa-mug-hot me-2"></i>Tentang Usaha
+                  </h2>
+                  <h3 class="big_title wow fadeInUp text-light" data-wow-delay=".2s">
+                    <u>10 Tahun Pengalaman</u>
+                  </h3>
+                </div>
+                <p class="wow fadeInUp text-light" data-wow-delay=".3s"
+                   style="line-height: 1.85; font-size: 15px;">
+                  Highland Roastery berdiri pada September 2014. Kami diperkenalkan oleh sahabat kami, Kris Priyatmoko, yang meyakinkan bahwa kopi adalah "Emas Hijau" yang akan berkembang sangat pesat. Awalnya usaha ini berjalan dengan nama Highland Coffee.
+                </p>
+                <ul class="about_info ul_li_block">
+                  <li class="wow fadeInUp" data-wow-delay=".4s">
+                    <h4 class="text-uppercase text-light">Perubahan Nama</h4>
+                    <p class="mb-0 text-light" style="line-height: 1.85; font-size: 15px;">
+                      Pada 2018, Highland Coffee berganti nama menjadi Highland Roastery setelah mengikuti kursus roasting. Sejak saat itu, kami memfokuskan bisnis pada usaha sangrai kopi secara profesional.
+                    </p>
+                  </li>
+                  <li class="wow fadeInUp" data-wow-delay=".5s">
+                    <h4 class="text-uppercase text-light">Perkembangan Layanan</h4>
+                    <p class="mb-0 text-light" style="line-height: 1.85; font-size: 15px;">
+                      Pada 2019, kami bertemu dengan Giri Arwana (Work Stream Leader Program Ekonomi Hijau) dan berdiskusi tentang pengembangan Highland Roastery sebagai pusat pelatihan kopi.
+                    </p>
+                  </li>
+                  <li class="wow fadeInUp" data-wow-delay=".6s">
+                    <h4 class="text-uppercase text-light">3 Layanan Utama</h4>
+                    <p class="mb-0 text-light" style="line-height: 1.85; font-size: 15px;">
+                      Pada 2020, atas dukungan Program Ekonomi Hijau, Highland Roastery beroperasi dengan 3 layanan utama: (1) Produksi &amp; Roastery, (2) Coffee Academy, dan (3) Coffee Shop sebagai ruang promosi produk. Kelas barista perdana pun digelar pada akhir 2020 dan terus berjalan hingga kini.
+                    </p>
+                  </li>
+                  <li>
+                    <div class="chip_item">
+                      <div class="chip_thumbnail">
+                        <img src="assets/images/ceo-highland-roastery.png" alt="CEO Highland Roastery" width="200px">
+                      </div>
+                      <div class="chip_content text-uppercase">
+                        <h5 class="chip_name text-light">Lucia S. Runggeari</h5>
+                        <span class="chip_title">Chief Executive Officer</span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- TENTANG USAHA end -->
+
+
+      <!-- ===== FEATURE / TAGLINE ===== -->
+      <section class="feature_primary_section2 deco_wrap"
+        style="background-image: url(assets/images/backgrounds/bg_07.png);">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="feature_primary wow fadeInUp" data-wow-delay=".2s">
+                <div class="item_icon">
+                  <img src="assets/images/feature/icon_03.png" alt="Ikon Petani">
+                </div>
+                <h3 class="item_title text-uppercase">Good Farmer</h3>
+                <p class="mb-0">Petani yang tekun dan memahami seluruh proses pengelolaan kopi, dari kebun hingga cangkir.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="feature_primary wow fadeInUp" data-wow-delay=".3s">
+                <div class="item_icon">
+                  <img src="assets/images/feature/icon_01.png" alt="Ikon Kopi Terbaik">
+                </div>
+                <h3 class="item_title text-uppercase">Best Coffee</h3>
+                <p class="mb-0">Kopi terbaik lahir dari pengelolaan pascapanen yang terstandar, konsisten, dan penuh perhatian.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="feature_primary wow fadeInUp" data-wow-delay=".4s">
+                <div class="item_icon">
+                  <img src="assets/images/feature/icon_02.png" alt="Ikon Kualitas">
+                </div>
+                <h3 class="item_title text-uppercase">Better Quality</h3>
+                <p class="mb-0">Kualitas unggul adalah hasil kolaborasi antara petani terampil dan proses produksi yang terjaga.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="scratch scratch_bottom">
+          <img src="assets/images/decorations/scratch_01.png" alt="">
+        </div>
+      </section>
+      <!-- FEATURE end -->
+
+
+      <!-- ===== TIM BARISTA ===== -->
+      <section class="shop_section sec_ptb_120" id="tim-barista">
+        <div class="container">
+          <div class="section_title">
+            <div class="row align-items-center">
+              <div class="col-lg-8 offset-lg-2 col-md-12 text-center">
+                <h2 class="small_title wow fadeInUp text-uppercase text-coklat" data-wow-delay=".1s">
+                  <i class="fa-solid fa-users me-2"></i>Tim Barista
+                </h2>
+                <h3 class="big_title wow fadeInUp text-uppercase" data-wow-delay=".2s">
+                  Barista Highland Roastery
+                </h3>
+                <p class="wow fadeInUp pt-3" data-wow-delay=".3s"
+                   style="font-size: 16px; line-height: 1.85;">
+                  Tim Highland Roastery terdiri dari putra-putri muda Papua yang bersemangat dan berdedikasi dalam berkarier sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card shadow-sm p-0 wow fadeInUp m-3 border-0" data-wow-delay=".2s">
+                <img style="border-radius: 7px;" src="assets/images/team/Agus Elopore.png" alt="Agus Elopore">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">Agus Elopore</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Barista</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card shadow-sm p-0 wow fadeInUp m-3 border-0" data-wow-delay=".3s">
+                <img style="border-radius: 7px;" src="assets/images/team/James Amin Elopore.png" class="card-img-top" alt="James Amin Elopore">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">James Amin Elopore</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Barista</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card shadow-sm p-0 wow fadeInUp m-3 border-0" data-wow-delay=".4s">
+                <img style="border-radius: 7px;" src="assets/images/team/Herman S. Meage.png" class="card-img-top" alt="Herman S. Meage">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">Herman S. Meage</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Barista</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card p-0 wow fadeInUp m-3 border-0 shadow-sm" data-wow-delay=".2s">
+                <img src="assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg" alt="Yunus T. Meage" style="border-radius: 7px;">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">Yunus T. Meage</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Asisten Roaster</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card p-0 wow fadeInUp m-3 border-0 shadow-sm" data-wow-delay=".3s">
+                <img style="border-radius: 7px;" src="assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg" alt="Amos E. Wetipo">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">Amos E. Wetipo</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Manajer</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="card p-0 wow fadeInUp m-3 border-0 shadow-sm" data-wow-delay=".4s">
+                <img src="assets/images/team/Septinus Wetipo - Barista.jpeg" alt="Septinus Wetipo" style="border-radius: 7px;">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-coklat text-uppercase">Septinus Wetipo</h5>
+                  <a class="btn_text text-uppercase pb-3"><span>Barista</span></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- TIM BARISTA end -->
+
+
+      <!-- ===== PRODUK KOPI PAPUA ===== -->
+      <section class="recipe_menu_section sec_ptb_120 deco_wrap text-white"
+        style="background-image: url(assets/images/backgrounds/bg_08.png);" id="produk-kopi-papua">
+        <div class="container">
+          <div class="section_title text-center">
+            <h2 class="small_title text-white wow fadeInUp text-uppercase" data-wow-delay=".2s">
+              <i class="fa-solid fa-mug-hot me-2"></i>Produk Kopi Papua
+            </h2>
+            <h3 class="big_title text-white wow fadeInUp text-uppercase" data-wow-delay=".3s">
+              Produk Kopi Highland Roastery
+            </h3>
+            <p class="wow fadeInUp pt-3" data-wow-delay=".4s" style="font-size: 16px; line-height: 1.85;">
+              Highland Roastery bekerja sama dengan berbagai petani lokal Papua dalam menghadirkan kopi asli Papua dari beragam daerah. Berikut pilihan produk yang bisa Anda nikmati dan pesan langsung.
+            </p>
+          </div>
+
+          <div class="recipe_item_grid grid wow fadeInUp" data-wow-delay=".5s">
+            <div class="element-item kopi-200g" data-category="kopi-200g">
+              <div class="container">
+                <div class="row justify-content-center">
+
+                  <!-- Peneli -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".2s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-peneli.png" width="200px" alt="Kopi Peneli">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Peneli</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Peneli.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Kiwirok -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".3s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-kiwirok.png" width="200px" alt="Kopi Kiwirok">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Kiwirok</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kiwirok.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Okbab -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".4s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-okbab.png" width="200px" alt="Kopi Okbab">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Okbab</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okbab.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sabin -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".2s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-sabin.png" width="200px" alt="Kopi Sabin">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Sabin</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Sabin.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tiom -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".3s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-tiom.png" width="200px" alt="Kopi Tiom">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Tiom</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tiom.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tangma -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".4s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-tangma.png" width="200px" alt="Kopi Tangma">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Tangma</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tangma.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Kurima -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".2s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-kurima.png" width="200px" alt="Kopi Kurima">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Kurima</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kurima.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Okhika -->
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="shop_card wow fadeInUp" data-wow-delay=".3s">
+                      <a class="item_image" href="#">
+                        <img src="assets/images/products/mockup-hr-coffee-200g-okhika.png" width="200px" alt="Kopi Okhika">
+                      </a>
+                      <div class="item_content">
+                        <h3 class="item_title text-uppercase mb-2"><a href="#">Okhika</a></h3>
+                        <div class="text-dark mb-2 h5">200g &mdash; Rp 90.000 &nbsp;|&nbsp; 1kg &mdash; Rp 300.000</div>
+                        <div class="text-center">
+                          <a class="btn btn_border border_black text-uppercase d-block py-3"
+                             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okhika.%0ANama%20saya%20..." target="_blank">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Pesan Sekarang
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deco_big_text text-uppercase text-center wow fadeInUp" data-wow-delay=".1s">Kopi Papua</div>
+        <div class="scratch scratch_top">
+          <img src="assets/images/decorations/scratch_02.png" alt="">
+        </div>
+        <div class="scratch scratch_bottom">
+          <img src="assets/images/decorations/scratch_01.png" alt="">
+        </div>
+      </section>
+      <!-- PRODUK KOPI end -->
+
+
+      <!-- ===== PELATIHAN BARISTA ===== -->
+      <section class="blog_section sec_ptb_120" id="pelatihan">
+        <div class="container">
+          <div class="section_title text-center">
+            <h2 class="small_title wow fadeInUp text-uppercase" data-wow-delay=".1s">
+              <i class="fa-solid fa-graduation-cap me-2"></i>Pelatihan
+            </h2>
+            <h3 class="big_title wow fadeInUp text-uppercase" data-wow-delay=".2s">
+              Mencetak Barista &amp; Roaster Profesional
+            </h3>
+            <p class="wow fadeInUp pt-3" data-wow-delay=".3s" style="font-size: 16px; line-height: 1.85;">
+              Kami menyediakan program pelatihan untuk mempersiapkan kebutuhan barista dan roaster sesuai standar industri. Berikut beberapa program unggulan yang telah banyak diminati dan berhasil dilaksanakan.
+            </p>
+          </div>
+
+          <div class="row justify-content-center">
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="blog_grid wow fadeInUp" data-wow-delay=".1s">
+                <a class="item_image" href="#">
+                  <img src="assets/images/training/hr-training-seduh-manual.png" alt="Pelatihan Seduh Manual">
+                </a>
+                <div class="item_content">
+                  <h3 class="item_title text-uppercase">Seduh Manual</h3>
+                  <p style="line-height: 1.8;">Pengetahuan dasar kopi, pengenalan peralatan seduh, dan penguasaan berbagai metode seduh manual.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="blog_grid wow fadeInUp" data-wow-delay=".2s">
+                <a class="item_image" href="#">
+                  <img src="assets/images/training/hr-training-dasar-espresso-1.png" alt="Pelatihan Dasar Espresso">
+                </a>
+                <div class="item_content">
+                  <h3 class="item_title text-uppercase">Dasar Espresso</h3>
+                  <p style="line-height: 1.8;">Pengetahuan dasar kopi, pengenalan mesin espresso, teknik ekstraksi, serta berbagai resep minuman kopi berbasis espresso.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="blog_grid wow fadeInUp" data-wow-delay=".3s">
+                <a class="item_image" href="#">
+                  <img src="assets/images/training/hr-training-roasting.png" alt="Pelatihan Dasar Roasting">
+                </a>
+                <div class="item_content">
+                  <h3 class="item_title text-uppercase">Dasar Roasting</h3>
+                  <p style="line-height: 1.8;">Sejarah kopi, pengenalan green beans, cara kerja mesin sangrai, teknik blending, dan pengembangan profil rasa.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="load_more text-center wow fadeInUp mt-4" data-wow-delay=".4s">
+            <a class="btn btn_border border_black bg-dark text-light text-uppercase"
+               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20program%20pelatihan.%0ANama%20saya%20..."
+               target="_blank">
+              <i class="fa-brands fa-whatsapp me-2"></i>Daftar Sekarang
+            </a>
+          </div>
+
+        </div>
+        <div class="scratch scratch_bottom">
+          <img src="assets/images/decorations/scratch_01.png" alt="">
+        </div>
+      </section>
+      <!-- PELATIHAN end -->
+
+
+    </main>
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer_section text-white deco_wrap" id="hubungi-kami"
+      style="background-image: url(assets/images/backgrounds/bg_08.png);">
+      <div class="footer_widget_area">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6 col-sm-7">
+              <div class="footer_subscribe_form text-center">
+                <h2 class="form_title text-uppercase wow fadeInUp" data-wow-delay=".1s">
+                  Cara Terhubung Dengan Kami
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-lg-between">
+
+            <div class="col-lg-3 col-md-4 col-sm-6">
+              <div class="footer_widget footer_about wow fadeInUp" data-wow-delay=".1s">
+                <div class="brand_logo">
+                  <a class="brand_link" href="index.html">
+                    <img src="assets/images/logo-hr.png" srcset="assets/images/logo-hr.png 2x"
+                         alt="Highland Roastery Logo" width="150px">
+                  </a>
+                </div>
+                <p style="line-height: 1.8;">
+                  Kami adalah Rumah Roastery yang menyajikan layanan sangrai kopi beserta berbagai produk Kopi Papua pilihan dari berbagai daerah di Papua.
+                </p>
+                <ul class="social_links social_icons ul_li">
+                  <li>
+                    <a href="https://www.instagram.com/highlandroastery/" target="_blank" aria-label="Instagram">
+                      <i class="fa-brands fa-instagram"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://web.facebook.com/Highland-Roastery-104392897568186" target="_blank" aria-label="Facebook">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/channel/UCDmSkzvzF-Q0bnDxvOTTptQ" target="_blank" aria-label="YouTube">
+                      <i class="fa-brands fa-youtube"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="footer_widget footer_contact wow fadeInUp" data-wow-delay=".2s">
+                <h3 class="footer_widget_title text-uppercase">Hubungi Kami</h3>
+                <ul class="ul_li_block">
+                  <li>
+                    <strong class="text-uppercase">Alamat:</strong><br>
+                    Jl. Yoka Pantai, Kampung Yoka, Distrik Heram, Kota Jayapura, Papua &mdash; Indonesia.
+                  </li>
+                  <li>
+                    <strong class="text-uppercase">WhatsApp:</strong><br>
+                    <a href="https://wa.me/6282199253560?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Highland%20Roastery.">
+                      <span style="color:#c7a17a; font-size:1.15rem;">+62 821-9925-3560</span>
+                    </a>
+                  </li>
+                  <li>
+                    <strong class="text-uppercase">Email:</strong><br>
+                    <a href="/cdn-cgi/l/email-protection#95fcfbf3fad5fdfcf2fdf9f4fbf1e7faf4e6e1f0e7ecbbf6faf8">
+                      <span style="color:#c7a17a;"><span class="__cf_email__" data-cfemail="40292e262f00282927282c212e24322f2133342532396e232f2d">[email&#160;protected]</span></span>
+                    </a>
+                  </li>
+                  <li>
+                    <strong class="text-uppercase">Email Alternatif:</strong><br>
+                    <a href="/cdn-cgi/l/email-protection#c0a8a9a7a8aca1aea4b2afa1b3b4a5b2b980a7ada1a9aceea3afad">
+                      <span style="color:#c7a17a;"><span class="__cf_email__" data-cfemail="a4cccdc3ccc8c5cac0d6cbc5d7d0c1d6dde4c3c9c5cdc88ac7cbc9">[email&#160;protected]</span></span>
+                    </a>
+                  </li>
+                  <li>
+                    <strong class="text-uppercase">Kode Pos:</strong><br> 99352
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <div class="footer_widget footer_opening_time wow fadeInUp" data-wow-delay=".3s">
+                <h3 class="footer_widget_title text-uppercase">Jam Layanan</h3>
+                <ul class="ul_li_block">
+                  <li>Senin    <span>09:00 &ndash; 21:00 WIT</span></li>
+                  <li>Selasa   <span>09:00 &ndash; 21:00 WIT</span></li>
+                  <li>Rabu     <span>09:00 &ndash; 21:00 WIT</span></li>
+                  <li>Kamis    <span>09:00 &ndash; 21:00 WIT</span></li>
+                  <li>Jumat    <span>09:00 &ndash; 21:00 WIT</span></li>
+                  <li>Sabtu    <span>09:00 &ndash; 21:00 WIT</span></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="footer_bottom text-center">
+          <p class="copyright_text mb-0 wow fadeInUp" data-wow-delay=".1s">
+            Copyright &copy; 2026 &mdash; Powered by
+            <a class="btn_text" href="https://www.sacode.web.id" target="_blank"><span>SaCode</span></a>
+          </p>
+        </div>
+      </div>
+
+      <div class="scratch scratch_top">
+        <img src="assets/images/decorations/scratch_02.png" alt="">
+      </div>
+    </footer>
+    <!-- FOOTER end -->
+
+
+  </div>
+  <!-- body_wrap end -->
+
+
+  <!-- ===== SCRIPTS ===== -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmB9q4CdDIPFJN5gg1h8u/U7Gou" crossorigin="anonymous"></script>
+
+  <script src="assets/js/wow.min.js"></script>
+  <script src="assets/js/slick.min.js"></script>
+  <script src="assets/js/magnific-popup.min.js"></script>
+  <script src="assets/js/isotope.pkgd.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- Gallery AlpineJS Handler -->
+  <script>
+    function galleryHandler() {
+      return {
+        isOpen: false,
+        selectedImg: {},
+        allImages: [
+          {
+            url: './gallery/Kegiatan Capacity Building Pasca Panen. Koperasi Produsen Emas Hijau Papua. Yang di Sponsori Bank Indonesia.png',
+            caption: 'Capacity Building Pascapanen — Koperasi Emas Hijau Papua (didukung Bank Indonesia)'
+          },
+          {
+            url: './gallery/Trainer dari Curating Indonesia\'s pada kegiatan Capacity Building Bank Indonesia.png',
+            caption: 'Trainer dari Curating Indonesia pada Kegiatan Capacity Building Bank Indonesia'
+          },
+          {
+            url: './gallery/Foto bersama peserta kegiatan Capacity Building.png',
+            caption: 'Foto Bersama Seluruh Peserta Capacity Building'
+          },
+          {
+            url: './gallery/8 Tahun Menjalani Bisnis Kopi, HR Lakukan Sharing Session di TITIP Sentani.png',
+            caption: 'Sharing Session di TITIP Sentani — 8 Tahun Highland Roastery'
+          },
+          {
+            url: './gallery/Yutem Meage, memperagakan proses pengolahan kopi kepada siswa TITIP Sentani.png',
+            caption: 'Yutem Meage Memperagakan Pengolahan Kopi kepada Siswa TITIP Sentani'
+          },
+          {
+            url: './gallery/Proses green beans di Highland Roastery.png',
+            caption: 'Proses Sortasi Green Beans di Highland Roastery'
+          },
+          {
+            url: './gallery/Proses roasting kopi di Highland Roastery.png',
+            caption: 'Proses Roasting Kopi Papua di Highland Roastery'
+          },
+          {
+            url: './gallery/Pembuatan paketan roasted beans oleh Barista Highland Roastery.png',
+            caption: 'Pengemasan Produk Roasted Beans oleh Tim Barista Highland Roastery'
+          }
+        ],
+        openModal(img) {
+          this.selectedImg = img;
+          this.isOpen = true;
+        }
+      }
+    }
+  </script>
+
+  <!-- Floating Back to Top: muncul setelah scroll 300px -->
+  <script>
+    // Show/hide back-to-top FAB
+    window.addEventListener('scroll', function () {
+      var btn = document.getElementById('fab-backtotop');
+      if (btn) {
+        btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+      }
+    });
+    document.getElementById('fab-backtotop')?.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+  <!-- Topbar: Date + Language Switcher -->
+  <script>
+    // Display today's date in topbar
+    (function () {
+      var days_id   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+      var days_en   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var months_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+      var months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var now = new Date();
+      var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
+      var currentLang = 'id'; // default
+
+      function formatDate(lang) {
+        if (lang === 'en') {
+          return days_en[d] + ', ' + months_en[m] + ' ' + dt + ', ' + y;
+        }
+        return days_id[d] + ', ' + dt + ' ' + months_id[m] + ' ' + y;
+      }
+
+      function updateDate(lang) {
+        var el = document.getElementById('topbar-date-text');
+        if (el) el.textContent = formatDate(lang);
+      }
+
+      // Initial render
+      updateDate(currentLang);
+
+      // Language switcher
+      window.switchLang = function(lang) {
+        currentLang = lang;
+        updateDate(lang);
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+
+        // Trigger Google Translate
+        var select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = lang;
+          select.dispatchEvent(new Event('change'));
+        } else {
+          // Fallback: reload with googtrans cookie
+          var expires = new Date(Date.now() + 86400000).toUTCString();
+          var val = lang === 'en' ? '/id/en' : '/id/id';
+          document.cookie = 'googtrans=' + val + '; expires=' + expires + '; path=/';
+          document.cookie = 'googtrans=' + val + '; expires=' + expires + '; domain=' + location.hostname + '; path=/';
+          location.reload();
+        }
+      };
+    })();
+  </script>
+
+  <!-- Google Translate (hidden, used programmatically) -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+  <s
