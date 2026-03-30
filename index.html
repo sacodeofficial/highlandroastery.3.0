@@ -20,14 +20,43 @@
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap"
+    rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Font Awesome removed — replaced with inline SVG icons -->
 
-    
+
+  <!-- Gallery Handler — must be before Alpine.js -->
+ <script>
+  function galleryHandler() {
+    return {
+      isOpen: false,
+      selectedImg: {},
+      allImages: [], // Mulai dengan array kosong
+      
+      // Fungsi untuk mengambil data dari file JSON
+      async init() {
+        try {
+          const response = await fetch('data/gallery.json');
+          if (!response.ok) throw new Error('Gagal memuat data galeri');
+          this.allImages = await response.json();
+        } catch (error) {
+          console.error('Error fetching gallery:', error);
+        }
+      },
+      
+      openModal(img) { 
+        this.selectedImg = img; 
+        this.isOpen = true; 
+      }
+    }
+  }
+</script>
+
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -63,226 +92,581 @@
 
   <style>
     /* ===== Global Font ===== */
-    *, *::before, *::after { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+    *,
+    *::before,
+    *::after {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
     /* Alpine cloak */
-    [x-cloak] { display: none !important; }
+    [x-cloak] {
+      display: none !important;
+    }
 
     /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #1a1208; }
-    ::-webkit-scrollbar-thumb { background: #c7a17a; border-radius: 3px; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1208;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c7a17a;
+      border-radius: 3px;
+    }
 
     /* ===== MARQUEE ===== */
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .animate-marquee { display: flex; width: max-content; animation: marquee 70s linear infinite; }
-    .animate-marquee:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 70s linear infinite;
+    }
+
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
 
     /* ===== GALLERY CARD ===== */
     .gallery-card {
-      position: relative; flex-shrink: 0; width: 320px; height: 260px;
-      overflow: hidden; border-radius: 14px; cursor: zoom-in;
+      position: relative;
+      flex-shrink: 0;
+      width: 320px;
+      height: 260px;
+      overflow: hidden;
+      border-radius: 14px;
+      cursor: zoom-in;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
     }
-    .gallery-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 14px 44px rgba(199,161,122,0.22); }
-    .gallery-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) brightness(0.85); transition: filter 0.6s ease, transform 0.6s ease; }
-    .gallery-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.08); }
+
+    .gallery-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 44px rgba(199, 161, 122, 0.22);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) brightness(0.85);
+      transition: filter 0.6s ease, transform 0.6s ease;
+    }
+
+    .gallery-card:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.08);
+    }
+
     .gallery-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.40) 45%, transparent 100%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 18px 16px; opacity: 0; transition: opacity 0.4s ease;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.90) 0%, rgba(0, 0, 0, 0.40) 45%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
-    .gallery-card:hover .gallery-overlay { opacity: 1; }
-    @media (max-width: 768px) { .gallery-card { width: 260px; height: 210px; } }
+
+    .gallery-card:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-card {
+        width: 260px;
+        height: 210px;
+      }
+    }
 
     /* ===== SECTION TRANSITIONS ===== */
     .wave-bottom-white::after {
-      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 72px;
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 72px;
       background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 72' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' fill-opacity='0.3' d='M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,72 L0,72 Z'/%3E%3Cpath fill='%23ffffff' d='M0,48 C240,20 480,72 720,48 C960,20 1200,72 1440,48 L1440,72 L0,72 Z'/%3E%3C/svg%3E") no-repeat bottom center;
-      background-size: 100% 100%; z-index: 2; pointer-events: none;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
     }
+
     .zigzag-bottom-dark::after {
-      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 60px;
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 60px;
       background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60' preserveAspectRatio='none'%3E%3Cpolygon fill='%231a1208' points='0,60 0,30 50,0 100,30 150,0 200,30 250,0 300,30 350,0 400,30 450,0 500,30 550,0 600,30 650,0 700,30 750,0 800,30 850,0 900,30 950,0 1000,30 1050,0 1100,30 1150,0 1200,30 1200,60'/%3E%3C/svg%3E") no-repeat bottom center;
-      background-size: 100% 100%; z-index: 2; pointer-events: none;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
     }
+
     .curve-bottom-white::after {
-      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px;
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 80px;
       background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,80 C360,0 1080,0 1440,80 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom center;
-      background-size: 100% 100%; z-index: 1; pointer-events: none;
+      background-size: 100% 100%;
+      z-index: 1;
+      pointer-events: none;
     }
+
     .diagonal-bottom-dark::after {
-      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 64px;
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 64px;
       background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'%3E%3Cpolygon fill='%231a1208' points='0,64 0,64 1440,0 1440,64'/%3E%3C/svg%3E") no-repeat bottom center;
-      background-size: 100% 100%; z-index: 2; pointer-events: none;
+      background-size: 100% 100%;
+      z-index: 2;
+      pointer-events: none;
     }
+
     .gallery-ellipse-bottom::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 70px;
-      background: #ffffff; clip-path: ellipse(55% 100% at 50% 100%); z-index: 1;
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: #ffffff;
+      clip-path: ellipse(55% 100% at 50% 100%);
+      z-index: 1;
     }
 
     /* ===== NAV LINK ===== */
     .nav-link {
-      font-size: 13px; font-weight: 600; letter-spacing: 0.07em;
-      color: #1a1208; text-decoration: none; transition: color 0.2s ease; padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #1a1208;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      padding: 6px 12px;
     }
-    .nav-link:hover { color: #c7a17a; }
+
+    .nav-link:hover {
+      color: #c7a17a;
+    }
 
     /* ===== BTN PRIMARY ===== */
     .btn-primary-hr {
-      background: #c7a17a; color: #fff; font-weight: 700; letter-spacing: 0.06em;
-      padding: 12px 28px; border-radius: 4px; text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease; display: inline-flex; align-items: center; gap: 8px;
+      background: #c7a17a;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 12px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-primary-hr:hover { background: #a07848; transform: translateY(-2px); color: #fff; }
+
+    .btn-primary-hr:hover {
+      background: #a07848;
+      transform: translateY(-2px);
+      color: #fff;
+    }
 
     .btn-border-hr {
-      border: 2px solid #1a1208; color: #1a1208; font-weight: 700; letter-spacing: 0.06em;
-      padding: 10px 26px; border-radius: 4px; text-decoration: none;
-      transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; background: transparent;
+      border: 2px solid #1a1208;
+      color: #1a1208;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 10px 26px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
     }
-    .btn-border-hr:hover { background: #1a1208; color: #fff; }
+
+    .btn-border-hr:hover {
+      background: #1a1208;
+      color: #fff;
+    }
+
     .btn-border-white-hr {
-      border: 2px solid #fff; color: #1a1208; background: #fff; font-weight: 700; letter-spacing: 0.06em;
-      padding: 10px 26px; border-radius: 4px; text-decoration: none;
-      transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;
+      border: 2px solid #fff;
+      color: #1a1208;
+      background: #fff;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 10px 26px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-border-white-hr:hover { background: transparent; color: #fff; }
+
+    .btn-border-white-hr:hover {
+      background: transparent;
+      color: #fff;
+    }
 
     /* ===== HERO ===== */
     .hero-big-text {
-      font-size: clamp(60px, 10vw, 130px); font-weight: 800; line-height: 1.05; text-transform: uppercase;
+      font-size: clamp(60px, 10vw, 130px);
+      font-weight: 800;
+      line-height: 1.05;
+      text-transform: uppercase;
     }
+
     .section-deco-text {
-      font-size: clamp(50px,8vw,120px); font-weight: 900; text-transform: uppercase;
-      letter-spacing: 0.1em; color: rgba(199,161,122,0.08); pointer-events: none;
-      user-select: none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-size: clamp(50px, 8vw, 120px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(199, 161, 122, 0.08);
+      pointer-events: none;
+      user-select: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       white-space: nowrap;
     }
 
     /* ===== SHOP CARD ===== */
     .shop-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(199,161,122,0.18);
-      border-radius: 12px; text-align: center; padding: 28px 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(199, 161, 122, 0.18);
+      border-radius: 12px;
+      text-align: center;
+      padding: 28px 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-    .shop-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); border-color: rgba(199,161,122,0.5); }
-    .shop-card img { max-width: 160px; margin: 0 auto 16px; display: block; transition: transform 0.4s ease; }
-    .shop-card:hover img { transform: scale(1.05); }
+
+    .shop-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+      border-color: rgba(199, 161, 122, 0.5);
+    }
+
+    .shop-card img {
+      max-width: 160px;
+      margin: 0 auto 16px;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .shop-card:hover img {
+      transform: scale(1.05);
+    }
 
     /* ===== TEAM CARD ===== */
     .team-card {
-      background: #fff; border-radius: 10px; overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .team-card:hover { transform: translateY(-6px); box-shadow: 0 14px 40px rgba(0,0,0,0.14); }
+
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+    }
 
     /* ===== BLOG CARD ===== */
     .blog-card {
-      border-radius: 10px; overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .blog-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,0.15); }
-    .blog-card img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
-    .blog-card:hover img { transform: scale(1.05); }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover img {
+      transform: scale(1.05);
+    }
 
     /* ===== FEATURE BOX ===== */
     .feature-box {
-      text-align: center; padding: 40px 28px;
+      text-align: center;
+      padding: 40px 28px;
       transition: transform 0.3s ease;
     }
-    .feature-box:hover { transform: translateY(-6px); }
+
+    .feature-box:hover {
+      transform: translateY(-6px);
+    }
 
     /* ===== ABOUT INFO LIST ===== */
-    .about-list li { border-bottom: 1px solid rgba(199,161,122,0.2); padding: 18px 0; }
-    .about-list li:last-child { border-bottom: none; }
+    .about-list li {
+      border-bottom: 1px solid rgba(199, 161, 122, 0.2);
+      padding: 18px 0;
+    }
+
+    .about-list li:last-child {
+      border-bottom: none;
+    }
 
     /* ===== FOOTER LINKS ===== */
-    .footer-list li { padding: 7px 0; border-bottom: 1px solid rgba(199,161,122,0.12); }
-    .footer-list li:last-child { border-bottom: none; }
-    .footer-list a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
-    .footer-list a:hover { color: #c7a17a; }
+    .footer-list li {
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(199, 161, 122, 0.12);
+    }
+
+    .footer-list li:last-child {
+      border-bottom: none;
+    }
+
+    .footer-list a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-list a:hover {
+      color: #c7a17a;
+    }
 
     /* ===== SOCIAL ICONS ===== */
     .social-icon {
-      width: 38px; height: 38px; border-radius: 50%;
-      border: 1px solid rgba(199,161,122,0.4);
-      display: inline-flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.75); font-size: 15px;
-      transition: background 0.2s, color 0.2s, border-color 0.2s; text-decoration: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(199, 161, 122, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 15px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      text-decoration: none;
     }
-    .social-icon:hover { background: #c7a17a; border-color: #c7a17a; color: #fff; }
+
+    .social-icon:hover {
+      background: #c7a17a;
+      border-color: #c7a17a;
+      color: #fff;
+    }
 
     /* ===== FAB ===== */
     .fab-btn {
-      width: 48px; height: 48px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; text-decoration: none; color: #fff;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      text-decoration: none;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .fab-btn:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 10px 28px rgba(0,0,0,0.32); color: #fff; }
+
+    .fab-btn:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+      color: #fff;
+    }
 
     /* ===== LANG BTN ===== */
     .lang-btn {
-      border: 1px solid rgba(199,161,122,0.35); border-radius: 4px;
-      color: rgba(255,255,255,0.75); font-size: 11.5px; font-weight: 600;
-      letter-spacing: 0.04em; padding: 2px 9px; cursor: pointer;
+      border: 1px solid rgba(199, 161, 122, 0.35);
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 2px 9px;
+      cursor: pointer;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
-      background: none; font-family: 'Plus Jakarta Sans', sans-serif !important;
+      background: none;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
-    .lang-btn:hover, .lang-btn.active { background: #c7a17a; border-color: #c7a17a; color: #fff; }
+
+    .lang-btn:hover,
+    .lang-btn.active {
+      background: #c7a17a;
+      border-color: #c7a17a;
+      color: #fff;
+    }
 
     /* ===== CHIP ===== */
     .chip {
-      display: flex; align-items: center; gap: 14px;
-      background: rgba(199,161,122,0.1); border: 1px solid rgba(199,161,122,0.25);
-      border-radius: 50px; padding: 10px 20px 10px 10px; margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(199, 161, 122, 0.1);
+      border: 1px solid rgba(199, 161, 122, 0.25);
+      border-radius: 50px;
+      padding: 10px 20px 10px 10px;
+      margin-top: 24px;
     }
-    .chip img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #c7a17a; }
+
+    .chip img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #c7a17a;
+    }
 
     /* ===== PRELOADER ===== */
     #preloader {
-      position: fixed; inset: 0; background: #1a1208;
-      display: flex; align-items: center; justify-content: center; z-index: 99999;
+      position: fixed;
+      inset: 0;
+      background: #1a1208;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
       transition: opacity 0.5s ease;
     }
-    #preloader.loaded { opacity: 0; pointer-events: none; }
-    .preloader-ring {
-      width: 50px; height: 50px; border-radius: 50%;
-      border: 3px solid rgba(199,161,122,0.2);
-      border-top-color: #c7a17a;
-      animation: spin 0.8s linear infinite;
+
+    #preloader.loaded {
+      opacity: 0;
+      pointer-events: none;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .preloader-wrap {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .coffee-bean-loader {
+      animation: bean-pulse 1.1s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    @keyframes bean-pulse {
+
+      0%,
+      100% {
+        transform: scale(0.75);
+        opacity: 0.6;
+      }
+
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .preloader-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2.5px solid rgba(199, 161, 122, 0.15);
+      border-top-color: #c7a17a;
+      animation: ring-spin 1.1s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes ring-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* ===== MOBILE NAV ===== */
     @media (max-width: 991px) {
-      .mobile-menu { display: none; }
-      .mobile-menu.open { display: block; }
+      .mobile-menu {
+        display: none;
+      }
+
+      .mobile-menu.open {
+        display: block;
+      }
     }
 
     /* Google Translate hide */
-    #google_translate_element, .goog-te-banner-frame, .goog-te-gadget, body > .skiptranslate { display: none !important; }
-    body { top: 0 !important; }
+    #google_translate_element,
+    .goog-te-banner-frame,
+    .goog-te-gadget,
+    body>.skiptranslate {
+      display: none !important;
+    }
+
+    body {
+      top: 0 !important;
+    }
 
     /* Section padding */
-    .sec-pt { padding-top: 90px; }
-    .sec-pb { padding-bottom: 90px; }
-    .sec-py { padding-top: 90px; padding-bottom: 90px; }
+    .sec-pt {
+      padding-top: 90px;
+    }
+
+    .sec-pb {
+      padding-bottom: 90px;
+    }
+
+    .sec-py {
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
 
     /* Scroll animation */
-    .scroll-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* Year badge */
     .year-badge {
-      position: absolute; bottom: 20px; left: -20px;
-      background: #c7a17a; color: #fff; border-radius: 8px; padding: 14px 20px; text-align: center;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+      position: absolute;
+      bottom: 20px;
+      left: -20px;
+      background: #c7a17a;
+      color: #fff;
+      border-radius: 8px;
+      padding: 14px 20px;
+      text-align: center;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
     }
   </style>
 </head>
@@ -291,50 +675,107 @@
 
   <!-- PRELOADER -->
   <div id="preloader">
-    <div class="preloader-ring"></div>
+    <div class="preloader-wrap">
+      <div class="preloader-ring"></div>
+      <svg class="coffee-bean-loader" width="52" height="52" viewBox="0 0 52 52" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <!-- bean shape -->
+        <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#beanGrad)" rx="16" ry="22" />
+        <!-- crease -->
+        <path d="M26 6 Q32 26 26 46" stroke="#6b3a1f" stroke-width="2" stroke-linecap="round" fill="none" />
+        <defs>
+          <radialGradient id="beanGrad" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#e8c07a" />
+            <stop offset="55%" stop-color="#b87333" />
+            <stop offset="100%" stop-color="#6b3a1f" />
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
   </div>
 
   <!-- ===== FLOATING ACTION BUTTONS ===== -->
   <div class="fixed bottom-6 right-5 flex flex-col items-center gap-2.5 z-[9999]">
-    <a href="https://www.instagram.com/highlandroastery/" target="_blank"
-       class="fab-btn" style="background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);"
-       title="Instagram" aria-label="Instagram">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="fab-btn"
+      style="background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" title="Instagram"
+      aria-label="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+        <path
+          d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      </svg>
     </a>
-    <a href="https://wa.me/6282199253560?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Highland%20Roastery." target="_blank"
-       class="fab-btn" style="background:#25D366;" title="WhatsApp" aria-label="WhatsApp">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <a href="https://wa.me/6282199253560?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Highland%20Roastery."
+      target="_blank" class="fab-btn" style="background:#25D366;" title="WhatsApp" aria-label="WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+      </svg>
     </a>
-    <button id="fab-backtotop" onclick="window.scrollTo({top:0,behavior:'smooth'})"
-       class="fab-btn hidden" style="background:#c7a17a;" title="Kembali ke atas" aria-label="Kembali ke atas">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M18 11l-6 -6"/><path d="M6 11l6 -6"/></svg>
+    <button id="fab-backtotop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fab-btn hidden"
+      style="background:#c7a17a;" title="Kembali ke atas" aria-label="Kembali ke atas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 5l0 14" />
+        <path d="M18 11l-6 -6" />
+        <path d="M6 11l6 -6" />
+      </svg>
     </button>
   </div>
 
   <!-- ===== TOPBAR ===== -->
-  <div class="relative z-[1050]" style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
+  <div class="relative z-[1050]"
+    style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
     <div class="container mx-auto px-4 max-w-screen-xl">
       <div class="flex items-center justify-between flex-wrap gap-y-2">
 
         <!-- Left -->
         <div class="flex items-center gap-4 flex-wrap text-[rgba(255,255,255,0.75)]">
-          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors" style="color:rgba(255,255,255,0.75); text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+62 821-9925-3560
+          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors"
+            style="color:rgba(255,255,255,0.75); text-decoration:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+            </svg>+62 821-9925-3560
           </a>
           <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"></span>
-          <a href="mailto:info@highlandroastery.com" class="topbar-email flex items-center gap-1.5 hover:text-coklat transition-colors hidden sm:flex" style="color:rgba(255,255,255,0.75); text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>info@highlandroastery.com
+          <a href="/cdn-cgi/l/email-protection#0960676f664961606e616568676d7b66687a7d6c7b70276a6664"
+            class="topbar-email flex items-center gap-1.5 hover:text-coklat transition-colors hidden sm:flex"
+            style="color:rgba(255,255,255,0.75); text-decoration:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg><span class="__cf_email__"
+              data-cfemail="11787f777e51797876797d707f75637e7062657463683f727e7c">[email&#160;protected]</span>
           </a>
-          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;" class="hidden md:inline-block"></span>
+          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"
+            class="hidden md:inline-block"></span>
           <span class="hidden md:flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
+            </svg>
             <span id="topbar-date-text"></span>
           </span>
         </div>
 
         <!-- Right: Language Switcher -->
         <div class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+            aria-hidden="true">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+          </svg>
           <button class="lang-btn active" id="lang-en" onclick="switchLang('en')">English</button>
           <span style="color:rgba(199,161,122,0.4);font-size:11px;">|</span>
           <button class="lang-btn" id="lang-id" onclick="switchLang('id')">Bahasa Indonesia</button>
@@ -355,8 +796,10 @@
         <a href="index.html" class="flex items-center gap-2">
           <img src="./assets/images/logo-hr.png" alt="Highland Roastery" class="h-14 w-auto">
           <div class="hidden lg:block leading-tight">
-            <span class="block text-[13px] font-extrabold tracking-wider text-[#1a1208] uppercase">Highland Roastery</span>
-            <span class="block text-[9px] font-medium tracking-widest uppercase" style="color:#c7a17a;">Best Coffee &bull; Good Farmer &bull; Better Quality</span>
+            <span class="block text-[13px] font-extrabold tracking-wider text-[#1a1208] uppercase">Highland
+              Roastery</span>
+            <span class="block text-[9px] font-medium tracking-widest uppercase" style="color:#c7a17a;">Best Coffee
+              &bull; Good Farmer &bull; Better Quality</span>
           </div>
         </a>
 
@@ -372,9 +815,11 @@
 
         <!-- Mobile Hamburger -->
         <button class="lg:hidden flex flex-col gap-1.5 p-2" @click="mobileOpen = !mobileOpen" aria-label="Menu">
-          <span class="block w-6 h-0.5 bg-gray-800 transition-all" :class="mobileOpen ? 'rotate-45 translate-y-2' : ''"></span>
+          <span class="block w-6 h-0.5 bg-gray-800 transition-all"
+            :class="mobileOpen ? 'rotate-45 translate-y-2' : ''"></span>
           <span class="block w-6 h-0.5 bg-gray-800 transition-all" :class="mobileOpen ? 'opacity-0' : ''"></span>
-          <span class="block w-6 h-0.5 bg-gray-800 transition-all" :class="mobileOpen ? '-rotate-45 -translate-y-2' : ''"></span>
+          <span class="block w-6 h-0.5 bg-gray-800 transition-all"
+            :class="mobileOpen ? '-rotate-45 -translate-y-2' : ''"></span>
         </button>
 
       </div>
@@ -399,24 +844,35 @@
     <section class="relative overflow-hidden min-h-screen flex items-center" id="beranda"
       style="background-image:url('img/hr-banner-bg.png'); background-size:cover; background-position:center;">
       <!-- Overlay -->
-      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(13,11,9,0.82) 0%,rgba(26,18,8,0.6) 60%,transparent 100%);"></div>
+      <div class="absolute inset-0"
+        style="background:linear-gradient(135deg,rgba(13,11,9,0.82) 0%,rgba(26,18,8,0.6) 60%,transparent 100%);"></div>
 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10 py-24">
         <div class="grid grid-cols-12 gap-6 items-center">
           <div class="col-span-12 lg:col-span-7">
             <div class="text-white">
-              <h1 class="hero-big-text scroll-reveal text-white uppercase" style="text-shadow:0 4px 40px rgba(0,0,0,0.5);">
+              <h1 class="hero-big-text scroll-reveal text-white uppercase"
+                style="text-shadow:0 4px 40px rgba(0,0,0,0.5);">
                 Highland Roastery
               </h1>
-              <p class="scroll-reveal mt-4 font-light tracking-widest" style="font-size:clamp(16px,2.5vw,26px); animation-delay:.1s;">
+              <p class="scroll-reveal mt-4 font-light tracking-widest"
+                style="font-size:clamp(16px,2.5vw,26px); animation-delay:.1s;">
                 Good Farmer &mdash; Best Coffee &mdash; Better Quality
               </p>
               <div class="flex flex-wrap gap-4 mt-8 scroll-reveal" style="animation-delay:.2s;">
                 <a class="btn-border-white-hr" href="#tentang-usaha">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>Tentang Usaha
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                  </svg>Tentang Usaha
                 </a>
                 <a class="btn-primary-hr" href="#produk-kopi-papua">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>Produk Kopi Papua
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                    <path
+                      d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z" />
+                  </svg>Produk Kopi Papua
                 </a>
               </div>
 
@@ -457,25 +913,29 @@
 
 
     <!-- ===== GALERI KEGIATAN ===== -->
-    <section class="relative overflow-hidden gallery-ellipse-bottom" id="galeri"
-      x-data="galleryHandler()"
+    <section class="relative overflow-hidden gallery-ellipse-bottom" id="galeri" x-data="galleryHandler()"
+      x-init="init()"
       style="background:linear-gradient(160deg,#0d0b09 0%,#1a1208 40%,#231a0e 70%,#0d0b09 100%); padding:90px 0 100px;">
 
-      <!-- Glow BG -->
-      <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 20% 50%, rgba(199,161,122,0.07) 0%,transparent 70%), radial-gradient(ellipse 40% 60% at 80% 30%,rgba(180,120,60,0.05) 0%,transparent 70%);"></div>
+      <div class="absolute inset-0 pointer-events-none"
+        style="background:radial-gradient(ellipse 60% 40% at 20% 50%, rgba(199,161,122,0.07) 0%,transparent 70%), radial-gradient(ellipse 40% 60% at 80% 30%,rgba(180,120,60,0.05) 0%,transparent 70%);">
+      </div>
 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10 text-center mb-12">
-        <h2 class="uppercase font-extrabold text-white scroll-reveal" style="font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:0.12em;">
+        <h2 class="uppercase font-extrabold text-white scroll-reveal"
+          style="font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:0.12em;">
           Galeri Kegiatan
         </h2>
-        <p class="font-medium italic tracking-widest mt-3 scroll-reveal" style="color:#c7a17a; animation-delay:.1s;">Membangun Ekosistem Kopi Papua</p>
+        <p class="font-medium italic tracking-widest mt-3 scroll-reveal" style="color:#c7a17a; animation-delay:.1s;">
+          Membangun Ekosistem Kopi Papua</p>
         <div class="mx-auto mt-5 rounded-sm" style="width:56px;height:3px;background:#c7a17a;"></div>
-        <p class="max-w-xl mx-auto mt-6 font-light leading-loose text-sm scroll-reveal" style="color:#a0896e; animation-delay:.2s;">
-          Dokumentasi perjalanan Highland Roastery dalam memberdayakan petani lokal dan memproduksi kopi berkualitas dari pegunungan Papua.
+        <p class="max-w-xl mx-auto mt-6 font-light leading-loose text-sm scroll-reveal"
+          style="color:#a0896e; animation-delay:.2s;">
+          Dokumentasi perjalanan Highland Roastery dalam memberdayakan petani lokal dan memproduksi kopi berkualitas
+          dari pegunungan Papua.
         </p>
       </div>
 
-      <!-- Marquee Strip -->
       <div class="overflow-hidden relative z-10">
         <div class="animate-marquee" style="gap:22px; padding:10px 0 14px;">
 
@@ -484,20 +944,29 @@
               <img :src="img.url" :alt="img.caption">
               <div class="gallery-overlay">
                 <span class="block text-[9px] font-bold tracking-[0.2em] uppercase mb-1" style="color:#c7a17a;">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.25rem;" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm2.5-4h-2v2H9v-2H7V9h2V7h1v2h2v1z"/></svg>Lihat Detail
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.25rem;"
+                    aria-hidden="true">
+                    <path
+                      d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm2.5-4h-2v2H9v-2H7V9h2V7h1v2h2v1z" />
+                  </svg>Lihat Detail
                 </span>
                 <span class="text-[13px] font-light text-white leading-snug" x-text="img.caption"></span>
               </div>
             </div>
           </template>
 
-          <!-- Duplikasi seamless loop -->
           <template x-for="(img, index) in allImages" :key="'b-'+index">
             <div class="gallery-card" @click="openModal(img)">
               <img :src="img.url" :alt="img.caption">
               <div class="gallery-overlay">
                 <span class="block text-[9px] font-bold tracking-[0.2em] uppercase mb-1" style="color:#c7a17a;">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.25rem;" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm2.5-4h-2v2H9v-2H7V9h2V7h1v2h2v1z"/></svg>Lihat Detail
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.25rem;"
+                    aria-hidden="true">
+                    <path
+                      d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm2.5-4h-2v2H9v-2H7V9h2V7h1v2h2v1z" />
+                  </svg>Lihat Detail
                 </span>
                 <span class="text-[13px] font-light text-white leading-snug" x-text="img.caption"></span>
               </div>
@@ -507,43 +976,34 @@
         </div>
       </div>
 
-      <!-- Modal Zoom -->
       <template x-teleport="body">
-        <div
-          x-show="isOpen"
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          @keydown.escape.window="isOpen = false"
-          class="fixed inset-0 flex flex-col items-center justify-center p-5"
-          style="z-index:10000; background:rgba(8,6,4,0.97); backdrop-filter:blur(10px);"
-          x-cloak>
+        <div x-show="isOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+          @keydown.escape.window="isOpen = false" class="fixed inset-0 flex flex-col items-center justify-center p-5"
+          style="z-index:10000; background:rgba(8,6,4,0.97); backdrop-filter:blur(10px);" x-cloak>
 
           <button @click="isOpen = false"
             class="absolute top-4 right-6 text-white text-6xl font-thin leading-none cursor-pointer transition-all hover:text-[#c7a17a] z-10"
-            style="background:none; border:none;"
-            aria-label="Tutup galeri">&times;</button>
+            style="background:none; border:none;" aria-label="Tutup galeri">&times;</button>
 
           <div class="flex flex-col items-center w-full h-full justify-center" @click.self="isOpen = false">
-            <img :src="selectedImg.url" :alt="selectedImg.caption"
-              x-show="isOpen"
-              x-transition:enter="transition ease-out duration-300"
-              x-transition:enter-start="opacity-0 scale-95"
-              x-transition:enter-end="opacity-100 scale-100"
-              class="rounded-lg object-contain"
+            <img :src="selectedImg.url" :alt="selectedImg.caption" x-show="isOpen"
+              x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100" class="rounded-lg object-contain"
               style="max-height:72vh; max-width:100%; box-shadow:0 0 70px rgba(0,0,0,0.6);">
             <div class="mt-7 text-center max-w-2xl px-5">
               <div class="mx-auto mb-4 rounded-sm" style="width:44px;height:2px;background:#c7a17a;"></div>
-              <p class="text-white font-light italic leading-relaxed" style="font-size:clamp(1rem,2.5vw,1.3rem);" x-text="selectedImg.caption"></p>
-              <p class="mt-3 text-[11px] uppercase tracking-widest" style="color:rgba(199,161,122,0.45);">Highland Roastery &mdash; Dokumentasi</p>
+              <p class="text-white font-light italic leading-relaxed" style="font-size:clamp(1rem,2.5vw,1.3rem);"
+                x-text="selectedImg.caption"></p>
+              <p class="mt-3 text-[11px] uppercase tracking-widest" style="color:rgba(199,161,122,0.45);">Highland
+                Roastery &mdash; Dokumentasi</p>
             </div>
           </div>
         </div>
       </template>
     </section>
+
     <!-- GALERI end -->
 
 
@@ -553,29 +1013,31 @@
 
         <!-- Artikel 1: Petani Muda -->
         <div class="mb-20 scroll-reveal">
-          <img src="assets/images/jurnal-kopi/galeri/jurnal-kopi-cover.jpg"
-               alt="Cover Jurnal Kopi Highland Roastery"
-               class="w-full rounded shadow-lg"
-               style="border:2px solid #c7a17a;">
+          <img src="assets/images/jurnal-kopi/galeri/jurnal-kopi-cover.jpg" alt="Cover Jurnal Kopi Highland Roastery"
+            class="w-full rounded shadow-lg" style="border:2px solid #c7a17a;">
           <div class="text-center mt-8 max-w-3xl mx-auto">
             <h2 class="uppercase font-extrabold" style="font-size:clamp(1.5rem,4vw,2.4rem);">
               Membangun Ekonomi Lokal Melalui Kisah Petani Muda
             </h2>
             <p class="mt-5 text-base leading-loose text-gray-600">
-              Eliezer mulai menyadari bahwa banyak pemuda di kampungnya meninggalkan kebun kopi untuk merantau ke kota. Melihat kenyataan tersebut, ia merasa terpanggil untuk berbuat sesuatu demi keberlangsungan perkebunan kopi — baik miliknya maupun keluarganya. Bersama Highland Roastery, Eliezer mempelajari cara-cara baru dalam mengolah kopi, mengikuti pelatihan, dan mendalami teknik pascapanen.
+              Eliezer mulai menyadari bahwa banyak pemuda di kampungnya meninggalkan kebun kopi untuk merantau ke kota.
+              Melihat kenyataan tersebut, ia merasa terpanggil untuk berbuat sesuatu demi keberlangsungan perkebunan
+              kopi — baik miliknya maupun keluarganya. Bersama Highland Roastery, Eliezer mempelajari cara-cara baru
+              dalam mengolah kopi, mengikuti pelatihan, dan mendalami teknik pascapanen.
             </p>
             <a class="btn-primary-hr mt-6 inline-flex" href="./membangun-ekonomi-lokal-melalui-kisah-petani-muda.html">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M10 17l5-5-5-5v10z"/></svg>Selengkapnya
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path d="M10 17l5-5-5-5v10z" />
+              </svg>Selengkapnya
             </a>
           </div>
         </div>
 
         <!-- Artikel 2: Global Sisters -->
         <div class="scroll-reveal" style="animation-delay:.1s;">
-          <img src="assets/images/global-women/global-sisters-program-cover.jpg"
-               alt="Cover Global Sisters Program"
-               class="w-full rounded shadow-lg"
-               style="border:2px solid #c7a17a;">
+          <img src="assets/images/global-women/global-sisters-program-cover.jpg" alt="Cover Global Sisters Program"
+            class="w-full rounded shadow-lg" style="border:2px solid #c7a17a;">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
             <div class="lg:col-span-4">
               <h2 class="uppercase font-extrabold" style="font-size:clamp(1.4rem,3vw,2rem);">
@@ -584,13 +1046,20 @@
             </div>
             <div class="lg:col-span-8">
               <p class="text-base leading-loose text-gray-600">
-                Program ini bertujuan membangun kemampuan dan ketahanan ekonomi bagi pengusaha perempuan ASEAN, khususnya di Filipina dan Indonesia, sekaligus menghubungkan mereka ke jaringan Australia. Program berlangsung dari Juni 2022 hingga Mei 2023, seluruhnya secara virtual.
+                Program ini bertujuan membangun kemampuan dan ketahanan ekonomi bagi pengusaha perempuan ASEAN,
+                khususnya di Filipina dan Indonesia, sekaligus menghubungkan mereka ke jaringan Australia. Program
+                berlangsung dari Juni 2022 hingga Mei 2023, seluruhnya secara virtual.
               </p>
               <p class="text-base leading-loose text-gray-600 mt-4">
-                Para perempuan Papua yang dipimpin Lucia Runggeari, bersama para Global Sisters, menjalankan sesi pendidikan antar sesama yang bertujuan mendorong pertumbuhan bisnis dan menciptakan keamanan ekonomi jangka panjang bagi perempuan di kedua negara.
+                Para perempuan Papua yang dipimpin Lucia Runggeari, bersama para Global Sisters, menjalankan sesi
+                pendidikan antar sesama yang bertujuan mendorong pertumbuhan bisnis dan menciptakan keamanan ekonomi
+                jangka panjang bagi perempuan di kedua negara.
               </p>
               <a class="btn-primary-hr mt-6 inline-flex" href="./global-sisters.html">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M10 17l5-5-5-5v10z"/></svg>Selengkapnya
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                  <path d="M10 17l5-5-5-5v10z" />
+                </svg>Selengkapnya
               </a>
             </div>
           </div>
@@ -611,8 +1080,7 @@
           <div class="lg:col-span-6 lg:order-last">
             <div class="relative">
               <img src="assets/images/about/img_02.png" alt="Highland Roastery"
-                class="rounded-lg shadow-2xl w-full scroll-reveal"
-                style="border:2px solid #c7a17a;">
+                class="rounded-lg shadow-2xl w-full scroll-reveal" style="border:2px solid #c7a17a;">
               <!-- Year badge -->
               <div class="year-badge scroll-reveal" style="animation-delay:.2s;">
                 <div class="text-xs tracking-widest uppercase text-white/80 mb-1">Sejak</div>
@@ -629,34 +1097,49 @@
           <div class="lg:col-span-5 pb-10 lg:pb-0">
             <div>
               <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;" aria-hidden="true"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>Tentang Usaha
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;"
+                  aria-hidden="true">
+                  <path
+                    d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z" />
+                </svg>Tentang Usaha
               </h2>
-              <h3 class="text-3xl lg:text-4xl font-extrabold text-white uppercase mb-6 scroll-reveal" style="animation-delay:.1s;">
+              <h3 class="text-3xl lg:text-4xl font-extrabold text-white uppercase mb-6 scroll-reveal"
+                style="animation-delay:.1s;">
                 <u>10 Tahun Pengalaman</u>
               </h3>
               <p class="text-white/80 leading-loose text-[15px] mb-8 scroll-reveal" style="animation-delay:.2s;">
-                Highland Roastery berdiri pada September 2014. Kami diperkenalkan oleh sahabat kami, Kris Priyatmoko, yang meyakinkan bahwa kopi adalah "Emas Hijau" yang akan berkembang sangat pesat. Awalnya usaha ini berjalan dengan nama Highland Coffee.
+                Highland Roastery berdiri pada September 2014. Kami diperkenalkan oleh sahabat kami, Kris Priyatmoko,
+                yang meyakinkan bahwa kopi adalah "Emas Hijau" yang akan berkembang sangat pesat. Awalnya usaha ini
+                berjalan dengan nama Highland Coffee.
               </p>
 
               <ul class="about-list scroll-reveal" style="animation-delay:.3s;">
                 <li>
                   <h4 class="text-sm font-bold uppercase text-white tracking-wider mb-2">Perubahan Nama</h4>
-                  <p class="text-white/70 leading-loose text-[15px]">Pada 2018, Highland Coffee berganti nama menjadi Highland Roastery setelah mengikuti kursus roasting. Sejak saat itu, kami memfokuskan bisnis pada usaha sangrai kopi secara profesional.</p>
+                  <p class="text-white/70 leading-loose text-[15px]">Pada 2018, Highland Coffee berganti nama menjadi
+                    Highland Roastery setelah mengikuti kursus roasting. Sejak saat itu, kami memfokuskan bisnis pada
+                    usaha sangrai kopi secara profesional.</p>
                 </li>
                 <li>
                   <h4 class="text-sm font-bold uppercase text-white tracking-wider mb-2">Perkembangan Layanan</h4>
-                  <p class="text-white/70 leading-loose text-[15px]">Pada 2019, kami bertemu dengan Giri Arwana (Work Stream Leader Program Ekonomi Hijau) dan berdiskusi tentang pengembangan Highland Roastery sebagai pusat pelatihan kopi.</p>
+                  <p class="text-white/70 leading-loose text-[15px]">Pada 2019, kami bertemu dengan Giri Arwana (Work
+                    Stream Leader Program Ekonomi Hijau) dan berdiskusi tentang pengembangan Highland Roastery sebagai
+                    pusat pelatihan kopi.</p>
                 </li>
                 <li>
                   <h4 class="text-sm font-bold uppercase text-white tracking-wider mb-2">3 Layanan Utama</h4>
-                  <p class="text-white/70 leading-loose text-[15px]">Pada 2020, atas dukungan Program Ekonomi Hijau, Highland Roastery beroperasi dengan 3 layanan utama: (1) Produksi &amp; Roastery, (2) Coffee Academy, dan (3) Coffee Shop sebagai ruang promosi produk.</p>
+                  <p class="text-white/70 leading-loose text-[15px]">Pada 2020, atas dukungan Program Ekonomi Hijau,
+                    Highland Roastery beroperasi dengan 3 layanan utama: (1) Produksi &amp; Roastery, (2) Coffee
+                    Academy, dan (3) Coffee Shop sebagai ruang promosi produk.</p>
                 </li>
                 <li class="border-none pt-4">
                   <div class="chip">
                     <img src="assets/images/ceo-highland-roastery.png" alt="CEO Highland Roastery">
                     <div>
                       <h5 class="font-bold uppercase text-white text-sm tracking-wide">Lucia S. Runggeari</h5>
-                      <span class="text-xs uppercase tracking-widest" style="color:#c7a17a;">Chief Executive Officer</span>
+                      <span class="text-xs uppercase tracking-widest" style="color:#c7a17a;">Chief Executive
+                        Officer</span>
                     </div>
                   </div>
                 </li>
@@ -682,7 +1165,8 @@
               <img src="assets/images/feature/icon_03.png" alt="Ikon Petani" class="w-full h-full object-contain">
             </div>
             <h3 class="text-lg font-extrabold uppercase tracking-wider mb-4">Good Farmer</h3>
-            <p class="text-gray-600 leading-relaxed">Petani yang tekun dan memahami seluruh proses pengelolaan kopi, dari kebun hingga cangkir.</p>
+            <p class="text-gray-600 leading-relaxed">Petani yang tekun dan memahami seluruh proses pengelolaan kopi,
+              dari kebun hingga cangkir.</p>
           </div>
 
           <div class="feature-box scroll-reveal" style="animation-delay:.1s;">
@@ -690,7 +1174,8 @@
               <img src="assets/images/feature/icon_01.png" alt="Ikon Kopi" class="w-full h-full object-contain">
             </div>
             <h3 class="text-lg font-extrabold uppercase tracking-wider mb-4">Best Coffee</h3>
-            <p class="text-gray-600 leading-relaxed">Kopi terbaik lahir dari pengelolaan pascapanen yang terstandar, konsisten, dan penuh perhatian.</p>
+            <p class="text-gray-600 leading-relaxed">Kopi terbaik lahir dari pengelolaan pascapanen yang terstandar,
+              konsisten, dan penuh perhatian.</p>
           </div>
 
           <div class="feature-box scroll-reveal" style="animation-delay:.2s;">
@@ -698,7 +1183,8 @@
               <img src="assets/images/feature/icon_02.png" alt="Ikon Kualitas" class="w-full h-full object-contain">
             </div>
             <h3 class="text-lg font-extrabold uppercase tracking-wider mb-4">Better Quality</h3>
-            <p class="text-gray-600 leading-relaxed">Kualitas unggul adalah hasil kolaborasi antara petani terampil dan proses produksi yang terjaga.</p>
+            <p class="text-gray-600 leading-relaxed">Kualitas unggul adalah hasil kolaborasi antara petani terampil dan
+              proses produksi yang terjaga.</p>
           </div>
 
         </div>
@@ -718,13 +1204,20 @@
         <!-- Title -->
         <div class="text-center mb-12">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Tim Barista
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;"
+              aria-hidden="true">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            </svg>Tim Barista
           </h2>
           <h3 class="text-3xl lg:text-4xl font-extrabold uppercase scroll-reveal" style="animation-delay:.1s;">
             Barista Highland Roastery
           </h3>
-          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal" style="animation-delay:.2s;">
-            Tim Highland Roastery terdiri dari putra-putri muda Papua yang bersemangat dan berdedikasi dalam berkarier sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
+          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal"
+            style="animation-delay:.2s;">
+            Tim Highland Roastery terdiri dari putra-putri muda Papua yang bersemangat dan berdedikasi dalam berkarier
+            sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
           </p>
         </div>
 
@@ -740,7 +1233,8 @@
           </div>
 
           <div class="team-card scroll-reveal" style="animation-delay:.1s;">
-            <img src="assets/images/team/James Amin Elopore.png" alt="James Amin Elopore" class="w-full object-cover aspect-square">
+            <img src="assets/images/team/James Amin Elopore.png" alt="James Amin Elopore"
+              class="w-full object-cover aspect-square">
             <div class="p-4 text-center">
               <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">James Amin Elopore</h5>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
@@ -748,7 +1242,8 @@
           </div>
 
           <div class="team-card scroll-reveal" style="animation-delay:.2s;">
-            <img src="assets/images/team/Herman S. Meage.png" alt="Herman S. Meage" class="w-full object-cover aspect-square">
+            <img src="assets/images/team/Herman S. Meage.png" alt="Herman S. Meage"
+              class="w-full object-cover aspect-square">
             <div class="p-4 text-center">
               <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Herman S. Meage</h5>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
@@ -756,7 +1251,8 @@
           </div>
 
           <div class="team-card scroll-reveal" style="animation-delay:.3s;">
-            <img src="assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg" alt="Yunus T. Meage" class="w-full object-cover aspect-square">
+            <img src="assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg" alt="Yunus T. Meage"
+              class="w-full object-cover aspect-square">
             <div class="p-4 text-center">
               <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Yunus T. Meage</h5>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Asisten Roaster</span>
@@ -764,7 +1260,8 @@
           </div>
 
           <div class="team-card scroll-reveal" style="animation-delay:.4s;">
-            <img src="assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg" alt="Amos E. Wetipo" class="w-full object-cover aspect-square">
+            <img src="assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg" alt="Amos E. Wetipo"
+              class="w-full object-cover aspect-square">
             <div class="p-4 text-center">
               <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Amos E. Wetipo</h5>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Manajer</span>
@@ -772,7 +1269,8 @@
           </div>
 
           <div class="team-card scroll-reveal" style="animation-delay:.5s;">
-            <img src="assets/images/team/Septinus Wetipo - Barista.jpeg" alt="Septinus Wetipo" class="w-full object-cover aspect-square">
+            <img src="assets/images/team/Septinus Wetipo - Barista.jpeg" alt="Septinus Wetipo"
+              class="w-full object-cover aspect-square">
             <div class="p-4 text-center">
               <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Septinus Wetipo</h5>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
@@ -788,20 +1286,29 @@
     <!-- ===== PRODUK KOPI PAPUA ===== -->
     <section class="relative wave-bottom-white sec-py overflow-visible" id="produk-kopi-papua"
       style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
-      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,8,5,0.93) 0%,rgba(26,18,8,0.88) 100%);"></div>
+      <div class="absolute inset-0"
+        style="background:linear-gradient(135deg,rgba(10,8,5,0.93) 0%,rgba(26,18,8,0.88) 100%);"></div>
 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10">
 
         <!-- Title -->
         <div class="text-center mb-14">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 text-white/70 scroll-reveal">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;color:#c7a17a;" aria-hidden="true"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>Produk Kopi Papua
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z" />
+            </svg>Produk Kopi Papua
           </h2>
-          <h3 class="text-3xl lg:text-4xl font-extrabold uppercase text-white scroll-reveal" style="animation-delay:.1s;">
+          <h3 class="text-3xl lg:text-4xl font-extrabold uppercase text-white scroll-reveal"
+            style="animation-delay:.1s;">
             Produk Kopi Highland Roastery
           </h3>
-          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-white/70 scroll-reveal" style="animation-delay:.2s;">
-            Highland Roastery bekerja sama dengan berbagai petani lokal Papua dalam menghadirkan kopi asli Papua dari beragam daerah. Berikut pilihan produk yang bisa Anda nikmati dan pesan langsung.
+          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-white/70 scroll-reveal"
+            style="animation-delay:.2s;">
+            Highland Roastery bekerja sama dengan berbagai petani lokal Papua dalam menghadirkan kopi asli Papua dari
+            beragam daerah. Berikut pilihan produk yang bisa Anda nikmati dan pesan langsung.
           </p>
         </div>
 
@@ -812,11 +1319,16 @@
           <div class="shop-card scroll-reveal">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-peneli.png" alt="Kopi Peneli"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Peneli</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Peneli.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Peneli.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -824,11 +1336,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.05s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-kiwirok.png" alt="Kopi Kiwirok"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Kiwirok</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kiwirok.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kiwirok.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -836,11 +1353,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.1s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-okbab.png" alt="Kopi Okbab"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Okbab</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okbab.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okbab.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -848,11 +1370,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.15s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-sabin.png" alt="Kopi Sabin"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Sabin</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Sabin.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Sabin.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -860,11 +1387,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.2s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-tiom.png" alt="Kopi Tiom"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Tiom</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tiom.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tiom.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -872,11 +1404,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.25s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-tangma.png" alt="Kopi Tangma"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Tangma</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tangma.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tangma.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -884,11 +1421,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.3s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-kurima.png" alt="Kopi Kurima"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Kurima</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kurima.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kurima.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -896,11 +1438,16 @@
           <div class="shop-card scroll-reveal" style="animation-delay:.35s;">
             <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-okhika.png" alt="Kopi Okhika"></a>
             <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Okhika</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp 300.000</div>
+            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
+              300.000</div>
             <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-               href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okhika.%0ANama%20saya%20..." target="_blank"
-               style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Pesan Sekarang
+              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okhika.%0ANama%20saya%20..."
+              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>Pesan Sekarang
             </a>
           </div>
 
@@ -920,13 +1467,19 @@
         <!-- Title -->
         <div class="text-center mb-14">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M12 3L1 9l4 2.18V15c0 3 7 5 7 5s7-2 7-5v-3.82L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 14.99l-5 2.73-5-2.73v-2.3l5 2.72 5-2.72v2.3z"/></svg>Pelatihan
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+              <path
+                d="M12 3L1 9l4 2.18V15c0 3 7 5 7 5s7-2 7-5v-3.82L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 14.99l-5 2.73-5-2.73v-2.3l5 2.72 5-2.72v2.3z" />
+            </svg>Pelatihan
           </h2>
           <h3 class="text-3xl lg:text-4xl font-extrabold uppercase scroll-reveal" style="animation-delay:.1s;">
             Mencetak Barista &amp; Roaster Profesional
           </h3>
-          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal" style="animation-delay:.2s;">
-            Kami menyediakan program pelatihan untuk mempersiapkan kebutuhan barista dan roaster sesuai standar industri. Berikut beberapa program unggulan yang telah banyak diminati dan berhasil dilaksanakan.
+          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal"
+            style="animation-delay:.2s;">
+            Kami menyediakan program pelatihan untuk mempersiapkan kebutuhan barista dan roaster sesuai standar
+            industri. Berikut beberapa program unggulan yang telah banyak diminati dan berhasil dilaksanakan.
           </p>
         </div>
 
@@ -939,7 +1492,8 @@
             </div>
             <div class="p-6 bg-white">
               <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Seduh Manual</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan peralatan seduh, dan penguasaan berbagai metode seduh manual.</p>
+              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan peralatan seduh, dan
+                penguasaan berbagai metode seduh manual.</p>
             </div>
           </div>
 
@@ -949,7 +1503,8 @@
             </div>
             <div class="p-6 bg-white">
               <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Dasar Espresso</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan mesin espresso, teknik ekstraksi, serta berbagai resep minuman kopi berbasis espresso.</p>
+              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan mesin espresso, teknik
+                ekstraksi, serta berbagai resep minuman kopi berbasis espresso.</p>
             </div>
           </div>
 
@@ -959,7 +1514,8 @@
             </div>
             <div class="p-6 bg-white">
               <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Dasar Roasting</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Sejarah kopi, pengenalan green beans, cara kerja mesin sangrai, teknik blending, dan pengembangan profil rasa.</p>
+              <p class="text-gray-600 leading-relaxed text-sm">Sejarah kopi, pengenalan green beans, cara kerja mesin
+                sangrai, teknik blending, dan pengembangan profil rasa.</p>
             </div>
           </div>
 
@@ -967,9 +1523,13 @@
 
         <div class="text-center mt-12 scroll-reveal" style="animation-delay:.3s;">
           <a class="btn-border-hr inline-flex"
-             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20program%20pelatihan.%0ANama%20saya%20..."
-             target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Daftar Sekarang
+            href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20program%20pelatihan.%0ANama%20saya%20..."
+            target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+            </svg>Daftar Sekarang
           </a>
         </div>
 
@@ -983,7 +1543,8 @@
   <!-- ===== FOOTER ===== -->
   <footer class="relative text-white" id="hubungi-kami"
     style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
-    <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,8,5,0.95) 0%,rgba(26,18,8,0.92) 100%);"></div>
+    <div class="absolute inset-0"
+      style="background:linear-gradient(135deg,rgba(10,8,5,0.95) 0%,rgba(26,18,8,0.92) 100%);"></div>
 
     <!-- Scratch top deco -->
     <div class="absolute top-0 left-0 right-0 opacity-10 pointer-events-none z-10">
@@ -1009,24 +1570,41 @@
               <img src="assets/images/logo-hr.png" alt="Highland Roastery Logo" class="w-36">
             </a>
             <p class="text-white/70 leading-loose text-sm mb-6">
-              Kami adalah Rumah Roastery yang menyajikan layanan sangrai kopi beserta berbagai produk Kopi Papua pilihan dari berbagai daerah di Papua.
+              Kami adalah Rumah Roastery yang menyajikan layanan sangrai kopi beserta berbagai produk Kopi Papua pilihan
+              dari berbagai daerah di Papua.
             </p>
             <div class="flex gap-3">
-              <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="social-icon" aria-label="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="social-icon"
+                aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
               </a>
-              <a href="https://web.facebook.com/Highland-Roastery-104392897568186" target="_blank" class="social-icon" aria-label="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              <a href="https://web.facebook.com/Highland-Roastery-104392897568186" target="_blank" class="social-icon"
+                aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
               </a>
-              <a href="https://www.youtube.com/channel/UCDmSkzvzF-Q0bnDxvOTTptQ" target="_blank" class="social-icon" aria-label="YouTube">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" ><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+              <a href="https://www.youtube.com/channel/UCDmSkzvzF-Q0bnDxvOTTptQ" target="_blank" class="social-icon"
+                aria-label="YouTube">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                  <path
+                    d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
+                </svg>
               </a>
             </div>
           </div>
 
           <!-- Hubungi Kami -->
           <div class="scroll-reveal" style="animation-delay:.1s;">
-            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3" style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Hubungi Kami</h3>
+            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3"
+              style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Hubungi Kami</h3>
             <ul class="footer-list space-y-1 text-sm text-white/75">
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Alamat:</strong><br>
@@ -1034,15 +1612,20 @@
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">WhatsApp:</strong><br>
-                <a href="https://wa.me/6282199253560" style="color:#c7a17a; font-size:1.05rem; font-weight:600;">+62 821-9925-3560</a>
+                <a href="https://wa.me/6282199253560" style="color:#c7a17a; font-size:1.05rem; font-weight:600;">+62
+                  821-9925-3560</a>
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Email:</strong><br>
-                <a href="mailto:info@highlandroastery.com" style="color:#c7a17a;">info@highlandroastery.com</a>
+                <a href="/cdn-cgi/l/email-protection#30595e565f70585957585c515e54425f5143445542491e535f5d"
+                  style="color:#c7a17a;"><span class="__cf_email__"
+                    data-cfemail="fa93949c95ba92939d92969b949e88959b898e9f8883d4999597">[email&#160;protected]</span></a>
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Email Alternatif:</strong><br>
-                <a href="mailto:roastery@highlandroastery.com" style="color:#c7a17a;">roastery@highlandroastery.com</a>
+                <a href="/cdn-cgi/l/email-protection#91e3fef0e2e5f4e3e8d1f9f8f6f9fdf0fff5e3fef0e2e5f4e3e8bff2fefc"
+                  style="color:#c7a17a;"><span class="__cf_email__"
+                    data-cfemail="22504d43515647505b624a4b454a4e434c46504d43515647505b0c414d4f">[email&#160;protected]</span></a>
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Kode Pos:</strong> 99352
@@ -1052,7 +1635,8 @@
 
           <!-- Jam Layanan -->
           <div class="scroll-reveal" style="animation-delay:.2s;">
-            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3" style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Jam Layanan</h3>
+            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3"
+              style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Jam Layanan</h3>
             <ul class="footer-list text-sm text-white/75 space-y-1">
               <li class="flex justify-between">Senin <span>09:00 &ndash; 21:00 WIT</span></li>
               <li class="flex justify-between">Selasa <span>09:00 &ndash; 21:00 WIT</span></li>
@@ -1070,7 +1654,8 @@
       <div class="container mx-auto px-4 max-w-screen-xl py-5" style="border-top:1px solid rgba(199,161,122,0.15);">
         <p class="text-center text-xs text-white/50 tracking-wider">
           Copyright &copy; 2026 &mdash; Powered by
-          <a href="https://www.sacode.web.id" target="_blank" style="color:#c7a17a; text-decoration:none; font-weight:700;">SaCode</a>
+          <a href="https://www.sacode.web.id" target="_blank"
+            style="color:#c7a17a; text-decoration:none; font-weight:700;">SaCode</a>
         </p>
       </div>
     </div>
@@ -1081,37 +1666,27 @@
   <!-- ===== SCRIPTS ===== -->
 
   <!-- Gallery Alpine Handler -->
-  <script>
-    function galleryHandler() {
-      return {
-        isOpen: false,
-        selectedImg: {},
-        allImages: [
-          { url: './gallery/Kegiatan Capacity Building Pasca Panen. Koperasi Produsen Emas Hijau Papua. Yang di Sponsori Bank Indonesia.png', caption: 'Capacity Building Pascapanen — Koperasi Emas Hijau Papua (didukung Bank Indonesia)' },
-          { url: "./gallery/Trainer dari Curating Indonesia's pada kegiatan Capacity Building Bank Indonesia.png", caption: 'Trainer dari Curating Indonesia pada Kegiatan Capacity Building Bank Indonesia' },
-          { url: './gallery/Foto bersama peserta kegiatan Capacity Building.png', caption: 'Foto Bersama Seluruh Peserta Capacity Building' },
-          { url: './gallery/8 Tahun Menjalani Bisnis Kopi, HR Lakukan Sharing Session di TITIP Sentani.png', caption: 'Sharing Session di TITIP Sentani — 8 Tahun Highland Roastery' },
-          { url: './gallery/Yutem Meage, memperagakan proses pengolahan kopi kepada siswa TITIP Sentani.png', caption: 'Yutem Meage Memperagakan Pengolahan Kopi kepada Siswa TITIP Sentani' },
-          { url: './gallery/Proses green beans di Highland Roastery.png', caption: 'Proses Sortasi Green Beans di Highland Roastery' },
-          { url: './gallery/Proses roasting kopi di Highland Roastery.png', caption: 'Proses Roasting Kopi Papua di Highland Roastery' },
-          { url: './gallery/Pembuatan paketan roasted beans oleh Barista Highland Roastery.png', caption: 'Pengemasan Produk Roasted Beans oleh Tim Barista Highland Roastery' }
-        ],
-        openModal(img) { this.selectedImg = img; this.isOpen = true; }
-      }
-    }
-  </script>
 
   <!-- Preloader remove -->
   <script>
-    window.addEventListener('load', function() {
-      var pre = document.getElementById('preloader');
-      if (pre) { pre.classList.add('loaded'); setTimeout(function(){ pre.remove(); }, 600); }
-    });
+      (function () {
+        function hidePreloader() {
+          var pre = document.getElementById('preloader');
+          if (!pre || pre._hidden) return;
+          pre._hidden = true;
+          pre.classList.add('loaded');
+          setTimeout(function () { if (pre.parentNode) pre.parentNode.removeChild(pre); }, 500);
+        }
+        // Hilang saat DOM siap
+        document.addEventListener('DOMContentLoaded', hidePreloader);
+        // Fallback: paksa hilang max 1.5 detik (lokal/lambat)
+        setTimeout(hidePreloader, 1500);
+      })();
   </script>
 
   <!-- Back to Top -->
   <script>
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       var btn = document.getElementById('fab-backtotop');
       if (btn) btn.classList.toggle('hidden', window.scrollY <= 300);
     });
@@ -1119,21 +1694,21 @@
 
   <!-- Scroll Reveal -->
   <script>
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.scroll-reveal').forEach(function(el) { observer.observe(el); });
+    document.querySelectorAll('.scroll-reveal').forEach(function (el) { observer.observe(el); });
   </script>
 
   <!-- Topbar Date + Language Switcher -->
   <script>
     (function () {
-      var days_id   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-      var days_en   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var months_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-      var months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var days_id = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      var days_en = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var months_id = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      var months_en = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       var now = new Date();
       var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
       var currentLang = 'id';
@@ -1148,7 +1723,7 @@
       }
       updateDate(currentLang);
 
-      window.switchLang = function(lang) {
+      window.switchLang = function (lang) {
         currentLang = lang;
         updateDate(lang);
         document.getElementById('lang-en').classList.toggle('active', lang === 'en');
@@ -1169,18 +1744,4 @@
   </script>
 
   <!-- Google Translate -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'id',
-        includedLanguages: 'en,id',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        autoDisplay: false
-      }, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <div id="google_translate_element" style="display:none;"></div>
-
-</body>
-</html>
+  <scrip
