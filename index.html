@@ -30,32 +30,10 @@
   <!-- Font Awesome removed — replaced with inline SVG icons -->
 
 
-  <!-- Gallery Handler — must be before Alpine.js -->
- <script>
-  function galleryHandler() {
-    return {
-      isOpen: false,
-      selectedImg: {},
-      allImages: [], // Mulai dengan array kosong
-      
-      // Fungsi untuk mengambil data dari file JSON
-      async init() {
-        try {
-          const response = await fetch('data/gallery.json');
-          if (!response.ok) throw new Error('Gagal memuat data galeri');
-          this.allImages = await response.json();
-        } catch (error) {
-          console.error('Error fetching gallery:', error);
-        }
-      },
-      
-      openModal(img) { 
-        this.selectedImg = img; 
-        this.isOpen = true; 
-      }
-    }
-  }
-</script>
+
+  <!-- Leaflet.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -656,6 +634,15 @@
       transform: translateY(0);
     }
 
+    /* Alpine-rendered cards fade-in (x-for items rendered after DOM ready) */
+    @keyframes alpineFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .alpine-card {
+      animation: alpineFadeUp 0.55s ease both;
+    }
+
     /* Year badge */
     .year-badge {
       position: absolute;
@@ -679,9 +666,7 @@
       <div class="preloader-ring"></div>
       <svg class="coffee-bean-loader" width="52" height="52" viewBox="0 0 52 52" fill="none"
         xmlns="http://www.w3.org/2000/svg">
-        <!-- bean shape -->
         <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#beanGrad)" rx="16" ry="22" />
-        <!-- crease -->
         <path d="M26 6 Q32 26 26 46" stroke="#6b3a1f" stroke-width="2" stroke-linecap="round" fill="none" />
         <defs>
           <radialGradient id="beanGrad" cx="38%" cy="30%" r="65%">
@@ -1007,6 +992,49 @@
     <!-- GALERI end -->
 
 
+    <!-- ===== LOKASI PELATIHAN & PENANAMAN KOPI ===== -->
+    <section class="relative sec-py" id="lokasi-kopi" style="background:#fdfaf7;">
+      <div class="container mx-auto px-4 max-w-screen-xl">
+
+        <!-- Title -->
+        <div class="text-center mb-12">
+          <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;"
+              aria-hidden="true">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>Sebaran Lokasi
+          </h2>
+          <h3 class="text-3xl lg:text-4xl font-extrabold uppercase scroll-reveal" style="animation-delay:.1s;">
+            Lokasi Pelatihan &amp; Penanaman Kopi
+          </h3>
+          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal"
+            style="animation-delay:.2s;">
+            Peta sebaran kegiatan pelatihan barista dan penanaman kopi yang dilakukan oleh Highland Roastery
+            di berbagai wilayah Papua.
+          </p>
+        </div>
+
+        <!-- Map + Legend layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start scroll-reveal" style="animation-delay:.3s;">
+
+          <!-- Map -->
+          <div class="lg:col-span-2">
+            <div id="gis-map" style="height:480px; border-radius:12px; border:2px solid rgba(199,161,122,0.4); box-shadow:0 8px 32px rgba(0,0,0,0.1); z-index:1;"></div>
+          </div>
+
+          <!-- Location list sidebar -->
+          <div class="space-y-4" id="gis-list">
+            <!-- Populated by JS -->
+            <div class="text-center py-8 text-gray-400 text-sm">Memuat data lokasi...</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- LOKASI end -->
+
+
     <!-- ===== PUBLIKASI / ARTIKEL ===== -->
     <section class="bg-white relative z-10 pt-16 pb-8">
       <div class="container mx-auto px-4 max-w-screen-xl">
@@ -1197,94 +1225,64 @@
     <!-- FEATURE end -->
 
 
-    <!-- ===== TIM BARISTA ===== -->
-    <section class="sec-py zigzag-bottom-dark relative overflow-visible" id="tim-barista" style="background:#fdfaf7;">
-      <div class="container mx-auto px-4 max-w-screen-xl">
+   <!-- ===== TIM BARISTA ===== -->
+<section
+  class="sec-py zigzag-bottom-dark relative overflow-visible"
+  id="tim-barista"
+  style="background:#fdfaf7;"
+  x-data="teamHandler()"
+  x-init="init()"
+>
+  <div class="container mx-auto px-4 max-w-screen-xl">
 
-        <!-- Title -->
-        <div class="text-center mb-12">
-          <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;"
-              aria-hidden="true">
-              <path
-                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-            </svg>Tim Barista
-          </h2>
-          <h3 class="text-3xl lg:text-4xl font-extrabold uppercase scroll-reveal" style="animation-delay:.1s;">
-            Barista Highland Roastery
-          </h3>
-          <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal"
-            style="animation-delay:.2s;">
-            Tim Highland Roastery terdiri dari putra-putri muda Papua yang bersemangat dan berdedikasi dalam berkarier
-            sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
-          </p>
+    <!-- Title -->
+    <div class="text-center mb-12">
+      <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:0.5rem;"
+          aria-hidden="true">
+          <path
+            d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+        </svg>Tim Barista
+      </h2>
+      <h3 class="text-3xl lg:text-4xl font-extrabold uppercase scroll-reveal" style="animation-delay:.1s;">
+        Barista Highland Roastery
+      </h3>
+      <p class="max-w-2xl mx-auto mt-5 text-base leading-loose text-gray-600 scroll-reveal"
+        style="animation-delay:.2s;">
+        Tim Highland Roastery terdiri dari putra-putri muda Papua yang bersemangat dan berdedikasi dalam berkarier
+        sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
+      </p>
+    </div>
+
+    <!-- Team Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+
+      <template x-for="(member, index) in team" :key="member.name">
+        <div class="team-card alpine-card" :style="`animation-delay: ${member.delay}`">
+          <img
+            :src="member.photo"
+            :alt="member.name"
+            class="w-full object-cover aspect-square"
+          >
+          <div class="p-4 text-center">
+            <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;" x-text="member.name"></h5>
+            <span class="text-xs text-gray-500 uppercase tracking-wider" x-text="member.role"></span>
+          </div>
         </div>
+      </template>
 
-        <!-- Team Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    </div>
+  </div>
+</section>
+<!-- TIM BARISTA end -->
 
-          <div class="team-card scroll-reveal">
-            <img src="assets/images/team/Agus Elopore.png" alt="Agus Elopore" class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Agus Elopore</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
-            </div>
-          </div>
-
-          <div class="team-card scroll-reveal" style="animation-delay:.1s;">
-            <img src="assets/images/team/James Amin Elopore.png" alt="James Amin Elopore"
-              class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">James Amin Elopore</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
-            </div>
-          </div>
-
-          <div class="team-card scroll-reveal" style="animation-delay:.2s;">
-            <img src="assets/images/team/Herman S. Meage.png" alt="Herman S. Meage"
-              class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Herman S. Meage</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
-            </div>
-          </div>
-
-          <div class="team-card scroll-reveal" style="animation-delay:.3s;">
-            <img src="assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg" alt="Yunus T. Meage"
-              class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Yunus T. Meage</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Asisten Roaster</span>
-            </div>
-          </div>
-
-          <div class="team-card scroll-reveal" style="animation-delay:.4s;">
-            <img src="assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg" alt="Amos E. Wetipo"
-              class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Amos E. Wetipo</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Manajer</span>
-            </div>
-          </div>
-
-          <div class="team-card scroll-reveal" style="animation-delay:.5s;">
-            <img src="assets/images/team/Septinus Wetipo - Barista.jpeg" alt="Septinus Wetipo"
-              class="w-full object-cover aspect-square">
-            <div class="p-4 text-center">
-              <h5 class="font-bold uppercase text-sm tracking-wide" style="color:#c7a17a;">Septinus Wetipo</h5>
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Barista</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-    <!-- TIM BARISTA end -->
 
 
     <!-- ===== PRODUK KOPI PAPUA ===== -->
     <section class="relative wave-bottom-white sec-py overflow-visible" id="produk-kopi-papua"
+      x-data="produkHandler()"
+      x-init="init()"
       style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
       <div class="absolute inset-0"
         style="background:linear-gradient(135deg,rgba(10,8,5,0.93) 0%,rgba(26,18,8,0.88) 100%);"></div>
@@ -1315,153 +1313,37 @@
         <!-- Product Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
 
-          <!-- Peneli -->
-          <div class="shop-card scroll-reveal">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-peneli.png" alt="Kopi Peneli"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Peneli</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Peneli.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Kiwirok -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.05s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-kiwirok.png" alt="Kopi Kiwirok"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Kiwirok</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kiwirok.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Okbab -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.1s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-okbab.png" alt="Kopi Okbab"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Okbab</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okbab.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Sabin -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.15s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-sabin.png" alt="Kopi Sabin"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Sabin</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Sabin.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Tiom -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.2s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-tiom.png" alt="Kopi Tiom"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Tiom</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tiom.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Tangma -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.25s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-tangma.png" alt="Kopi Tangma"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Tangma</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tangma.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Kurima -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.3s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-kurima.png" alt="Kopi Kurima"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Kurima</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kurima.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
-
-          <!-- Okhika -->
-          <div class="shop-card scroll-reveal" style="animation-delay:.35s;">
-            <a href="#"><img src="assets/images/products/mockup-hr-coffee-200g-okhika.png" alt="Kopi Okhika"></a>
-            <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2">Okhika</h3>
-            <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">200g — Rp 90.000 &nbsp;|&nbsp; 1kg — Rp
-              300.000</div>
-            <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
-              href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okhika.%0ANama%20saya%20..."
-              target="_blank" style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>Pesan Sekarang
-            </a>
-          </div>
+          <template x-for="produk in produkList" :key="produk.id">
+            <div class="shop-card alpine-card" :style="`animation-delay: ${produk.delay}`">
+              <a href="#"><img :src="produk.foto" :alt="'Kopi ' + produk.nama"></a>
+              <h3 class="text-base font-extrabold uppercase text-white tracking-wider mb-2" x-text="produk.nama"></h3>
+              <div class="text-sm font-semibold mb-4" style="color:#c7a17a;">
+                200g — <span x-text="produk.harga_200g"></span> &nbsp;|&nbsp; 1kg — <span x-text="produk.harga_1kg"></span>
+              </div>
+              <a class="w-full py-3 rounded font-bold uppercase text-sm tracking-wider transition-all flex items-center justify-center gap-2"
+                :href="produk.wa_pesan" target="_blank"
+                style="border:2px solid rgba(199,161,122,0.5); color:#c7a17a;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                </svg>Pesan Sekarang
+              </a>
+            </div>
+          </template>
 
         </div>
+
       </div>
 
       <!-- Deco text -->
       <div class="section-deco-text">Kopi Papua</div>
     </section>
-    <!-- PRODUK KOPI end -->
 
 
     <!-- ===== PELATIHAN BARISTA ===== -->
-    <section class="relative diagonal-bottom-dark sec-py overflow-visible bg-white" id="pelatihan">
+    <section class="relative diagonal-bottom-dark sec-py overflow-visible bg-white" id="pelatihan"
+      x-data="trainingHandler()"
+      x-init="init()">
       <div class="container mx-auto px-4 max-w-screen-xl">
 
         <!-- Title -->
@@ -1486,38 +1368,17 @@
         <!-- Training Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <div class="blog-card scroll-reveal">
-            <div class="overflow-hidden">
-              <img src="assets/images/training/hr-training-seduh-manual.png" alt="Pelatihan Seduh Manual">
+          <template x-for="item in trainingList" :key="item.id">
+            <div class="blog-card alpine-card" :style="`animation-delay: ${item.delay}`">
+              <div class="overflow-hidden">
+                <img :src="item.foto" :alt="'Pelatihan ' + item.judul">
+              </div>
+              <div class="p-6 bg-white">
+                <h3 class="text-base font-extrabold uppercase tracking-wider mb-3" x-text="item.judul"></h3>
+                <p class="text-gray-600 leading-relaxed text-sm" x-text="item.deskripsi"></p>
+              </div>
             </div>
-            <div class="p-6 bg-white">
-              <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Seduh Manual</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan peralatan seduh, dan
-                penguasaan berbagai metode seduh manual.</p>
-            </div>
-          </div>
-
-          <div class="blog-card scroll-reveal" style="animation-delay:.1s;">
-            <div class="overflow-hidden">
-              <img src="assets/images/training/hr-training-dasar-espresso-1.png" alt="Pelatihan Dasar Espresso">
-            </div>
-            <div class="p-6 bg-white">
-              <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Dasar Espresso</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Pengetahuan dasar kopi, pengenalan mesin espresso, teknik
-                ekstraksi, serta berbagai resep minuman kopi berbasis espresso.</p>
-            </div>
-          </div>
-
-          <div class="blog-card scroll-reveal" style="animation-delay:.2s;">
-            <div class="overflow-hidden">
-              <img src="assets/images/training/hr-training-roasting.png" alt="Pelatihan Dasar Roasting">
-            </div>
-            <div class="p-6 bg-white">
-              <h3 class="text-base font-extrabold uppercase tracking-wider mb-3">Dasar Roasting</h3>
-              <p class="text-gray-600 leading-relaxed text-sm">Sejarah kopi, pengenalan green beans, cara kerja mesin
-                sangrai, teknik blending, dan pengembangan profil rasa.</p>
-            </div>
-          </div>
+          </template>
 
         </div>
 
@@ -1700,6 +1561,13 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.scroll-reveal').forEach(function (el) { observer.observe(el); });
+
+    // Re-observe elements rendered by Alpine.js (x-for) after init
+    window.observeNewScrollReveal = function () {
+      document.querySelectorAll('.scroll-reveal:not(.visible)').forEach(function (el) {
+        observer.observe(el);
+      });
+    };
   </script>
 
   <!-- Topbar Date + Language Switcher -->
@@ -1743,5 +1611,274 @@
     })();
   </script>
 
-  <!-- Google Translate -->
-  <scrip
+<!-- team  -->
+ <script>
+  function teamHandler() {
+    return {
+      team: [],
+
+      async init() {
+        try {
+          const response = await fetch('data/team.json');
+          if (!response.ok) throw new Error('Gagal memuat data tim');
+          this.team = await response.json();
+        } catch (error) {
+          console.error('Error fetching team:', error);
+        }
+      }
+    }
+  }
+</script>
+
+<!-- produk -->
+<script>
+  function produkHandler() {
+    return {
+      produkList: [],
+
+      async init() {
+        try {
+          const response = await fetch('data/product.json');
+          if (!response.ok) throw new Error('Gagal memuat data produk');
+          this.produkList = await response.json();
+        } catch (error) {
+          console.error('Error fetching produk:', error);
+        }
+      }
+    }
+  }
+</script>
+
+<!-- training -->
+<script>
+  function trainingHandler() {
+    return {
+      trainingList: [],
+
+      async init() {
+        try {
+          const response = await fetch('data/training.json');
+          if (!response.ok) throw new Error('Gagal memuat data pelatihan');
+          this.trainingList = await response.json();
+        } catch (error) {
+          console.error('Error fetching training:', error);
+        }
+      }
+    }
+  }
+</script>
+
+<!-- GIS Leaflet Map -->
+<script>
+(function() {
+  // Coffee bean SVG from preloader — rendered as Leaflet DivIcon with brown pin
+  function createCoffeePinIcon() {
+    return L.divIcon({
+      className: '',
+      iconSize: [44, 56],
+      iconAnchor: [22, 56],
+      popupAnchor: [0, -58],
+      html: `
+        <div style="position:relative;width:44px;height:56px;display:flex;flex-direction:column;align-items:center;">
+          <!-- Pin body -->
+          <div style="
+            width:44px;height:44px;border-radius:50% 50% 50% 0;
+            background:#a07848;
+            transform:rotate(-45deg);
+            box-shadow:0 4px 14px rgba(107,58,31,0.45);
+            display:flex;align-items:center;justify-content:center;
+            border:2px solid #c7a17a;
+          ">
+            <!-- Coffee bean SVG rotated back -->
+            <div style="transform:rotate(45deg);">
+              <svg width="24" height="24" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#pinBeanGrad)"/>
+                <path d="M26 6 Q32 26 26 46" stroke="#6b3a1f" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <defs>
+                  <radialGradient id="pinBeanGrad" cx="38%" cy="30%" r="65%">
+                    <stop offset="0%" stop-color="#e8c07a"/>
+                    <stop offset="55%" stop-color="#b87333"/>
+                    <stop offset="100%" stop-color="#6b3a1f"/>
+                  </radialGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <!-- Pin tail -->
+          <div style="width:3px;height:12px;background:#a07848;border-radius:0 0 3px 3px;margin-top:-1px;"></div>
+        </div>
+      `
+    });
+  }
+
+  function buildSidebarCard(loc, index, map, marker) {
+    const tipeLabel = loc.tipe === 'penanaman' ? '🌱 Penanaman' : '☕ Pertanian';
+    const kopiList = loc.jenis_kopi.join(', ');
+    const card = document.createElement('div');
+    card.style.cssText = `
+      background:#fff;border-radius:10px;padding:16px 18px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.07);
+      border-left:4px solid #c7a17a;
+      cursor:pointer;
+      transition:transform 0.2s,box-shadow 0.2s;
+    `;
+    card.innerHTML = `
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c7a17a;margin-bottom:6px;">${tipeLabel}</div>
+      <div style="font-weight:700;font-size:13px;color:#1a1208;margin-bottom:4px;">${loc.nama_tempat}</div>
+      <div style="font-size:11.5px;color:#a07848;font-weight:600;margin-bottom:8px;">🫘 ${kopiList}</div>
+      <div style="font-size:12px;color:#6b7280;line-height:1.6;">${loc.deskripsi.substring(0, 100)}${loc.deskripsi.length > 100 ? '...' : ''}</div>
+    `;
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-3px)';
+      card.style.boxShadow = '0 8px 24px rgba(199,161,122,0.2)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)';
+    });
+    card.addEventListener('click', () => {
+      map.setView([loc.lat, loc.lng], 10, { animate: true });
+      marker.openPopup();
+    });
+    return card;
+  }
+
+  async function initGISMap() {
+    const mapEl = document.getElementById('gis-map');
+    const listEl = document.getElementById('gis-list');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    // Init map centered on Papua
+    const map = L.map('gis-map', {
+      center: [-3.2, 139.5],
+      zoom: 7,
+      scrollWheelZoom: false
+    });
+
+    // Tile layer — OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Load GIS data
+    let locations = [];
+    try {
+      const res = await fetch('data/gis.json');
+      if (!res.ok) throw new Error('Gagal memuat data GIS');
+      locations = await res.json();
+    } catch (err) {
+      console.error('Error loading GIS data:', err);
+      listEl.innerHTML = '<div style="color:#ef4444;font-size:13px;padding:8px;">Gagal memuat data lokasi.</div>';
+      return;
+    }
+
+    listEl.innerHTML = '';
+    const bounds = [];
+
+    locations.forEach((loc, i) => {
+      const kopiList = loc.jenis_kopi.join('<br>🫘 ');
+      const popupContent = `
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:220px;max-width:280px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <svg width="32" height="32" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+              <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#popGrad${i})"/>
+              <path d="M26 6 Q32 26 26 46" stroke="#6b3a1f" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <defs>
+                <radialGradient id="popGrad${i}" cx="38%" cy="30%" r="65%">
+                  <stop offset="0%" stop-color="#e8c07a"/>
+                  <stop offset="55%" stop-color="#b87333"/>
+                  <stop offset="100%" stop-color="#6b3a1f"/>
+                </radialGradient>
+              </defs>
+            </svg>
+            <div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c7a17a;">
+                ${loc.tipe === 'penanaman' ? 'Penanaman Kopi' : 'Pertanian Kopi'}
+              </div>
+              <div style="font-weight:800;font-size:13px;color:#1a1208;line-height:1.3;">${loc.nama_tempat}</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#a07848;font-weight:600;margin-bottom:8px;">🫘 ${kopiList}</div>
+          <div style="font-size:12px;color:#374151;line-height:1.65;border-top:1px solid rgba(199,161,122,0.25);padding-top:8px;">${loc.deskripsi}</div>
+        </div>
+      `;
+
+      const marker = L.marker([loc.lat, loc.lng], { icon: createCoffeePinIcon() })
+        .addTo(map)
+        .bindPopup(popupContent, { maxWidth: 300, className: 'highland-popup' });
+
+      bounds.push([loc.lat, loc.lng]);
+
+      // Sidebar card
+      const card = buildSidebarCard(loc, i, map, marker);
+      listEl.appendChild(card);
+    });
+
+    // Fit map to all markers
+    if (bounds.length) map.fitBounds(bounds, { padding: [40, 40] });
+  }
+
+  // Init after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGISMap);
+  } else {
+    initGISMap();
+  }
+})();
+</script>
+
+<style>
+  /* Leaflet popup custom style */
+  .highland-popup .leaflet-popup-content-wrapper {
+    border-radius: 10px;
+    border: 1.5px solid rgba(199,161,122,0.4);
+    box-shadow: 0 8px 32px rgba(107,58,31,0.18);
+    padding: 0;
+  }
+  .highland-popup .leaflet-popup-content {
+    margin: 14px 16px;
+  }
+  .highland-popup .leaflet-popup-tip-container {
+    margin-top: -1px;
+  }
+  .highland-popup .leaflet-popup-tip {
+    background: #fff;
+  }
+  .highland-popup .leaflet-popup-close-button {
+    color: #c7a17a !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+  }
+</style>
+
+
+
+  <!-- Gallery Handler — must be before Alpine.js -->
+ <script>
+  function galleryHandler() {
+    return {
+      isOpen: false,
+      selectedImg: {},
+      allImages: [], // Mulai dengan array kosong
+      
+      // Fungsi untuk mengambil data dari file JSON
+      async init() {
+        try {
+          const response = await fetch('data/gallery.json');
+          if (!response.ok) throw new Error('Gagal memuat data galeri');
+          this.allImages = await response.json();
+        } catch (error) {
+          console.error('Error fetching gallery:', error);
+        }
+      },
+      
+      openModal(img) { 
+        this.selectedImg = img; 
+        this.isOpen = true; 
+      }
+    }
+  }
+</script>
+
+</body>

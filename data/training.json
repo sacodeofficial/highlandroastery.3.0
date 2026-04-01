@@ -1,0 +1,23 @@
+[
+  {
+    "id": "seduh-manual",
+    "judul": "Seduh Manual",
+    "foto": "assets/images/training/hr-training-seduh-manual.png",
+    "deskripsi": "Pengetahuan dasar kopi, pengenalan peralatan seduh, dan penguasaan berbagai metode seduh manual.",
+    "delay": "0s"
+  },
+  {
+    "id": "dasar-espresso",
+    "judul": "Dasar Espresso",
+    "foto": "assets/images/training/hr-training-dasar-espresso-1.png",
+    "deskripsi": "Pengetahuan dasar kopi, pengenalan mesin espresso, teknik ekstraksi, serta berbagai resep minuman kopi berbasis espresso.",
+    "delay": "0.1s"
+  },
+  {
+    "id": "dasar-roasting",
+    "judul": "Dasar Roasting",
+    "foto": "assets/images/training/hr-training-roasting.png",
+    "deskripsi": "Sejarah kopi, pengenalan green beans, cara kerja mesin sangrai, teknik blending, dan pengembangan profil rasa.",
+    "delay": "0.2s"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "peneli",
+    "nama": "Peneli",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-peneli.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Peneli.%0ANama%20saya%20...",
+    "delay": "0s"
+  },
+  {
+    "id": "kiwirok",
+    "nama": "Kiwirok",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-kiwirok.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kiwirok.%0ANama%20saya%20...",
+    "delay": "0.05s"
+  },
+  {
+    "id": "okbab",
+    "nama": "Okbab",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-okbab.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okbab.%0ANama%20saya%20...",
+    "delay": "0.1s"
+  },
+  {
+    "id": "sabin",
+    "nama": "Sabin",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-sabin.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Sabin.%0ANama%20saya%20...",
+    "delay": "0.15s"
+  },
+  {
+    "id": "tiom",
+    "nama": "Tiom",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-tiom.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tiom.%0ANama%20saya%20...",
+    "delay": "0.2s"
+  },
+  {
+    "id": "tangma",
+    "nama": "Tangma",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-tangma.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Tangma.%0ANama%20saya%20...",
+    "delay": "0.25s"
+  },
+  {
+    "id": "kurima",
+    "nama": "Kurima",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-kurima.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Kurima.%0ANama%20saya%20...",
+    "delay": "0.3s"
+  },
+  {
+    "id": "okhika",
+    "nama": "Okhika",
+    "foto": "assets/images/products/mockup-hr-coffee-200g-okhika.png",
+    "harga_200g": "Rp 90.000",
+    "harga_1kg": "Rp 300.000",
+    "wa_pesan": "https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20memesan%20Kopi%20Okhika.%0ANama%20saya%20...",
+    "delay": "0.35s"
+  }
+]

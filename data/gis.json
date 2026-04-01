@@ -1,0 +1,26 @@
+[
+  {
+    "nama_tempat": "Kampung Kayo Batu",
+    "jenis_kopi": ["Kopi Liberika", "Kopi Robusta"],
+    "deskripsi": "Kegiatan penanaman adalah kegiatan lanjutan dari kegiatan pelatihan barista yang dilakukan di Kampung Kayo Batu. Kegiatan ini disponsori oleh Bapak Niko Makanuay selaku pemilik lahan. Pada kegiatan ini tim berhasil menanam 118 bibit Kopi yang terdiri dari 2 jenis yaitu Kopi Liberika dan Kopi Robusta. Semoga apa yang tim lakukan hari ini dapat menjadi berkat untuk anak cucu di hari yang akan datang. Waniambey.",
+    "tipe": "penanaman",
+    "lat": -3.6853,
+    "lng": 138.7922
+  },
+  {
+    "nama_tempat": "Kampung Mekari, Distrik Kemtuk, Kab. Jayapura",
+    "jenis_kopi": ["Kopi Robusta"],
+    "deskripsi": "Budidaya Kopi di Desa Mekari, Distrik Kemtuk, Kabupaten Jayapura",
+    "tipe": "pertanian",
+    "lat": -2.5817,
+    "lng": 140.5017
+  },
+  {
+    "nama_tempat": "Wamena",
+    "jenis_kopi": ["Kopi Arabika"],
+    "deskripsi": "Kopi Arabika asal Wamena, ditanam di dataran tinggi Pegunungan Tengah Papua dengan ketinggian lebih dari 1.600 mdpl, menghasilkan biji kopi dengan cita rasa kompleks dan aroma yang khas.",
+    "tipe": "penanaman",
+    "lat": -3.9816,
+    "lng": 138.9519
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Agus Elopore",
+    "role": "Barista",
+    "photo": "assets/images/team/Agus Elopore.png",
+    "delay": "0s"
+  },
+  {
+    "name": "James Amin Elopore",
+    "role": "Barista",
+    "photo": "assets/images/team/James Amin Elopore.png",
+    "delay": "0.1s"
+  },
+  {
+    "name": "Herman S. Meage",
+    "role": "Barista",
+    "photo": "assets/images/team/Herman S. Meage.png",
+    "delay": "0.2s"
+  },
+  {
+    "name": "Yunus T. Meage",
+    "role": "Asisten Roaster",
+    "photo": "assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg",
+    "delay": "0.3s"
+  },
+  {
+    "name": "Amos E. Wetipo",
+    "role": "Manajer",
+    "photo": "assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg",
+    "delay": "0.4s"
+  },
+  {
+    "name": "Septinus Wetipo",
+    "role": "Barista",
+    "photo": "assets/images/team/Septinus Wetipo - Barista.jpeg",
+    "delay": "0.5s"
+  }
+]
