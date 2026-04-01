@@ -592,27 +592,37 @@
     document.querySelectorAll('.scroll-reveal').forEach(function(el) { observer.observe(el); });
   </script>
 
+  <!-- Topbar Date + Language Switcher -->
   <script>
     (function () {
-      var days_id   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-      var days_en   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var months_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-      var months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-      var now = new Date(); var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
+      var days_id = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      var days_en = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var months_id = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      var months_en = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var now = new Date();
+      var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
       var currentLang = 'id';
+
       function formatDate(lang) {
         if (lang === 'en') return days_en[d] + ', ' + months_en[m] + ' ' + dt + ', ' + y;
         return days_id[d] + ', ' + dt + ' ' + months_id[m] + ' ' + y;
       }
-      function updateDate(lang) { var el = document.getElementById('topbar-date-text'); if (el) el.textContent = formatDate(lang); }
+      function updateDate(lang) {
+        var el = document.getElementById('topbar-date-text');
+        if (el) el.textContent = formatDate(lang);
+      }
       updateDate(currentLang);
-      window.switchLang = function(lang) {
-        currentLang = lang; updateDate(lang);
+
+      window.switchLang = function (lang) {
+        currentLang = lang;
+        updateDate(lang);
         document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         document.getElementById('lang-id').classList.toggle('active', lang === 'id');
         var select = document.querySelector('.goog-te-combo');
-        if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
-        else {
+        if (select) {
+          select.value = lang;
+          select.dispatchEvent(new Event('change'));
+        } else {
           var expires = new Date(Date.now() + 86400000).toUTCString();
           var val = lang === 'en' ? '/id/en' : '/id/id';
           document.cookie = 'googtrans=' + val + '; expires=' + expires + '; path=/';

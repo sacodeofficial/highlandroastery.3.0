@@ -738,7 +738,7 @@
               <path
                 d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg><span class="__cf_email__"
-              data-cfemail="11787f777e51797876797d707f75637e7062657463683f727e7c">[email&#160;protected]</span>
+              data-cfemail="11787f777e51797876797d707f75637e7062657463683f727e7c">info@highlandroastery.com</span>
           </a>
           <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"
             class="hidden md:inline-block"></span>
@@ -1480,13 +1480,13 @@
                 <strong class="text-xs uppercase tracking-wider text-white">Email:</strong><br>
                 <a href="/cdn-cgi/l/email-protection#30595e565f70585957585c515e54425f5143445542491e535f5d"
                   style="color:#c7a17a;"><span class="__cf_email__"
-                    data-cfemail="fa93949c95ba92939d92969b949e88959b898e9f8883d4999597">[email&#160;protected]</span></a>
+                    data-cfemail="fa93949c95ba92939d92969b949e88959b898e9f8883d4999597">admin@highlandroastery.com</span></a>
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Email Alternatif:</strong><br>
                 <a href="/cdn-cgi/l/email-protection#91e3fef0e2e5f4e3e8d1f9f8f6f9fdf0fff5e3fef0e2e5f4e3e8bff2fefc"
                   style="color:#c7a17a;"><span class="__cf_email__"
-                    data-cfemail="22504d43515647505b624a4b454a4e434c46504d43515647505b0c414d4f">[email&#160;protected]</span></a>
+                    data-cfemail="22504d43515647505b624a4b454a4e434c46504d43515647505b0c414d4f">info@highlandroastery.com</span></a>
               </li>
               <li>
                 <strong class="text-xs uppercase tracking-wider text-white">Kode Pos:</strong> 99352
@@ -1714,20 +1714,44 @@
   function buildSidebarCard(loc, index, map, marker) {
     const tipeLabel = loc.tipe === 'penanaman' ? '🌱 Penanaman' : '☕ Pertanian';
     const kopiList = loc.jenis_kopi.join(', ');
+    const slug = loc.nama_tempat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const detailUrl = `lokasi-detail.html?id=${loc.id || slug}`;
     const card = document.createElement('div');
     card.style.cssText = `
       background:#fff;border-radius:10px;padding:16px 18px;
       box-shadow:0 2px 12px rgba(0,0,0,0.07);
       border-left:4px solid #c7a17a;
-      cursor:pointer;
       transition:transform 0.2s,box-shadow 0.2s;
     `;
     card.innerHTML = `
       <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c7a17a;margin-bottom:6px;">${tipeLabel}</div>
       <div style="font-weight:700;font-size:13px;color:#1a1208;margin-bottom:4px;">${loc.nama_tempat}</div>
       <div style="font-size:11.5px;color:#a07848;font-weight:600;margin-bottom:8px;">🫘 ${kopiList}</div>
-      <div style="font-size:12px;color:#6b7280;line-height:1.6;">${loc.deskripsi.substring(0, 100)}${loc.deskripsi.length > 100 ? '...' : ''}</div>
+      <div style="font-size:12px;color:#6b7280;line-height:1.6;margin-bottom:12px;">${loc.deskripsi.substring(0, 100)}${loc.deskripsi.length > 100 ? '...' : ''}</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button onclick="event.stopPropagation()" data-fly="1" style="
+          flex:1;background:transparent;border:1.5px solid #c7a17a;color:#a07848;
+          font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+          padding:6px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;
+        " onmouseover="this.style.background='rgba(199,161,122,0.1)'" onmouseout="this.style.background='transparent'">
+          📍 Lihat Peta
+        </button>
+        <a href="${detailUrl}" style="
+          flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;
+          background:#c7a17a;color:#fff;font-size:10.5px;font-weight:700;
+          letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
+          padding:6px 10px;border-radius:4px;transition:background 0.2s;
+        " onmouseover="this.style.background='#a07848'" onmouseout="this.style.background='#c7a17a'">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 17l5-5-5-5v10z"/></svg>
+          Detail
+        </a>
+      </div>
     `;
+    // Fly-to on "Lihat Peta" button
+    card.querySelector('[data-fly]').addEventListener('click', () => {
+      map.setView([loc.lat, loc.lng], 10, { animate: true });
+      marker.openPopup();
+    });
     card.addEventListener('mouseenter', () => {
       card.style.transform = 'translateY(-3px)';
       card.style.boxShadow = '0 8px 24px rgba(199,161,122,0.2)';
@@ -1735,10 +1759,6 @@
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
       card.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)';
-    });
-    card.addEventListener('click', () => {
-      map.setView([loc.lat, loc.lng], 10, { animate: true });
-      marker.openPopup();
     });
     return card;
   }
@@ -1778,6 +1798,7 @@
 
     locations.forEach((loc, i) => {
       const kopiList = loc.jenis_kopi.join('<br>🫘 ');
+      const slug = loc.nama_tempat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       const popupContent = `
         <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:220px;max-width:280px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
@@ -1800,7 +1821,16 @@
             </div>
           </div>
           <div style="font-size:12px;color:#a07848;font-weight:600;margin-bottom:8px;">🫘 ${kopiList}</div>
-          <div style="font-size:12px;color:#374151;line-height:1.65;border-top:1px solid rgba(199,161,122,0.25);padding-top:8px;">${loc.deskripsi}</div>
+          <div style="font-size:12px;color:#374151;line-height:1.65;border-top:1px solid rgba(199,161,122,0.25);padding-top:8px;">${loc.deskripsi.substring(0,100)}${loc.deskripsi.length > 100 ? '...' : ''}</div>
+          <a href="lokasi-detail.html?id=${loc.id || slug}" style="
+            display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+            background:#c7a17a;color:#fff;font-size:11px;font-weight:700;
+            letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
+            padding:7px 14px;border-radius:4px;transition:background 0.2s;
+          " onmouseover="this.style.background='#a07848'" onmouseout="this.style.background='#c7a17a'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 17l5-5-5-5v10z"/></svg>
+            Lihat Detail
+          </a>
         </div>
       `;
 
@@ -1880,5 +1910,13 @@
     }
   }
 </script>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'id', includedLanguages: 'en,id', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <div id="google_translate_element" style="display:none;"></div>
 
 </body>
