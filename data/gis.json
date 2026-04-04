@@ -22,7 +22,7 @@
   {
     "id": "genyem",
     "nama_tempat": "Genyem",
-    "jenis_kopi": ["Kopi Robusta", "Kopi Arabika"],
+    "jenis_kopi": ["Kopi Robusta"],
     "deskripsi": "Genyem merupakan ibu kota Distrik Nimboran, Kabupaten Jayapura. Kawasan ini dikenal sebagai salah satu sentra pertanian di Papua dengan potensi besar pengembangan kopi lokal.",
     "tipe": "pertanian",
     "foto": "assets/images/location/genyem.webp",
