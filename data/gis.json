@@ -1,21 +1,45 @@
 [
   {
+    "id": "kampung-kayo-batu",
     "nama_tempat": "Kampung Kayo Batu",
     "jenis_kopi": ["Kopi Liberika", "Kopi Robusta"],
     "deskripsi": "Kegiatan penanaman adalah kegiatan lanjutan dari kegiatan pelatihan barista yang dilakukan di Kampung Kayo Batu. Kegiatan ini disponsori oleh Bapak Niko Makanuay selaku pemilik lahan. Pada kegiatan ini tim berhasil menanam 118 bibit Kopi yang terdiri dari 2 jenis yaitu Kopi Liberika dan Kopi Robusta. Semoga apa yang tim lakukan hari ini dapat menjadi berkat untuk anak cucu di hari yang akan datang. Waniambey.",
     "tipe": "penanaman",
+    "foto": "assets/images/location/kayo batu.webp",
     "lat": -3.6853,
     "lng": 138.7922
   },
   {
+    "id": "biak-timur-kajasbo",
+    "nama_tempat": "Biak Timur, Kampung Kajasbo",
+    "jenis_kopi": ["Kopi Robusta"],
+    "deskripsi": "Kegiatan pertanian dan penanaman kopi di Kampung Kajasbo, Biak Timur. Lokasi ini merupakan salah satu daerah pengembangan kopi Robusta di wilayah Biak Numfor, Papua.",
+    "tipe": "pertanian",
+    "foto": "assets/images/location/biak.webp",
+    "lat": -1.1833,
+    "lng": 136.3167
+  },
+  {
+    "id": "genyem",
+    "nama_tempat": "Genyem",
+    "jenis_kopi": ["Kopi Robusta", "Kopi Arabika"],
+    "deskripsi": "Genyem merupakan ibu kota Distrik Nimboran, Kabupaten Jayapura. Kawasan ini dikenal sebagai salah satu sentra pertanian di Papua dengan potensi besar pengembangan kopi lokal.",
+    "tipe": "pertanian",
+    "foto": "assets/images/location/genyem.webp",
+    "lat": -2.6167,
+    "lng": 140.1833
+  },
+  {
+    "id": "kampung-mekari",
     "nama_tempat": "Kampung Mekari, Distrik Kemtuk, Kab. Jayapura",
     "jenis_kopi": ["Kopi Robusta"],
-    "deskripsi": "Budidaya Kopi di Desa Mekari, Distrik Kemtuk, Kabupaten Jayapura",
+    "deskripsi": "Budidaya Kopi di Desa Mekari, Distrik Kemtuk, Kabupaten Jayapura.",
     "tipe": "pertanian",
     "lat": -2.5817,
     "lng": 140.5017
   },
   {
+    "id": "wamena",
     "nama_tempat": "Wamena",
     "jenis_kopi": ["Kopi Arabika"],
     "deskripsi": "Kopi Arabika asal Wamena, ditanam di dataran tinggi Pegunungan Tengah Papua dengan ketinggian lebih dari 1.600 mdpl, menghasilkan biji kopi dengan cita rasa kompleks dan aroma yang khas.",

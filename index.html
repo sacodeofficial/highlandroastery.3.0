@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="id">
-
+ 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Highland Roastery</title>
-
+ 
   <meta property="og:locale" content="id_ID" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Highland Roastery" />
@@ -14,33 +14,33 @@
   <meta property="og:url" content="https://highlandroastery.com" />
   <meta property="og:site_name" content="Highland Roastery" />
   <meta property="og:image" content="https://highlandroastery.com/assets/images/logo-hr.png" />
-
+ 
   <link rel="shortcut icon" href="assets/images/logo/favourite_icon.png">
-
+ 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap"
     rel="stylesheet">
-
+ 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
+ 
   <!-- Font Awesome removed — replaced with inline SVG icons -->
-
-
-
+ 
+ 
+ 
   <!-- Leaflet.js -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-
+ 
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+ 
   <!-- Flag Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" />
-
+ 
   <script>
     tailwind.config = {
       theme: {
@@ -67,7 +67,7 @@
       }
     }
   </script>
-
+ 
   <style>
     /* ===== Global Font ===== */
     *,
@@ -75,47 +75,47 @@
     *::after {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
-
+ 
     /* Alpine cloak */
     [x-cloak] {
       display: none !important;
     }
-
+ 
     /* ===== SCROLLBAR ===== */
     ::-webkit-scrollbar {
       width: 6px;
     }
-
+ 
     ::-webkit-scrollbar-track {
       background: #1a1208;
     }
-
+ 
     ::-webkit-scrollbar-thumb {
       background: #c7a17a;
       border-radius: 3px;
     }
-
+ 
     /* ===== MARQUEE ===== */
     @keyframes marquee {
       0% {
         transform: translateX(0);
       }
-
+ 
       100% {
         transform: translateX(-50%);
       }
     }
-
+ 
     .animate-marquee {
       display: flex;
       width: max-content;
       animation: marquee 70s linear infinite;
     }
-
+ 
     .animate-marquee:hover {
       animation-play-state: paused;
     }
-
+ 
     /* ===== GALLERY CARD ===== */
     .gallery-card {
       position: relative;
@@ -128,12 +128,12 @@
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
     }
-
+ 
     .gallery-card:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 14px 44px rgba(199, 161, 122, 0.22);
     }
-
+ 
     .gallery-card img {
       width: 100%;
       height: 100%;
@@ -141,12 +141,12 @@
       filter: grayscale(30%) brightness(0.85);
       transition: filter 0.6s ease, transform 0.6s ease;
     }
-
+ 
     .gallery-card:hover img {
       filter: grayscale(0%) brightness(1);
       transform: scale(1.08);
     }
-
+ 
     .gallery-overlay {
       position: absolute;
       inset: 0;
@@ -158,18 +158,18 @@
       opacity: 0;
       transition: opacity 0.4s ease;
     }
-
+ 
     .gallery-card:hover .gallery-overlay {
       opacity: 1;
     }
-
+ 
     @media (max-width: 768px) {
       .gallery-card {
         width: 260px;
         height: 210px;
       }
     }
-
+ 
     /* ===== SECTION TRANSITIONS ===== */
     .wave-bottom-white::after {
       content: '';
@@ -183,7 +183,7 @@
       z-index: 2;
       pointer-events: none;
     }
-
+ 
     .zigzag-bottom-dark::after {
       content: '';
       position: absolute;
@@ -196,7 +196,7 @@
       z-index: 2;
       pointer-events: none;
     }
-
+ 
     .curve-bottom-white::after {
       content: '';
       position: absolute;
@@ -209,7 +209,7 @@
       z-index: 1;
       pointer-events: none;
     }
-
+ 
     .diagonal-bottom-dark::after {
       content: '';
       position: absolute;
@@ -222,7 +222,7 @@
       z-index: 2;
       pointer-events: none;
     }
-
+ 
     .gallery-ellipse-bottom::after {
       content: '';
       position: absolute;
@@ -234,7 +234,7 @@
       clip-path: ellipse(55% 100% at 50% 100%);
       z-index: 1;
     }
-
+ 
     /* ===== NAV LINK ===== */
     .nav-link {
       font-size: 13px;
@@ -245,11 +245,11 @@
       transition: color 0.2s ease;
       padding: 6px 12px;
     }
-
+ 
     .nav-link:hover {
       color: #c7a17a;
     }
-
+ 
     /* ===== BTN PRIMARY ===== */
     .btn-primary-hr {
       background: #c7a17a;
@@ -264,13 +264,13 @@
       align-items: center;
       gap: 8px;
     }
-
+ 
     .btn-primary-hr:hover {
       background: #a07848;
       transform: translateY(-2px);
       color: #fff;
     }
-
+ 
     .btn-border-hr {
       border: 2px solid #1a1208;
       color: #1a1208;
@@ -285,12 +285,12 @@
       gap: 8px;
       background: transparent;
     }
-
+ 
     .btn-border-hr:hover {
       background: #1a1208;
       color: #fff;
     }
-
+ 
     .btn-border-white-hr {
       border: 2px solid #fff;
       color: #1a1208;
@@ -305,12 +305,12 @@
       align-items: center;
       gap: 8px;
     }
-
+ 
     .btn-border-white-hr:hover {
       background: transparent;
       color: #fff;
     }
-
+ 
     /* ===== HERO ===== */
     .hero-big-text {
       font-size: clamp(60px, 10vw, 130px);
@@ -318,7 +318,7 @@
       line-height: 1.05;
       text-transform: uppercase;
     }
-
+ 
     .section-deco-text {
       font-size: clamp(50px, 8vw, 120px);
       font-weight: 900;
@@ -333,7 +333,7 @@
       transform: translateX(-50%);
       white-space: nowrap;
     }
-
+ 
     /* ===== SHOP CARD ===== */
     .shop-card {
       background: rgba(255, 255, 255, 0.06);
@@ -343,24 +343,24 @@
       padding: 28px 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-
+ 
     .shop-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
       border-color: rgba(199, 161, 122, 0.5);
     }
-
+ 
     .shop-card img {
       max-width: 160px;
       margin: 0 auto 16px;
       display: block;
       transition: transform 0.4s ease;
     }
-
+ 
     .shop-card:hover img {
       transform: scale(1.05);
     }
-
+ 
     /* ===== TEAM CARD ===== */
     .team-card {
       background: #fff;
@@ -369,12 +369,12 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
+ 
     .team-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
     }
-
+ 
     /* ===== BLOG CARD ===== */
     .blog-card {
       border-radius: 10px;
@@ -382,64 +382,64 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
+ 
     .blog-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
     }
-
+ 
     .blog-card img {
       width: 100%;
       height: 220px;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
-
+ 
     .blog-card:hover img {
       transform: scale(1.05);
     }
-
+ 
     /* ===== FEATURE BOX ===== */
     .feature-box {
       text-align: center;
       padding: 40px 28px;
       transition: transform 0.3s ease;
     }
-
+ 
     .feature-box:hover {
       transform: translateY(-6px);
     }
-
+ 
     /* ===== ABOUT INFO LIST ===== */
     .about-list li {
       border-bottom: 1px solid rgba(199, 161, 122, 0.2);
       padding: 18px 0;
     }
-
+ 
     .about-list li:last-child {
       border-bottom: none;
     }
-
+ 
     /* ===== FOOTER LINKS ===== */
     .footer-list li {
       padding: 7px 0;
       border-bottom: 1px solid rgba(199, 161, 122, 0.12);
     }
-
+ 
     .footer-list li:last-child {
       border-bottom: none;
     }
-
+ 
     .footer-list a {
       color: rgba(255, 255, 255, 0.75);
       text-decoration: none;
       transition: color 0.2s;
     }
-
+ 
     .footer-list a:hover {
       color: #c7a17a;
     }
-
+ 
     /* ===== SOCIAL ICONS ===== */
     .social-icon {
       width: 38px;
@@ -454,13 +454,13 @@
       transition: background 0.2s, color 0.2s, border-color 0.2s;
       text-decoration: none;
     }
-
+ 
     .social-icon:hover {
       background: #c7a17a;
       border-color: #c7a17a;
       color: #fff;
     }
-
+ 
     /* ===== FAB ===== */
     .fab-btn {
       width: 48px;
@@ -475,13 +475,13 @@
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-
+ 
     .fab-btn:hover {
       transform: translateY(-3px) scale(1.1);
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
       color: #fff;
     }
-
+ 
     /* ===== LANG BTN ===== */
     .lang-btn {
       border: 1px solid rgba(199, 161, 122, 0.35);
@@ -496,14 +496,14 @@
       background: none;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
-
+ 
     .lang-btn:hover,
     .lang-btn.active {
       background: #c7a17a;
       border-color: #c7a17a;
       color: #fff;
     }
-
+ 
     /* ===== CHIP ===== */
     .chip {
       display: flex;
@@ -515,7 +515,7 @@
       padding: 10px 20px 10px 10px;
       margin-top: 24px;
     }
-
+ 
     .chip img {
       width: 48px;
       height: 48px;
@@ -523,7 +523,7 @@
       object-fit: cover;
       border: 2px solid #c7a17a;
     }
-
+ 
     /* ===== PRELOADER ===== */
     #preloader {
       position: fixed;
@@ -535,12 +535,12 @@
       z-index: 99999;
       transition: opacity 0.5s ease;
     }
-
+ 
     #preloader.loaded {
       opacity: 0;
       pointer-events: none;
     }
-
+ 
     .preloader-wrap {
       position: relative;
       width: 80px;
@@ -549,26 +549,26 @@
       align-items: center;
       justify-content: center;
     }
-
+ 
     .coffee-bean-loader {
       animation: bean-pulse 1.1s ease-in-out infinite;
       will-change: transform;
     }
-
+ 
     @keyframes bean-pulse {
-
+ 
       0%,
       100% {
         transform: scale(0.75);
         opacity: 0.6;
       }
-
+ 
       50% {
         transform: scale(1);
         opacity: 1;
       }
     }
-
+ 
     .preloader-ring {
       position: absolute;
       inset: 0;
@@ -578,24 +578,24 @@
       animation: ring-spin 1.1s linear infinite;
       will-change: transform;
     }
-
+ 
     @keyframes ring-spin {
       to {
         transform: rotate(360deg);
       }
     }
-
+ 
     /* ===== MOBILE NAV ===== */
     @media (max-width: 991px) {
       .mobile-menu {
         display: none;
       }
-
+ 
       .mobile-menu.open {
         display: block;
       }
     }
-
+ 
     /* Google Translate hide */
     #google_translate_element,
     .goog-te-banner-frame,
@@ -603,37 +603,37 @@
     body>.skiptranslate {
       display: none !important;
     }
-
+ 
     body {
       top: 0 !important;
     }
-
+ 
     /* Section padding */
     .sec-pt {
       padding-top: 90px;
     }
-
+ 
     .sec-pb {
       padding-bottom: 90px;
     }
-
+ 
     .sec-py {
       padding-top: 90px;
       padding-bottom: 90px;
     }
-
+ 
     /* Scroll animation */
     .scroll-reveal {
       opacity: 0;
       transform: translateY(28px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
-
+ 
     .scroll-reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
+ 
     /* Alpine-rendered cards fade-in (x-for items rendered after DOM ready) */
     @keyframes alpineFadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -642,7 +642,7 @@
     .alpine-card {
       animation: alpineFadeUp 0.55s ease both;
     }
-
+ 
     /* Year badge */
     .year-badge {
       position: absolute;
@@ -657,9 +657,9 @@
     }
   </style>
 </head>
-
+ 
 <body class="font-sans bg-white text-gray-900">
-
+ 
   <!-- PRELOADER -->
   <div id="preloader">
     <div class="preloader-wrap">
@@ -678,7 +678,7 @@
       </svg>
     </div>
   </div>
-
+ 
   <!-- ===== FLOATING ACTION BUTTONS ===== -->
   <div class="fixed bottom-6 right-5 flex flex-col items-center gap-2.5 z-[9999]">
     <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="fab-btn"
@@ -710,13 +710,13 @@
       </svg>
     </button>
   </div>
-
+ 
   <!-- ===== TOPBAR ===== -->
   <div class="relative z-[1050]"
     style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
     <div class="container mx-auto px-4 max-w-screen-xl">
       <div class="flex items-center justify-between flex-wrap gap-y-2">
-
+ 
         <!-- Left -->
         <div class="flex items-center gap-4 flex-wrap text-[rgba(255,255,255,0.75)]">
           <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors"
@@ -729,17 +729,7 @@
             </svg>+62 821-9925-3560
           </a>
           <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"></span>
-          <a href="/cdn-cgi/l/email-protection#0960676f664961606e616568676d7b66687a7d6c7b70276a6664"
-            class="topbar-email flex items-center gap-1.5 hover:text-coklat transition-colors hidden sm:flex"
-            style="color:rgba(255,255,255,0.75); text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
-              aria-hidden="true">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-            </svg><span class="__cf_email__"
-              data-cfemail="11787f777e51797876797d707f75637e7062657463683f727e7c">info@highlandroastery.com</span>
-          </a>
+
           <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"
             class="hidden md:inline-block"></span>
           <span class="hidden md:flex items-center gap-1.5">
@@ -752,7 +742,7 @@
             <span id="topbar-date-text"></span>
           </span>
         </div>
-
+ 
         <!-- Right: Language Switcher -->
         <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -765,18 +755,18 @@
           <span style="color:rgba(199,161,122,0.4);font-size:11px;">|</span>
           <button class="lang-btn" id="lang-id" onclick="switchLang('id')">Bahasa Indonesia</button>
         </div>
-
+ 
       </div>
     </div>
   </div>
   <!-- TOPBAR end -->
-
-
+ 
+ 
   <!-- ===== HEADER ===== -->
   <header class="sticky top-0 z-[1040] bg-white shadow-sm" x-data="{ mobileOpen: false }">
     <div class="container mx-auto px-4 max-w-screen-xl">
       <div class="flex items-center justify-between py-3">
-
+ 
         <!-- Logo -->
         <a href="index.html" class="flex items-center gap-2">
           <img src="./assets/images/logo-hr.png" alt="Highland Roastery" class="h-14 w-auto">
@@ -787,7 +777,7 @@
               &bull; Good Farmer &bull; Better Quality</span>
           </div>
         </a>
-
+ 
         <!-- Desktop Nav -->
         <nav class="hidden lg:flex items-center gap-1">
           <a class="nav-link" href="#beranda">BERANDA</a>
@@ -797,7 +787,7 @@
           <a class="nav-link" href="#tim-barista">TIM BARISTA</a>
           <a class="nav-link" href="#hubungi-kami">HUBUNGI KAMI</a>
         </nav>
-
+ 
         <!-- Mobile Hamburger -->
         <button class="lg:hidden flex flex-col gap-1.5 p-2" @click="mobileOpen = !mobileOpen" aria-label="Menu">
           <span class="block w-6 h-0.5 bg-gray-800 transition-all"
@@ -806,9 +796,9 @@
           <span class="block w-6 h-0.5 bg-gray-800 transition-all"
             :class="mobileOpen ? '-rotate-45 -translate-y-2' : ''"></span>
         </button>
-
+ 
       </div>
-
+ 
       <!-- Mobile Nav -->
       <nav x-show="mobileOpen" x-cloak class="lg:hidden border-t border-gray-100 py-4 flex flex-col gap-1">
         <a class="nav-link block" href="#beranda" @click="mobileOpen=false">BERANDA</a>
@@ -821,17 +811,17 @@
     </div>
   </header>
   <!-- HEADER end -->
-
-
+ 
+ 
   <main>
-
+ 
     <!-- ===== HERO / BANNER ===== -->
     <section class="relative overflow-hidden min-h-screen flex items-center" id="beranda"
       style="background-image:url('img/hr-banner-bg.png'); background-size:cover; background-position:center;">
       <!-- Overlay -->
       <div class="absolute inset-0"
         style="background:linear-gradient(135deg,rgba(13,11,9,0.82) 0%,rgba(26,18,8,0.6) 60%,transparent 100%);"></div>
-
+ 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10 py-24">
         <div class="grid grid-cols-12 gap-6 items-center">
           <div class="col-span-12 lg:col-span-7">
@@ -860,7 +850,7 @@
                   </svg>Produk Kopi Papua
                 </a>
               </div>
-
+ 
               <!-- Stats -->
               <div class="flex flex-wrap gap-8 mt-12 scroll-reveal" style="animation-delay:.3s;">
                 <div>
@@ -882,7 +872,7 @@
           </div>
         </div>
       </div>
-
+ 
       <!-- Deco image -->
       <!-- <div class="absolute right-0 bottom-0 w-2/5 opacity-90 pointer-events-none hidden lg:block">
         <img src="assets/images/banner/img_01.png" alt="Cangkir Kopi Highland Roastery" class="w-full">
@@ -890,22 +880,22 @@
       <div class="absolute left-4 top-1/3 opacity-30 pointer-events-none hidden lg:block">
         <img src="assets/images/decorations/leaf_01.png" alt="" class="w-32">
       </div>
-
+ 
       <!-- Big deco text -->
       <div class="section-deco-text">Highland</div>
     </section>
     <!-- HERO end -->
-
-
+ 
+ 
     <!-- ===== GALERI KEGIATAN ===== -->
     <section class="relative overflow-hidden gallery-ellipse-bottom" id="galeri" x-data="galleryHandler()"
       x-init="init()"
       style="background:linear-gradient(160deg,#0d0b09 0%,#1a1208 40%,#231a0e 70%,#0d0b09 100%); padding:90px 0 100px;">
-
+ 
       <div class="absolute inset-0 pointer-events-none"
         style="background:radial-gradient(ellipse 60% 40% at 20% 50%, rgba(199,161,122,0.07) 0%,transparent 70%), radial-gradient(ellipse 40% 60% at 80% 30%,rgba(180,120,60,0.05) 0%,transparent 70%);">
       </div>
-
+ 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10 text-center mb-12">
         <h2 class="uppercase font-extrabold text-white scroll-reveal"
           style="font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:0.12em;">
@@ -920,10 +910,10 @@
           dari pegunungan Papua.
         </p>
       </div>
-
+ 
       <div class="overflow-hidden relative z-10">
         <div class="animate-marquee" style="gap:22px; padding:10px 0 14px;">
-
+ 
           <template x-for="(img, index) in allImages" :key="'a-'+index">
             <div class="gallery-card" @click="openModal(img)">
               <img :src="img.url" :alt="img.caption">
@@ -940,7 +930,7 @@
               </div>
             </div>
           </template>
-
+ 
           <template x-for="(img, index) in allImages" :key="'b-'+index">
             <div class="gallery-card" @click="openModal(img)">
               <img :src="img.url" :alt="img.caption">
@@ -957,21 +947,21 @@
               </div>
             </div>
           </template>
-
+ 
         </div>
       </div>
-
+ 
       <template x-teleport="body">
         <div x-show="isOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
           x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
           x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
           @keydown.escape.window="isOpen = false" class="fixed inset-0 flex flex-col items-center justify-center p-5"
           style="z-index:10000; background:rgba(8,6,4,0.97); backdrop-filter:blur(10px);" x-cloak>
-
+ 
           <button @click="isOpen = false"
             class="absolute top-4 right-6 text-white text-6xl font-thin leading-none cursor-pointer transition-all hover:text-[#c7a17a] z-10"
             style="background:none; border:none;" aria-label="Tutup galeri">&times;</button>
-
+ 
           <div class="flex flex-col items-center w-full h-full justify-center" @click.self="isOpen = false">
             <img :src="selectedImg.url" :alt="selectedImg.caption" x-show="isOpen"
               x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
@@ -988,14 +978,14 @@
         </div>
       </template>
     </section>
-
+ 
     <!-- GALERI end -->
-
-
+ 
+ 
     <!-- ===== LOKASI PELATIHAN & PENANAMAN KOPI ===== -->
     <section class="relative sec-py" id="lokasi-kopi" style="background:#fdfaf7;">
       <div class="container mx-auto px-4 max-w-screen-xl">
-
+ 
         <!-- Title -->
         <div class="text-center mb-12">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
@@ -1014,31 +1004,26 @@
             di berbagai wilayah Papua 
           </p>
         </div>
-
-        <!-- Map + Legend layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start scroll-reveal" style="animation-delay:.3s;">
-
-          <!-- Map -->
-          <div class="lg:col-span-2">
-            <div id="gis-map" style="height:480px; border-radius:12px; border:2px solid rgba(199,161,122,0.4); box-shadow:0 8px 32px rgba(0,0,0,0.1); z-index:1;"></div>
-          </div>
-
-          <!-- Location list sidebar -->
-          <div class="space-y-4" id="gis-list">
-            <!-- Populated by JS -->
-            <div class="text-center py-8 text-gray-400 text-sm">Memuat data lokasi...</div>
-          </div>
-
+ 
+        <!-- Map full width -->
+        <div class="scroll-reveal" style="animation-delay:.3s;">
+          <div id="gis-map" style="height:500px; border-radius:12px; border:2px solid rgba(199,161,122,0.4); box-shadow:0 8px 32px rgba(0,0,0,0.1); z-index:1;"></div>
+        </div>
+ 
+        <!-- Location list — below map -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8 scroll-reveal" style="animation-delay:.4s;" id="gis-list">
+          <!-- Populated by JS -->
+          <div class="text-center py-8 text-gray-400 text-sm col-span-full">Memuat data lokasi...</div>
         </div>
       </div>
     </section>
     <!-- LOKASI end -->
-
-
+ 
+ 
     <!-- ===== PUBLIKASI / ARTIKEL ===== -->
     <section class="bg-white relative z-10 pt-16 pb-8">
       <div class="container mx-auto px-4 max-w-screen-xl">
-
+ 
         <!-- Artikel 1: Petani Muda -->
         <div class="mb-20 scroll-reveal">
           <img src="assets/images/jurnal-kopi/galeri/jurnal-kopi-cover.jpg" alt="Cover Jurnal Kopi Highland Roastery"
@@ -1061,7 +1046,7 @@
             </a>
           </div>
         </div>
-
+ 
         <!-- Artikel 2: Global Sisters -->
         <div class="scroll-reveal" style="animation-delay:.1s;">
           <img src="assets/images/global-women/global-sisters-program-cover.jpg" alt="Cover Global Sisters Program"
@@ -1092,18 +1077,18 @@
             </div>
           </div>
         </div>
-
+ 
       </div>
     </section>
     <!-- PUBLIKASI end -->
-
-
+ 
+ 
     <!-- ===== TENTANG USAHA (dark) ===== -->
     <section class="relative curve-bottom-white sec-py" id="tentang-usaha"
       style="background:linear-gradient(135deg,#161412 0%,#1f1a14 100%); overflow:visible;">
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
+ 
           <!-- Image -->
           <div class="lg:col-span-6 lg:order-last">
             <div class="relative">
@@ -1120,7 +1105,7 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Content -->
           <div class="lg:col-span-5 pb-10 lg:pb-0">
             <div>
@@ -1141,7 +1126,7 @@
                 yang meyakinkan bahwa kopi adalah "Emas Hijau" yang akan berkembang sangat pesat. Awalnya usaha ini
                 berjalan dengan nama Highland Coffee.
               </p>
-
+ 
               <ul class="about-list scroll-reveal" style="animation-delay:.3s;">
                 <li>
                   <h4 class="text-sm font-bold uppercase text-white tracking-wider mb-2">Perubahan Nama</h4>
@@ -1174,20 +1159,20 @@
               </ul>
             </div>
           </div>
-
+ 
         </div>
       </div>
     </section>
     <!-- TENTANG USAHA end -->
-
-
+ 
+ 
     <!-- ===== FEATURE / TAGLINE ===== -->
     <section class="relative sec-py"
       style="background-image:url(assets/images/backgrounds/bg_07.png); background-size:cover; background-position:center;">
       <div class="absolute inset-0" style="background:rgba(253,250,247,0.92);"></div>
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
+ 
           <div class="feature-box scroll-reveal">
             <div class="w-20 h-20 mx-auto mb-6">
               <img src="assets/images/feature/icon_03.png" alt="Ikon Petani" class="w-full h-full object-contain">
@@ -1196,7 +1181,7 @@
             <p class="text-gray-600 leading-relaxed">Petani yang tekun dan memahami seluruh proses pengelolaan kopi,
               dari kebun hingga cangkir.</p>
           </div>
-
+ 
           <div class="feature-box scroll-reveal" style="animation-delay:.1s;">
             <div class="w-20 h-20 mx-auto mb-6">
               <img src="assets/images/feature/icon_01.png" alt="Ikon Kopi" class="w-full h-full object-contain">
@@ -1205,7 +1190,7 @@
             <p class="text-gray-600 leading-relaxed">Kopi terbaik lahir dari pengelolaan pascapanen yang terstandar,
               konsisten, dan penuh perhatian.</p>
           </div>
-
+ 
           <div class="feature-box scroll-reveal" style="animation-delay:.2s;">
             <div class="w-20 h-20 mx-auto mb-6">
               <img src="assets/images/feature/icon_02.png" alt="Ikon Kualitas" class="w-full h-full object-contain">
@@ -1214,7 +1199,7 @@
             <p class="text-gray-600 leading-relaxed">Kualitas unggul adalah hasil kolaborasi antara petani terampil dan
               proses produksi yang terjaga.</p>
           </div>
-
+ 
         </div>
       </div>
       <!-- Scratch deco -->
@@ -1223,8 +1208,8 @@
       </div>
     </section>
     <!-- FEATURE end -->
-
-
+ 
+ 
    <!-- ===== TIM BARISTA ===== -->
 <section
   class="sec-py zigzag-bottom-dark relative overflow-visible"
@@ -1234,7 +1219,7 @@
   x-init="init()"
 >
   <div class="container mx-auto px-4 max-w-screen-xl">
-
+ 
     <!-- Title -->
     <div class="text-center mb-12">
       <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
@@ -1254,10 +1239,10 @@
         sebagai barista profesional. Berikut adalah tim kami yang siap menyambut Anda.
       </p>
     </div>
-
+ 
     <!-- Team Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-
+ 
       <template x-for="(member, index) in team" :key="member.name">
         <div class="team-card alpine-card" :style="`animation-delay: ${member.delay}`">
           <img
@@ -1271,14 +1256,14 @@
           </div>
         </div>
       </template>
-
+ 
     </div>
   </div>
 </section>
 <!-- TIM BARISTA end -->
-
-
-
+ 
+ 
+ 
     <!-- ===== PRODUK KOPI PAPUA ===== -->
     <section class="relative wave-bottom-white sec-py overflow-visible" id="produk-kopi-papua"
       x-data="produkHandler()"
@@ -1286,9 +1271,9 @@
       style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
       <div class="absolute inset-0"
         style="background:linear-gradient(135deg,rgba(10,8,5,0.93) 0%,rgba(26,18,8,0.88) 100%);"></div>
-
+ 
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10">
-
+ 
         <!-- Title -->
         <div class="text-center mb-14">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 text-white/70 scroll-reveal">
@@ -1309,10 +1294,10 @@
             beragam daerah. Berikut pilihan produk yang bisa Anda nikmati dan pesan langsung.
           </p>
         </div>
-
+ 
         <!-- Product Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-
+ 
           <template x-for="produk in produkList" :key="produk.id">
             <div class="shop-card alpine-card" :style="`animation-delay: ${produk.delay}`">
               <a href="#"><img :src="produk.foto" :alt="'Kopi ' + produk.nama"></a>
@@ -1330,22 +1315,22 @@
               </a>
             </div>
           </template>
-
+ 
         </div>
-
+ 
       </div>
-
+ 
       <!-- Deco text -->
       <div class="section-deco-text">Kopi Papua</div>
     </section>
-
-
+ 
+ 
     <!-- ===== PELATIHAN BARISTA ===== -->
     <section class="relative diagonal-bottom-dark sec-py overflow-visible bg-white" id="pelatihan"
       x-data="trainingHandler()"
       x-init="init()">
       <div class="container mx-auto px-4 max-w-screen-xl">
-
+ 
         <!-- Title -->
         <div class="text-center mb-14">
           <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-3 scroll-reveal" style="color:#c7a17a;">
@@ -1364,10 +1349,10 @@
             industri. Berikut beberapa program unggulan yang telah banyak diminati dan berhasil dilaksanakan.
           </p>
         </div>
-
+ 
         <!-- Training Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
+ 
           <template x-for="item in trainingList" :key="item.id">
             <div class="blog-card alpine-card" :style="`animation-delay: ${item.delay}`">
               <div class="overflow-hidden">
@@ -1379,9 +1364,9 @@
               </div>
             </div>
           </template>
-
+ 
         </div>
-
+ 
         <div class="text-center mt-12 scroll-reveal" style="animation-delay:.3s;">
           <a class="btn-border-hr inline-flex"
             href="https://wa.me/6282199253560?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20program%20pelatihan.%0ANama%20saya%20..."
@@ -1393,111 +1378,55 @@
             </svg>Daftar Sekarang
           </a>
         </div>
-
+ 
       </div>
     </section>
     <!-- PELATIHAN end -->
-
+ 
   </main>
-
-
-  <!-- ===== FOOTER ===== -->
+ 
+ 
+  <!-- FOOTER -->
   <footer class="relative text-white" id="hubungi-kami"
     style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
-    <div class="absolute inset-0"
-      style="background:linear-gradient(135deg,rgba(10,8,5,0.95) 0%,rgba(26,18,8,0.92) 100%);"></div>
-
-    <!-- Scratch top deco -->
+    <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,8,5,0.95) 0%,rgba(26,18,8,0.92) 100%);"></div>
     <div class="absolute top-0 left-0 right-0 opacity-10 pointer-events-none z-10">
       <img src="assets/images/decorations/scratch_02.png" alt="" class="w-full">
     </div>
-
     <div class="relative z-10">
-      <!-- Cara Terhubung heading -->
       <div class="container mx-auto px-4 max-w-screen-xl pt-16 pb-6 text-center">
-        <h2 class="text-2xl lg:text-4xl font-extrabold uppercase tracking-wider scroll-reveal">
-          Cara Terhubung Dengan Kami
-        </h2>
+        <h2 class="text-2xl lg:text-4xl font-extrabold uppercase tracking-wider scroll-reveal">Cara Terhubung Dengan Kami</h2>
         <div class="mx-auto mt-4 rounded-sm" style="width:56px;height:3px;background:#c7a17a;"></div>
       </div>
-
-      <!-- Footer Widgets -->
       <div class="container mx-auto px-4 max-w-screen-xl py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-          <!-- About -->
           <div class="scroll-reveal">
-            <a href="index.html" class="inline-block mb-5">
-              <img src="assets/images/logo-hr.png" alt="Highland Roastery Logo" class="w-36">
-            </a>
-            <p class="text-white/70 leading-loose text-sm mb-6">
-              Kami adalah Rumah Roastery yang menyajikan layanan sangrai kopi beserta berbagai produk Kopi Papua pilihan
-              dari berbagai daerah di Papua.
-            </p>
+            <a href="index.html" class="inline-block mb-5"><img src="assets/images/logo-hr.png" alt="Highland Roastery Logo" class="w-36"></a>
+            <p class="text-white/70 leading-loose text-sm mb-6">Kami adalah Rumah Roastery yang menyajikan layanan sangrai kopi beserta berbagai produk Kopi Papua pilihan dari berbagai daerah di Papua.</p>
             <div class="flex gap-3">
-              <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="social-icon"
-                aria-label="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                  <path
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
+              <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="social-icon" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
               </a>
-              <a href="https://web.facebook.com/Highland-Roastery-104392897568186" target="_blank" class="social-icon"
-                aria-label="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                  <path
-                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
+              <a href="https://web.facebook.com/Highland-Roastery-104392897568186" target="_blank" class="social-icon" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
               </a>
-              <a href="https://www.youtube.com/channel/UCDmSkzvzF-Q0bnDxvOTTptQ" target="_blank" class="social-icon"
-                aria-label="YouTube">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                  style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-                  <path
-                    d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-                </svg>
+              <a href="https://www.youtube.com/channel/UCDmSkzvzF-Q0bnDxvOTTptQ" target="_blank" class="social-icon" aria-label="YouTube">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
               </a>
             </div>
           </div>
-
-          <!-- Hubungi Kami -->
           <div class="scroll-reveal" style="animation-delay:.1s;">
-            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3"
-              style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Hubungi Kami</h3>
+            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3" style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Hubungi Kami</h3>
             <ul class="footer-list space-y-1 text-sm text-white/75">
-              <li>
-                <strong class="text-xs uppercase tracking-wider text-white">Alamat:</strong><br>
-                Jl. Yoka Pantai, Kampung Yoka, Distrik Heram, Kota Jayapura, Papua &mdash; Indonesia.
-              </li>
-              <li>
-                <strong class="text-xs uppercase tracking-wider text-white">WhatsApp:</strong><br>
-                <a href="https://wa.me/6282199253560" style="color:#c7a17a; font-size:1.05rem; font-weight:600;">+62
-                  821-9925-3560</a>
-              </li>
-              <li>
-                <strong class="text-xs uppercase tracking-wider text-white">Email:</strong><br>
-                <a href="/cdn-cgi/l/email-protection#30595e565f70585957585c515e54425f5143445542491e535f5d"
-                  style="color:#c7a17a;"><span class="__cf_email__"
-                    data-cfemail="fa93949c95ba92939d92969b949e88959b898e9f8883d4999597">admin@highlandroastery.com</span></a>
-              </li>
-              <li>
-                <strong class="text-xs uppercase tracking-wider text-white">Email Alternatif:</strong><br>
-                <a href="/cdn-cgi/l/email-protection#91e3fef0e2e5f4e3e8d1f9f8f6f9fdf0fff5e3fef0e2e5f4e3e8bff2fefc"
-                  style="color:#c7a17a;"><span class="__cf_email__"
-                    data-cfemail="22504d43515647505b624a4b454a4e434c46504d43515647505b0c414d4f">info@highlandroastery.com</span></a>
-              </li>
-              <li>
-                <strong class="text-xs uppercase tracking-wider text-white">Kode Pos:</strong> 99352
-              </li>
+              <li><strong class="text-xs uppercase tracking-wider text-white">Alamat:</strong><br>Jl. Yoka Pantai, Kampung Yoka, Distrik Heram, Kota Jayapura, Papua &mdash; Indonesia.</li>
+              <li><strong class="text-xs uppercase tracking-wider text-white">WhatsApp:</strong><br><a href="https://wa.me/6282199253560" style="color:#c7a17a; font-size:1.05rem; font-weight:600;">+62 821-9925-3560</a></li>
+              <li><strong class="text-xs uppercase tracking-wider text-white">Email:</strong><br><a href="mailto:info@highlandroastery.com" style="color:#c7a17a;">info@highlandroastery.com</a></li>
+              <li><strong class="text-xs uppercase tracking-wider text-white">Email Alternatif:</strong><br><a href="mailto:highland@highlandroastery.com" style="color:#c7a17a;">highland@highlandroastery.com</a></li>
+              <li><strong class="text-xs uppercase tracking-wider text-white">Kode Pos:</strong> 99352</li>
             </ul>
           </div>
-
-          <!-- Jam Layanan -->
           <div class="scroll-reveal" style="animation-delay:.2s;">
-            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3"
-              style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Jam Layanan</h3>
+            <h3 class="text-xs font-extrabold uppercase tracking-[0.18em] mb-5 pb-3" style="border-bottom:1px solid rgba(199,161,122,0.25); color:#c7a17a;">Jam Layanan</h3>
             <ul class="footer-list text-sm text-white/75 space-y-1">
               <li class="flex justify-between">Senin <span>09:00 &ndash; 21:00 WIT</span></li>
               <li class="flex justify-between">Selasa <span>09:00 &ndash; 21:00 WIT</span></li>
@@ -1507,29 +1436,25 @@
               <li class="flex justify-between">Sabtu <span>09:00 &ndash; 21:00 WIT</span></li>
             </ul>
           </div>
-
         </div>
       </div>
-
-      <!-- Footer Bottom -->
       <div class="container mx-auto px-4 max-w-screen-xl py-5" style="border-top:1px solid rgba(199,161,122,0.15);">
         <p class="text-center text-xs text-white/50 tracking-wider">
           Copyright &copy; 2026 &mdash; Powered by
-          <a href="https://www.sacode.web.id" target="_blank"
-            style="color:#c7a17a; text-decoration:none; font-weight:700;">SaCode</a>
+          <a href="https://www.sacode.web.id" target="_blank" style="color:#c7a17a; text-decoration:none; font-weight:700;">SaCode</a>
         </p>
       </div>
     </div>
   </footer>
-  <!-- FOOTER end -->
 
-
+ 
+ 
   <!-- ===== SCRIPTS ===== -->
-
+ 
   <!-- Gallery Alpine Handler -->
-
+ 
   <!-- Preloader remove -->
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       (function () {
         function hidePreloader() {
           var pre = document.getElementById('preloader');
@@ -1544,7 +1469,7 @@
         setTimeout(hidePreloader, 1500);
       })();
   </script>
-
+ 
   <!-- Back to Top -->
   <script>
     window.addEventListener('scroll', function () {
@@ -1552,7 +1477,7 @@
       if (btn) btn.classList.toggle('hidden', window.scrollY <= 300);
     });
   </script>
-
+ 
   <!-- Scroll Reveal -->
   <script>
     var observer = new IntersectionObserver(function (entries) {
@@ -1561,7 +1486,7 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.scroll-reveal').forEach(function (el) { observer.observe(el); });
-
+ 
     // Re-observe elements rendered by Alpine.js (x-for) after init
     window.observeNewScrollReveal = function () {
       document.querySelectorAll('.scroll-reveal:not(.visible)').forEach(function (el) {
@@ -1569,7 +1494,7 @@
       });
     };
   </script>
-
+ 
   <!-- Topbar Date + Language Switcher -->
   <script>
     (function () {
@@ -1580,7 +1505,7 @@
       var now = new Date();
       var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
       var currentLang = 'id';
-
+ 
       function formatDate(lang) {
         if (lang === 'en') return days_en[d] + ', ' + months_en[m] + ' ' + dt + ', ' + y;
         return days_id[d] + ', ' + dt + ' ' + months_id[m] + ' ' + y;
@@ -1590,7 +1515,7 @@
         if (el) el.textContent = formatDate(lang);
       }
       updateDate(currentLang);
-
+ 
       window.switchLang = function (lang) {
         currentLang = lang;
         updateDate(lang);
@@ -1610,13 +1535,13 @@
       };
     })();
   </script>
-
+ 
 <!-- team  -->
  <script>
   function teamHandler() {
     return {
       team: [],
-
+ 
       async init() {
         try {
           const response = await fetch('data/team.json');
@@ -1629,13 +1554,13 @@
     }
   }
 </script>
-
+ 
 <!-- produk -->
 <script>
   function produkHandler() {
     return {
       produkList: [],
-
+ 
       async init() {
         try {
           const response = await fetch('data/product.json');
@@ -1648,13 +1573,13 @@
     }
   }
 </script>
-
+ 
 <!-- training -->
 <script>
   function trainingHandler() {
     return {
       trainingList: [],
-
+ 
       async init() {
         try {
           const response = await fetch('data/training.json');
@@ -1667,7 +1592,7 @@
     }
   }
 </script>
-
+ 
 <!-- GIS Leaflet Map -->
 <script>
 (function() {
@@ -1710,7 +1635,7 @@
       `
     });
   }
-
+ 
   function buildSidebarCard(loc, index, map, marker) {
     const tipeLabel = loc.tipe === 'penanaman' ? '🌱 Penanaman' : '☕ Pertanian';
     const kopiList = loc.jenis_kopi.join(', ');
@@ -1718,21 +1643,22 @@
     const detailUrl = `lokasi-detail.html?id=${loc.id || slug}`;
     const card = document.createElement('div');
     card.style.cssText = `
-      background:#fff;border-radius:10px;padding:16px 18px;
-      box-shadow:0 2px 12px rgba(0,0,0,0.07);
-      border-left:4px solid #c7a17a;
+      background:#fff;border-radius:12px;padding:20px 20px 16px;
+      box-shadow:0 2px 16px rgba(0,0,0,0.07);
+      border-top:3px solid #c7a17a;
       transition:transform 0.2s,box-shadow 0.2s;
+      display:flex;flex-direction:column;
     `;
     card.innerHTML = `
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c7a17a;margin-bottom:6px;">${tipeLabel}</div>
-      <div style="font-weight:700;font-size:13px;color:#1a1208;margin-bottom:4px;">${loc.nama_tempat}</div>
-      <div style="font-size:11.5px;color:#a07848;font-weight:600;margin-bottom:8px;">🫘 ${kopiList}</div>
-      <div style="font-size:12px;color:#6b7280;line-height:1.6;margin-bottom:12px;">${loc.deskripsi.substring(0, 100)}${loc.deskripsi.length > 100 ? '...' : ''}</div>
-      <div style="display:flex;gap:8px;align-items:center;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c7a17a;margin-bottom:7px;">${tipeLabel}</div>
+      <div style="font-weight:800;font-size:14px;color:#1a1208;margin-bottom:5px;line-height:1.3;">${loc.nama_tempat}</div>
+      <div style="font-size:11.5px;color:#a07848;font-weight:600;margin-bottom:10px;">🫘 ${kopiList}</div>
+      <div style="font-size:12px;color:#6b7280;line-height:1.65;margin-bottom:14px;flex:1;">${loc.deskripsi.substring(0, 110)}${loc.deskripsi.length > 110 ? '...' : ''}</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:auto;">
         <button onclick="event.stopPropagation()" data-fly="1" style="
           flex:1;background:transparent;border:1.5px solid #c7a17a;color:#a07848;
           font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-          padding:6px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;
+          padding:7px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;font-family:inherit;
         " onmouseover="this.style.background='rgba(199,161,122,0.1)'" onmouseout="this.style.background='transparent'">
           📍 Lihat Peta
         </button>
@@ -1740,7 +1666,7 @@
           flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;
           background:#c7a17a;color:#fff;font-size:10.5px;font-weight:700;
           letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
-          padding:6px 10px;border-radius:4px;transition:background 0.2s;
+          padding:7px 10px;border-radius:4px;transition:background 0.2s;
         " onmouseover="this.style.background='#a07848'" onmouseout="this.style.background='#c7a17a'">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 17l5-5-5-5v10z"/></svg>
           Detail
@@ -1758,29 +1684,29 @@
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
-      card.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)';
+      card.style.boxShadow = '0 2px 16px rgba(0,0,0,0.07)';
     });
     return card;
   }
-
+ 
   async function initGISMap() {
     const mapEl = document.getElementById('gis-map');
     const listEl = document.getElementById('gis-list');
     if (!mapEl || typeof L === 'undefined') return;
-
+ 
     // Init map centered on Papua
     const map = L.map('gis-map', {
       center: [-3.2, 139.5],
       zoom: 7,
       scrollWheelZoom: false
     });
-
+ 
     // Tile layer — OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 18
     }).addTo(map);
-
+ 
     // Load GIS data
     let locations = [];
     try {
@@ -1792,10 +1718,10 @@
       listEl.innerHTML = '<div style="color:#ef4444;font-size:13px;padding:8px;">Gagal memuat data lokasi.</div>';
       return;
     }
-
+ 
     listEl.innerHTML = '';
     const bounds = [];
-
+ 
     locations.forEach((loc, i) => {
       const kopiList = loc.jenis_kopi.join('<br>🫘 ');
       const slug = loc.nama_tempat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -1833,22 +1759,22 @@
           </a>
         </div>
       `;
-
+ 
       const marker = L.marker([loc.lat, loc.lng], { icon: createCoffeePinIcon() })
         .addTo(map)
         .bindPopup(popupContent, { maxWidth: 300, className: 'highland-popup' });
-
+ 
       bounds.push([loc.lat, loc.lng]);
-
+ 
       // Sidebar card
       const card = buildSidebarCard(loc, i, map, marker);
       listEl.appendChild(card);
     });
-
+ 
     // Fit map to all markers
     if (bounds.length) map.fitBounds(bounds, { padding: [40, 40] });
   }
-
+ 
   // Init after DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGISMap);
@@ -1857,7 +1783,7 @@
   }
 })();
 </script>
-
+ 
 <style>
   /* Leaflet popup custom style */
   .highland-popup .leaflet-popup-content-wrapper {
@@ -1881,9 +1807,9 @@
     font-weight: 700 !important;
   }
 </style>
-
-
-
+ 
+ 
+ 
   <!-- Gallery Handler — must be before Alpine.js -->
  <script>
   function galleryHandler() {
