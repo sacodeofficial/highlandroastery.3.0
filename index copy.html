@@ -757,9 +757,9 @@
         <nav class="hidden lg:flex items-center gap-1">
           <a class="nav-link" href="#beranda">BERANDA</a>
           <a class="nav-link" href="#tentang-usaha">TENTANG USAHA</a>
-          <a class="nav-link" href="#tim-barista">TIM BARISTA</a>
           <a class="nav-link" href="#produk-kopi-papua">KOPI PAPUA</a>
           <a class="nav-link" href="#pelatihan">PELATIHAN BARISTA</a>
+          <a class="nav-link" href="#tim-barista">TIM BARISTA</a>
           <a class="nav-link" href="#hubungi-kami">HUBUNGI KAMI</a>
         </nav>
 
@@ -778,9 +778,9 @@
       <nav x-show="mobileOpen" x-cloak class="lg:hidden border-t border-gray-100 py-4 flex flex-col gap-1">
         <a class="nav-link block" href="#beranda" @click="mobileOpen=false">BERANDA</a>
         <a class="nav-link block" href="#tentang-usaha" @click="mobileOpen=false">TENTANG USAHA</a>
-        <a class="nav-link block" href="#tim-barista" @click="mobileOpen=false">TIM BARISTA</a>
         <a class="nav-link block" href="#produk-kopi-papua" @click="mobileOpen=false">KOPI PAPUA</a>
         <a class="nav-link block" href="#pelatihan" @click="mobileOpen=false">PELATIHAN BARISTA</a>
+        <a class="nav-link block" href="#tim-barista" @click="mobileOpen=false">TIM BARISTA</a>
         <a class="nav-link block" href="#hubungi-kami" @click="mobileOpen=false">HUBUNGI KAMI</a>
       </nav>
     </div>
@@ -1135,7 +1135,7 @@
       style="background-image:url(assets/images/backgrounds/bg_07.png); background-size:cover; background-position:center;">
       <div class="absolute inset-0" style="background:rgba(253,250,247,0.92);"></div>
       <div class="container mx-auto px-4 max-w-screen-xl relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
 
           <div class="feature-box scroll-reveal">
             <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center rounded-full" style="background:rgba(199,161,122,0.12);">
@@ -1163,6 +1163,8 @@
             <p class="text-gray-600 leading-relaxed">Kualitas unggul adalah hasil kolaborasi antara petani terampil dan
               proses produksi yang terjaga.</p>
           </div>
+
+          
 
         </div>
       </div>
@@ -1198,7 +1200,7 @@
         </div>
 
         <!-- Team Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           <template x-for="(member, index) in team" :key="member.name">
             <div class="team-card alpine-card" :style="`animation-delay: ${member.delay}`">
               <img :src="member.photo" :alt="member.name" class="w-full object-cover aspect-square">
