@@ -53,77 +53,41 @@
 
   <style>
     *, *::before, *::after { font-family: 'Plus Jakarta Sans', sans-serif !important; }
-
     [x-cloak] { display: none !important; }
-
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #1a1208; }
     ::-webkit-scrollbar-thumb { background: #c7a17a; border-radius: 3px; }
 
     /* PRELOADER */
-    #preloader {
-      position: fixed; inset: 0; background: #1a1208;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 99999; transition: opacity 0.5s ease;
-    }
+    #preloader { position: fixed; inset: 0; background: #1a1208; display: flex; align-items: center; justify-content: center; z-index: 99999; transition: opacity 0.5s ease; }
     #preloader.loaded { opacity: 0; pointer-events: none; }
     .preloader-wrap { position: relative; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; }
     .coffee-bean-loader { animation: bean-pulse 1.1s ease-in-out infinite; will-change: transform; }
     @keyframes bean-pulse { 0%,100%{transform:scale(0.75);opacity:0.6;} 50%{transform:scale(1);opacity:1;} }
-    .preloader-ring {
-      position: absolute; inset: 0; border-radius: 50%;
-      border: 2.5px solid rgba(199,161,122,0.15); border-top-color: #c7a17a;
-      animation: ring-spin 1.1s linear infinite; will-change: transform;
-    }
+    .preloader-ring { position: absolute; inset: 0; border-radius: 50%; border: 2.5px solid rgba(199,161,122,0.15); border-top-color: #c7a17a; animation: ring-spin 1.1s linear infinite; will-change: transform; }
     @keyframes ring-spin { to { transform: rotate(360deg); } }
 
-    /* NAV LINK */
-    .nav-link {
-      font-size: 13px; font-weight: 600; letter-spacing: 0.07em;
-      color: #1a1208; text-decoration: none; transition: color 0.2s ease; padding: 6px 12px;
-    }
+    /* NAV */
+    .nav-link { font-size: 13px; font-weight: 600; letter-spacing: 0.07em; color: #1a1208; text-decoration: none; transition: color 0.2s ease; padding: 6px 12px; }
     .nav-link:hover { color: #c7a17a; }
 
     /* BTN */
-    .btn-primary-hr {
-      background: #c7a17a; color: #fff; font-weight: 700; letter-spacing: 0.06em;
-      padding: 12px 28px; border-radius: 4px; text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease;
-      display: inline-flex; align-items: center; gap: 8px;
-    }
+    .btn-primary-hr { background: #c7a17a; color: #fff; font-weight: 700; letter-spacing: 0.06em; padding: 12px 28px; border-radius: 4px; text-decoration: none; transition: background 0.2s ease, transform 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
     .btn-primary-hr:hover { background: #a07848; transform: translateY(-2px); color: #fff; }
-    .btn-border-hr {
-      border: 2px solid #1a1208; color: #1a1208; font-weight: 700; letter-spacing: 0.06em;
-      padding: 10px 26px; border-radius: 4px; text-decoration: none; transition: all 0.2s ease;
-      display: inline-flex; align-items: center; gap: 8px; background: transparent;
-    }
+    .btn-border-hr { border: 2px solid #1a1208; color: #1a1208; font-weight: 700; letter-spacing: 0.06em; padding: 10px 26px; border-radius: 4px; text-decoration: none; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; background: transparent; }
     .btn-border-hr:hover { background: #1a1208; color: #fff; }
 
     /* FAB */
-    .fab-btn {
-      width: 48px; height: 48px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; text-decoration: none; color: #fff;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.28);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
+    .fab-btn { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; text-decoration: none; color: #fff; box-shadow: 0 4px 18px rgba(0,0,0,0.28); transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .fab-btn:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 10px 28px rgba(0,0,0,0.32); color: #fff; }
 
     /* LANG BTN */
-    .lang-btn {
-      border: 1px solid rgba(199,161,122,0.35); border-radius: 4px;
-      color: rgba(255,255,255,0.75); font-size: 11.5px; font-weight: 600;
-      letter-spacing: 0.04em; padding: 2px 9px; cursor: pointer;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      background: none; font-family: 'Plus Jakarta Sans', sans-serif !important;
-    }
+    .lang-btn { border: 1px solid rgba(199,161,122,0.35); border-radius: 4px; color: rgba(255,255,255,0.75); font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; padding: 2px 9px; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; background: none; font-family: 'Plus Jakarta Sans', sans-serif !important; }
     .lang-btn:hover, .lang-btn.active { background: #c7a17a; border-color: #c7a17a; color: #fff; }
 
-    /* SCROLL REVEAL */
+    /* SCROLL / FADE */
     .scroll-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* FADE UP */
     .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
@@ -132,68 +96,29 @@
     .footer-list li:last-child { border-bottom: none; }
     .footer-list a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
     .footer-list a:hover { color: #c7a17a; }
-    .social-icon {
-      width: 38px; height: 38px; border-radius: 50%;
-      border: 1px solid rgba(199,161,122,0.4);
-      display: inline-flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.75); font-size: 15px;
-      transition: background 0.2s, color 0.2s, border-color 0.2s; text-decoration: none;
-    }
+    .social-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(199,161,122,0.4); display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.75); font-size: 15px; transition: background 0.2s, color 0.2s, border-color 0.2s; text-decoration: none; }
     .social-icon:hover { background: #c7a17a; border-color: #c7a17a; color: #fff; }
 
     /* DETAIL PAGE */
-    .detail-hero {
-      background: linear-gradient(135deg, #1a1208 0%, #2a1a0a 60%, #3a2010 100%);
-      position: relative; overflow: hidden;
-    }
-    .detail-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 50% at 30% 50%, rgba(199,161,122,0.12) 0%, transparent 70%),
-                  radial-gradient(ellipse 40% 60% at 80% 20%, rgba(160,120,60,0.08) 0%, transparent 70%);
-    }
+    .detail-hero { background: linear-gradient(135deg, #1a1208 0%, #2a1a0a 60%, #3a2010 100%); position: relative; overflow: hidden; }
+    .detail-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 50% at 30% 50%, rgba(199,161,122,0.12) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 80% 20%, rgba(160,120,60,0.08) 0%, transparent 70%); }
     .breadcrumb a { color: #c7a17a; text-decoration: none; font-size: 13px; font-weight: 600; }
     .breadcrumb a:hover { color: #e8c07a; }
     .breadcrumb span { color: rgba(255,255,255,0.4); font-size: 13px; margin: 0 8px; }
-    .tipe-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 50px;
-      border: 1.5px solid rgba(199,161,122,0.5); color: #c7a17a; background: rgba(199,161,122,0.08);
-    }
+    .tipe-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; border: 1.5px solid rgba(199,161,122,0.5); color: #c7a17a; background: rgba(199,161,122,0.08); }
     .info-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
     .info-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid rgba(199,161,122,0.12); }
     .info-row:last-child { border-bottom: none; }
-    .info-icon {
-      width: 36px; height: 36px; border-radius: 8px; background: rgba(199,161,122,0.1);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px;
-    }
-    .kopi-chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: linear-gradient(135deg, #f5ede0, #faf5ef);
-      border: 1.5px solid rgba(199,161,122,0.35); color: #a07848;
-      font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 50px; letter-spacing: 0.04em;
-    }
-    .stat-box {
-      text-align: center; padding: 20px 16px;
-      background: rgba(199,161,122,0.06); border: 1px solid rgba(199,161,122,0.2); border-radius: 10px;
-    }
-    #detail-map {
-      height: 420px; border-radius: 12px;
-      border: 2px solid rgba(199,161,122,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1); z-index: 1;
-    }
-    .nearby-card {
-      background: #fff; border-radius: 10px; padding: 16px 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-left: 4px solid #c7a17a;
-      text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .info-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(199,161,122,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+    .kopi-chip { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #f5ede0, #faf5ef); border: 1.5px solid rgba(199,161,122,0.35); color: #a07848; font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 50px; letter-spacing: 0.04em; }
+    .stat-box { text-align: center; padding: 20px 16px; background: rgba(199,161,122,0.06); border: 1px solid rgba(199,161,122,0.2); border-radius: 10px; }
+    #detail-map { height: 420px; border-radius: 12px; border: 2px solid rgba(199,161,122,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1); z-index: 1; }
+    .nearby-card { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-left: 4px solid #c7a17a; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
     .nearby-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(199,161,122,0.2); }
     #not-found { display: none; }
 
     /* Leaflet popup */
-    .highland-popup .leaflet-popup-content-wrapper {
-      border-radius: 10px; border: 1.5px solid rgba(199,161,122,0.4);
-      box-shadow: 0 8px 32px rgba(107,58,31,0.18); padding: 0;
-    }
+    .highland-popup .leaflet-popup-content-wrapper { border-radius: 10px; border: 1.5px solid rgba(199,161,122,0.4); box-shadow: 0 8px 32px rgba(107,58,31,0.18); padding: 0; }
     .highland-popup .leaflet-popup-content { margin: 14px 16px; }
     .highland-popup .leaflet-popup-tip-container { margin-top: -1px; }
     .highland-popup .leaflet-popup-tip { background: #fff; }
@@ -212,7 +137,7 @@
     <div class="preloader-wrap">
       <div class="preloader-ring"></div>
       <svg class="coffee-bean-loader" width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#beanGrad)" rx="16" ry="22" />
+        <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#beanGrad)" />
         <path d="M26 6 Q32 26 26 46" stroke="#6b3a1f" stroke-width="2" stroke-linecap="round" fill="none" />
         <defs>
           <radialGradient id="beanGrad" cx="38%" cy="30%" r="65%">
@@ -225,86 +150,58 @@
     </div>
   </div>
 
-<!-- ===== FLOATING ACTION BUTTONS ===== -->
+  <!-- ===== FLOATING ACTION BUTTONS ===== -->
   <div class="fixed bottom-6 right-5 flex flex-col items-center gap-2.5 z-[9999]">
     <a href="https://www.instagram.com/highlandroastery/" target="_blank" class="fab-btn"
-      style="background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" title="Instagram"
-      aria-label="Instagram">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-        <path
-          d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" title="Instagram" aria-label="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
       </svg>
     </a>
     <a href="https://wa.me/6282199253560?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Highland%20Roastery."
       target="_blank" class="fab-btn" style="background:#25D366;" title="WhatsApp" aria-label="WhatsApp">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
-        <path
-          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
       </svg>
     </a>
     <button id="fab-backtotop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fab-btn hidden"
       style="background:#c7a17a;" title="Kembali ke atas" aria-label="Kembali ke atas">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-        style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M12 5l0 14" />
-        <path d="M18 11l-6 -6" />
-        <path d="M6 11l6 -6" />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 5l0 14"/><path d="M18 11l-6 -6"/><path d="M6 11l6 -6"/>
       </svg>
     </button>
   </div>
+
   <!-- ===== TOPBAR ===== -->
-  <div class="relative z-[1050]"
-    style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
+  <div class="relative z-[1050]" style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
     <div class="container mx-auto px-4 max-w-screen-xl">
       <div class="flex items-center justify-between flex-wrap gap-y-2">
- 
-        <!-- Left -->
         <div class="flex items-center gap-4 flex-wrap text-[rgba(255,255,255,0.75)]">
-          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors"
-            style="color:rgba(255,255,255,0.75); text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
-              aria-hidden="true">
-              <path
-                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors" style="color:rgba(255,255,255,0.75); text-decoration:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
             </svg>+62 821-9925-3560
           </a>
-
-          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"
-            class="hidden md:inline-block"></span>
+          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;" class="hidden md:inline-block"></span>
           <span class="hidden md:flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
-              aria-hidden="true">
-              <path
-                d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
+              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
             </svg>
             <span id="topbar-date-text"></span>
           </span>
         </div>
- 
-        <!-- Right: Language Switcher -->
         <div class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-            style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
-            aria-hidden="true">
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
           </svg>
           <button class="lang-btn active" id="lang-en" onclick="switchLang('en')">English</button>
           <span style="color:rgba(199,161,122,0.4);font-size:11px;">|</span>
           <button class="lang-btn" id="lang-id" onclick="switchLang('id')">Bahasa Indonesia</button>
         </div>
- 
       </div>
     </div>
   </div>
-  <!-- TOPBAR end -->
-
 
   <!-- HEADER -->
   <header class="sticky top-0 z-[1040] bg-white shadow-sm" x-data="{ mobileOpen: false }">
@@ -319,10 +216,11 @@
         </a>
         <nav class="hidden lg:flex items-center gap-1">
           <a class="nav-link" href="index.html#beranda">BERANDA</a>
+          <a class="nav-link" href="index.html#lokasi-kopi">LOKASI KOPI</a>
           <a class="nav-link" href="index.html#tentang-usaha">TENTANG USAHA</a>
           <a class="nav-link" href="index.html#tim-barista">TIM BARISTA</a>
           <a class="nav-link" href="index.html#produk-kopi-papua">KOPI PAPUA</a>
-          <a class="nav-link" href="index.html#pelatihan">PELATIHAN BARISTA</a>
+          <a class="nav-link" href="index.html#pelatihan">PELATIHAN</a>
           <a class="nav-link" href="index.html#hubungi-kami">HUBUNGI KAMI</a>
         </nav>
         <button class="lg:hidden flex flex-col gap-1.5 p-2" @click="mobileOpen = !mobileOpen" aria-label="Menu">
@@ -333,10 +231,11 @@
       </div>
       <nav x-show="mobileOpen" x-cloak class="lg:hidden border-t border-gray-100 py-4 flex flex-col gap-1">
         <a class="nav-link block" href="index.html#beranda" @click="mobileOpen=false">BERANDA</a>
+        <a class="nav-link block" href="index.html#lokasi-kopi" @click="mobileOpen=false">LOKASI KOPI</a>
         <a class="nav-link block" href="index.html#tentang-usaha" @click="mobileOpen=false">TENTANG USAHA</a>
         <a class="nav-link block" href="index.html#tim-barista" @click="mobileOpen=false">TIM BARISTA</a>
         <a class="nav-link block" href="index.html#produk-kopi-papua" @click="mobileOpen=false">KOPI PAPUA</a>
-        <a class="nav-link block" href="index.html#pelatihan" @click="mobileOpen=false">PELATIHAN BARISTA</a>
+        <a class="nav-link block" href="index.html#pelatihan" @click="mobileOpen=false">PELATIHAN</a>
         <a class="nav-link block" href="index.html#hubungi-kami" @click="mobileOpen=false">HUBUNGI KAMI</a>
       </nav>
     </div>
@@ -389,20 +288,12 @@
             </div>
             <div class="lg:col-span-5 flex justify-center items-center fade-up" style="animation-delay:.2s;">
               <div style="position:relative;width:320px;height:320px;">
-                <!-- Spinning decorative rings -->
                 <div style="position:absolute;inset:-20px;border-radius:50%;border:1.5px solid rgba(199,161,122,0.25);animation:ring-spin 8s linear infinite;"></div>
                 <div style="position:absolute;inset:-40px;border-radius:50%;border:1px solid rgba(199,161,122,0.12);animation:ring-spin 14s linear infinite reverse;"></div>
-                <!-- Corner accent dots -->
                 <div style="position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#c7a17a;opacity:0.7;"></div>
                 <div style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#c7a17a;opacity:0.7;"></div>
-                <!-- Photo frame -->
                 <div style="position:relative;width:320px;height:320px;border-radius:16px;overflow:hidden;border:2px solid rgba(199,161,122,0.4);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(199,161,122,0.15);">
-                  <!-- Foto jika ada -->
-                  <img id="hero-foto"
-                    src=""
-                    alt="Foto Lokasi"
-                    style="width:100%;height:100%;object-fit:cover;display:none;">
-                  <!-- Placeholder SVG jika tidak ada foto -->
+                  <img id="hero-foto" src="" alt="Foto Lokasi" style="width:100%;height:100%;object-fit:cover;display:none;">
                   <div id="hero-foto-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208 0%,#2a1a0a 60%,#3a2010 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
                     <svg width="110" height="110" viewBox="0 0 52 52" fill="none" style="filter:drop-shadow(0 8px 24px rgba(199,161,122,0.35));opacity:0.9;">
                       <ellipse cx="26" cy="26" rx="16" ry="22" fill="url(#placeholderBean)"/>
@@ -417,9 +308,7 @@
                     </svg>
                     <span style="font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(199,161,122,0.6);">Highland Roastery</span>
                   </div>
-                  <!-- Subtle gradient overlay (hanya saat ada foto) -->
                   <div id="hero-foto-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(26,18,8,0.55) 100%);pointer-events:none;display:none;"></div>
-                  <!-- Tipe badge overlay at bottom -->
                   <div id="hero-foto-badge" style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;align-items:center;gap:7px;">
                     <span style="font-size:10px;font-weight:800;letter-spacing:0.13em;text-transform:uppercase;color:#c7a17a;background:rgba(26,18,8,0.75);padding:4px 10px;border-radius:50px;border:1px solid rgba(199,161,122,0.35);backdrop-filter:blur(4px);" id="hero-foto-tipe-label">Lokasi Kopi</span>
                   </div>
@@ -478,18 +367,17 @@
                 </div>
               </div>
 
-              <div style="background:linear-gradient(135deg,#1a1208,#2a1a0a);border-radius:12px;padding:24px;border:1px solid rgba(199,161,122,0.25);" class="fade-up" style="animation-delay:.2s;">
+              <div style="background:linear-gradient(135deg,#1a1208,#2a1a0a);border-radius:12px;padding:24px;border:1px solid rgba(199,161,122,0.25);" class="fade-up">
                 <h3 style="font-size:12px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#c7a17a;margin-bottom:14px;">Ada Pertanyaan?</h3>
                 <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:16px;">Hubungi kami untuk informasi lebih lanjut mengenai lokasi ini atau program Highland Roastery.</p>
-                <a class="btn-primary-hr" id="action-wa-btn" href="https://wa.me/6282199253560" target="_blank"
-                  style="font-size:13px;width:100%;justify-content:center;">
+                <a class="btn-primary-hr" id="action-wa-btn" href="https://wa.me/6282199253560" target="_blank" style="font-size:13px;width:100%;justify-content:center;">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                   Tanya via WhatsApp
                 </a>
               </div>
             </div>
 
-            <!-- Right: map + foto + desc -->
+            <!-- Right: map + desc -->
             <div class="lg:col-span-8">
               <div class="fade-up mb-8">
                 <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-4" style="color:#c7a17a;">
@@ -498,8 +386,7 @@
                 </h2>
                 <div id="detail-map"></div>
               </div>
-
-              <div style="background:#fff;border-radius:12px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.07);border:1px solid rgba(199,161,122,0.15);" class="fade-up" style="animation-delay:.1s;">
+              <div style="background:#fff;border-radius:12px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.07);border:1px solid rgba(199,161,122,0.15);" class="fade-up">
                 <h2 class="text-xs font-bold tracking-[0.2em] uppercase mb-4" style="color:#c7a17a;">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;display:inline-block;vertical-align:-0.125em;margin-right:6px;"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
                   Deskripsi Lengkap
@@ -534,12 +421,9 @@
 
 
   <!-- FOOTER -->
-  <footer class="relative text-white" id="hubungi-kami"
+  <footer class="relative text-white"
     style="background-image:url(assets/images/backgrounds/bg_08.png); background-size:cover; background-position:center;">
     <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,8,5,0.95) 0%,rgba(26,18,8,0.92) 100%);"></div>
-    <div class="absolute top-0 left-0 right-0 opacity-10 pointer-events-none z-10">
-      <img src="assets/images/decorations/scratch_02.png" alt="" class="w-full">
-    </div>
     <div class="relative z-10">
       <div class="container mx-auto px-4 max-w-screen-xl pt-16 pb-6 text-center">
         <h2 class="text-2xl lg:text-4xl font-extrabold uppercase tracking-wider scroll-reveal">Cara Terhubung Dengan Kami</h2>
@@ -595,12 +479,10 @@
   </footer>
 
 
-
-
   <!-- ===== SCRIPTS ===== -->
 
   <!-- Topbar date -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     (function () {
       var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
       var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -707,8 +589,26 @@
         if (!loc && locations.length > 0) loc = locations[0];
         if (!loc) { document.getElementById('not-found').style.display = 'flex'; return; }
 
-        // Meta
+        // ===== Update meta tags dinamis dari data JSON =====
         document.title = loc.nama_tempat + ' — Highland Roastery';
+
+        // og:image — pakai foto lokasi jika ada, fallback ke logo
+        var ogImage = loc.foto
+          ? (loc.foto.startsWith('http') ? loc.foto : 'https://highlandroastery.com/' + loc.foto.replace(/^\//, ''))
+          : 'https://highlandroastery.com/assets/images/logo-hr.png';
+
+        var metaOgImage = document.querySelector('meta[property="og:image"]');
+        if (metaOgImage) metaOgImage.setAttribute('content', ogImage);
+
+        var metaOgTitle = document.querySelector('meta[property="og:title"]');
+        if (metaOgTitle) metaOgTitle.setAttribute('content', loc.nama_tempat + ' — Highland Roastery');
+
+        var metaOgDesc = document.querySelector('meta[property="og:description"]');
+        if (metaOgDesc) metaOgDesc.setAttribute('content', loc.deskripsi.substring(0, 160));
+
+        var metaOgUrl = document.querySelector('meta[property="og:url"]');
+        if (metaOgUrl) metaOgUrl.setAttribute('content', 'https://highlandroastery.com/lokasi-detail.html?id=' + (loc.id || targetId));
+        // ====================================================
 
         var isTanam = loc.tipe === 'penanaman';
         var tipeLabel = isTanam ? 'Penanaman Kopi' : 'Pertanian Kopi';
@@ -740,6 +640,7 @@
         }
         var heroFotoTipeLabel = document.getElementById('hero-foto-tipe-label');
         if (heroFotoTipeLabel) heroFotoTipeLabel.textContent = tipeLabel;
+
         document.getElementById('info-koordinat').textContent = loc.lat.toFixed(5) + ', ' + loc.lng.toFixed(5);
         document.getElementById('info-tipe').textContent = tipeLabel;
         document.getElementById('stat-kopi-count').textContent = loc.jenis_kopi.length;
@@ -776,7 +677,7 @@
         document.getElementById('detail-content').style.display = 'block';
         document.querySelectorAll('.fade-up').forEach(function (el) { fadeObs.observe(el); });
 
-        // Leaflet map — hanya tampil marker lokasi yang dibuka
+        // Leaflet map
         if (typeof L !== 'undefined') {
           var map = L.map('detail-map', { center: [loc.lat, loc.lng], zoom: 13, scrollWheelZoom: false });
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -798,9 +699,18 @@
             .bindPopup(popupHtml, { className: 'highland-popup', maxWidth: 260 })
             .openPopup();
         }
+
       });
     }());
   </script>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'id', includedLanguages: 'en,id', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <div id="google_translate_element" style="display:none;"></div>
 
 </body>
 </html>
