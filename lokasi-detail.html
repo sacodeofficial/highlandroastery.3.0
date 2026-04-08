@@ -14,6 +14,7 @@
   <meta property="og:url" content="https://highlandroastery.com/lokasi-detail.html" />
   <meta property="og:site_name" content="Highland Roastery" />
   <meta property="og:image" content="https://highlandroastery.com/assets/images/logo-hr.png" />
+  <meta name="description" content="Informasi lengkap lokasi penanaman dan pertanian kopi Papua." />
 
   <link rel="shortcut icon" href="assets/images/logo/favourite_icon.png">
 
@@ -540,6 +541,23 @@
         return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       }
 
+      /**
+       * setMeta — cari meta tag berdasarkan atribut, update content-nya.
+       * Jika tidak ditemukan, buat tag baru dan append ke <head>.
+       * @param {string} attr   - nama atribut selector ('property' atau 'name')
+       * @param {string} val    - nilai atribut (misal 'og:title' atau 'description')
+       * @param {string} content - nilai content yang akan di-set
+       */
+      function setMeta(attr, val, content) {
+        var el = document.querySelector('meta[' + attr + '="' + val + '"]');
+        if (!el) {
+          el = document.createElement('meta');
+          el.setAttribute(attr, val);
+          document.head.appendChild(el);
+        }
+        el.setAttribute('content', content);
+      }
+
       function createCoffeePinIcon(s) {
         var h = Math.round(s * 56 / 44);
         var ico = Math.round(s * 0.55);
@@ -590,24 +608,33 @@
         if (!loc) { document.getElementById('not-found').style.display = 'flex'; return; }
 
         // ===== Update meta tags dinamis dari data JSON =====
-        document.title = loc.nama_tempat + ' — Highland Roastery';
-
-        // og:image — pakai foto lokasi jika ada, fallback ke logo
-        var ogImage = loc.foto
+        var locId    = loc.id || toSlug(loc.nama_tempat);
+        var locTitle = loc.nama_tempat + ' — Highland Roastery';
+        var locDesc  = loc.deskripsi.substring(0, 160);
+        var locUrl   = 'https://highlandroastery.com/lokasi-detail.html?id=' + locId;
+        var locImage = loc.foto
           ? (loc.foto.startsWith('http') ? loc.foto : 'https://highlandroastery.com/' + loc.foto.replace(/^\//, ''))
           : 'https://highlandroastery.com/assets/images/logo-hr.png';
 
-        var metaOgImage = document.querySelector('meta[property="og:image"]');
-        if (metaOgImage) metaOgImage.setAttribute('content', ogImage);
+        document.title = locTitle;
 
-        var metaOgTitle = document.querySelector('meta[property="og:title"]');
-        if (metaOgTitle) metaOgTitle.setAttribute('content', loc.nama_tempat + ' — Highland Roastery');
+        // Open Graph
+        setMeta('property', 'og:title',       locTitle);
+        setMeta('property', 'og:description',  locDesc);
+        setMeta('property', 'og:image',        locImage);
+        setMeta('property', 'og:url',          locUrl);
 
-        var metaOgDesc = document.querySelector('meta[property="og:description"]');
-        if (metaOgDesc) metaOgDesc.setAttribute('content', loc.deskripsi.substring(0, 160));
+        // Standard meta
+        setMeta('name', 'description', locDesc);
 
-        var metaOgUrl = document.querySelector('meta[property="og:url"]');
-        if (metaOgUrl) metaOgUrl.setAttribute('content', 'https://highlandroastery.com/lokasi-detail.html?id=' + (loc.id || targetId));
+        // Canonical link — update atau buat jika belum ada
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (!canonical) {
+          canonical = document.createElement('link');
+          canonical.setAttribute('rel', 'canonical');
+          document.head.appendChild(canonical);
+        }
+        canonical.setAttribute('href', locUrl);
         // ====================================================
 
         var isTanam = loc.tipe === 'penanaman';
