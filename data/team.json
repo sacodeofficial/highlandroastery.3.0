@@ -1,4 +1,10 @@
 [
+   {
+    "name": "Amos E. Wetipo",
+    "role": "Manajer",
+    "photo": "assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg",
+    "delay": "0.4s"
+  },
   {
     "name": "Agus Elopore",
     "role": "Barista",
@@ -22,12 +28,6 @@
     "role": "Asisten Roaster",
     "photo": "assets/images/team/Yunus T. Meage - Asisten Soaster.jpeg",
     "delay": "0.3s"
-  },
-  {
-    "name": "Amos E. Wetipo",
-    "role": "Manajer",
-    "photo": "assets/images/team/Amos E. Wetipo - Asisten Grading.jpeg",
-    "delay": "0.4s"
   },
   {
     "name": "Septinus Wetipo",
