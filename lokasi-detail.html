@@ -174,35 +174,54 @@
     </button>
   </div>
 
+
   <!-- ===== TOPBAR ===== -->
-  <div class="relative z-[1050]" style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
+  <div class="relative z-[1050]"
+    style="background:#1a1208; border-bottom:1px solid rgba(199,161,122,0.18); padding:7px 0; font-size:12.5px; color:rgba(255,255,255,0.75);">
     <div class="container mx-auto px-4 max-w-screen-xl">
       <div class="flex items-center justify-between flex-wrap gap-y-2">
+
+        <!-- Left -->
         <div class="flex items-center gap-4 flex-wrap text-[rgba(255,255,255,0.75)]">
-          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors" style="color:rgba(255,255,255,0.75); text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          <a href="tel:+6282199253560" class="flex items-center gap-1.5 hover:text-coklat transition-colors"
+            style="color:rgba(255,255,255,0.75); text-decoration:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
             </svg>+62 821-9925-3560
           </a>
-          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;" class="hidden md:inline-block"></span>
+          <span style="width:1px;height:13px;background:rgba(199,161,122,0.3);display:inline-block;"
+            class="hidden md:inline-block"></span>
           <span class="hidden md:flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
-              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+              style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+              aria-hidden="true">
+              <path
+                d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
             </svg>
             <span id="topbar-date-text"></span>
           </span>
         </div>
+
+        <!-- Right: Language Switcher -->
         <div class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            style="width:11px;height:11px;display:inline-block;vertical-align:-0.125em;color:#c7a17a;"
+            aria-hidden="true">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
           </svg>
           <button class="lang-btn active" id="lang-en" onclick="switchLang('en')">English</button>
           <span style="color:rgba(199,161,122,0.4);font-size:11px;">|</span>
           <button class="lang-btn" id="lang-id" onclick="switchLang('id')">Bahasa Indonesia</button>
         </div>
+
       </div>
     </div>
   </div>
+  <!-- TOPBAR end -->
 
   <!-- HEADER -->
   <header class="sticky top-0 z-[1040] bg-white shadow-sm" x-data="{ mobileOpen: false }">
@@ -728,6 +747,48 @@
 
       });
     }());
+  </script>
+
+
+ <!-- Topbar Date + Language Switcher -->
+  <script>
+    (function () {
+      var days_id = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      var days_en = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var months_id = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      var months_en = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var now = new Date();
+      var d = now.getDay(), dt = now.getDate(), m = now.getMonth(), y = now.getFullYear();
+      var currentLang = 'id';
+
+      function formatDate(lang) {
+        if (lang === 'en') return days_en[d] + ', ' + months_en[m] + ' ' + dt + ', ' + y;
+        return days_id[d] + ', ' + dt + ' ' + months_id[m] + ' ' + y;
+      }
+      function updateDate(lang) {
+        var el = document.getElementById('topbar-date-text');
+        if (el) el.textContent = formatDate(lang);
+      }
+      updateDate(currentLang);
+
+      window.switchLang = function (lang) {
+        currentLang = lang;
+        updateDate(lang);
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+        var select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = lang;
+          select.dispatchEvent(new Event('change'));
+        } else {
+          var expires = new Date(Date.now() + 86400000).toUTCString();
+          var val = lang === 'en' ? '/id/en' : '/id/id';
+          document.cookie = 'googtrans=' + val + '; expires=' + expires + '; path=/';
+          document.cookie = 'googtrans=' + val + '; expires=' + expires + '; domain=' + location.hostname + '; path=/';
+          location.reload();
+        }
+      };
+    })();
   </script>
 
   <script type="text/javascript">
